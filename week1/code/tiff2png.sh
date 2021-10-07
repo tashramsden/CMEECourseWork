@@ -44,6 +44,7 @@
 
 # If no dir arg provided uses working dir, else will find dir
 DIR=${1:-""}
+echo "Provide a relative path if you want to convert .tifs in another directory."
 if [$DIR == ""]; then
     for f in *.tif;
         do

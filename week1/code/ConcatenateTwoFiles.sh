@@ -10,7 +10,18 @@
 # echo "Merged File is"
 # cat $3
 
-if [ $# -eq 0 ] || [ $# -eq 1 ] || [ $# -eq 2 ]; then
+# if [ $# -eq 0 ] || [ $# -eq 1 ] || [ $# -eq 2 ]; then
+#     echo "You need to provide 3 arguments in total: 2 files to be concatenated and an output file.";
+#     exit;
+# else
+#     cat $1 > $3;
+#     cat $2 >> $3;
+#     echo "Merged File is";
+#     cat $3;
+#     exit;
+# fi
+
+if [ $# -ne 3 ]; then
     echo "You need to provide 3 arguments in total: 2 files to be concatenated and an output file.";
     exit;
 else

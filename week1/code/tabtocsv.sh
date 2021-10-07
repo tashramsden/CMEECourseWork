@@ -18,8 +18,8 @@
 # in bash, # treated as special param which expands to number of positional params
 # so here, this will count how many args passed and check if == 0
 
-if [ $# -eq 0 ]; then
-    echo "You need to provide an input file (should be separated by tabs which will be replaced with commas).";
+if [ $# -ne 1 ]; then
+    echo "You need to provide one input file (should be separated by tabs which will be replaced with commas).";
     exit;
 else
     echo "Creating a comma delimited version of $1 ...";
