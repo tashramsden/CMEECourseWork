@@ -3,14 +3,32 @@
 # Script: CompileLaTeX.sh
 # Description: Bash script to compile LaTeX
 
-pdflatex $1
+if [ $# -ne 1 ]; then
+    echo "You need to provide one TeX file to compile.";
+    exit;
+fi
+
+## This works fine but pdf will be saved to code directory not results
+# pdflatex $(basename "$1" .tex).tex
+# bibtex $(basename "$1" .tex)
+# pdflatex $(basename "$1" .tex).tex
+# pdflatex $(basename "$1" .tex).tex
+# evince $(basename "$1" .tex).pdf &
+
+pdflatex --output-directory ../results $(basename "$1" .tex).tex
+# .bib has to be in same location as outputs for biblio to be compiled correctly
+cp *.bib ../results
+cd ../results ; bibtex $(basename "$1" .tex)
+cd ../code
 bibtex $(basename "$1" .tex)
-pdflatex $1
-pdflatex $1
-evince $(basename "$1" .tex).pdf &
+pdflatex --output-directory ../results $(basename "$1" .tex).tex
+pdflatex --output-directory ../results $(basename "$1" .tex).tex
+evince ../results/$(basename "$1" .tex).pdf &
 
 ## Cleanup
-rm *.aux
-rm *.log
-rm *.bbl
-rm *.blg
+rm ../results/*.aux
+rm ../results/*.log
+rm ../results/*.bbl
+rm ../results/*.blg
+# remove copied .bib file too
+rm ../results/*.bib
