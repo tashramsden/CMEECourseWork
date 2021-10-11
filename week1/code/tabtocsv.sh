@@ -2,7 +2,7 @@
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: tabtocsv.sh
 # Description: substitute the tabs in the files with commas
-# Saves the output into a .csv file
+# Saves the output into a .csv file in ../results
 # Arguments: 1 -> tab delimited file
 # Date: Oct 2021
 

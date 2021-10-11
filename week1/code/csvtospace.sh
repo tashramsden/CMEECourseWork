@@ -1,7 +1,11 @@
 #!/bin/bash
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: tcsvtospace.sh
-# Description: Practical - convert csv to space separated values file
+# Description: Practical - convert csv to space separated values file and save to ../results
+# Arguments: 1 -> Optional:
+#                   Can be the name of a csv file
+#                   Can be the name of a directory (which hopefully contains csv files)
+#                   If left blank, default is to convert csvs from ../data/temperatures
 
 ## 1. Convert individual csv files
 

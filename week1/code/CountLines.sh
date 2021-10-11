@@ -2,6 +2,7 @@
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: Countlines.sh
 # Description: More shell variable examples - Count lines in a file
+# Arguments: 1 -> A file
 
 # check 1 input
 if [ $# -ne 1 ]; then

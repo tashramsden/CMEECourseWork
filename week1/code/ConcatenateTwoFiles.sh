@@ -1,7 +1,10 @@
 #!/bin/bash
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: ConcatenateTwoFiles.sh
-# Description: More shell variable examples - join 2 files
+# Description: More shell variable examples - join 2 files, save output to ../results
+# Arguments: 1 -> A file, 
+#            2 -> A file, 
+#            3 -> Optional, provide a name for the output file
 
 # Note: 3 variables need to be passed here not just 2! ($3 isn't created automatically)
 # cat $1 > $3

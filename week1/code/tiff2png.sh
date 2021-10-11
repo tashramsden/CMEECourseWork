@@ -1,7 +1,9 @@
 #!/bin/bash
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: tiff2png.sh
-# Description: More shell variable examples - convert tiff to png
+# Description: More shell variable examples - convert tiff to png and save to ../results
+# Arguments: 1 -> Optional - the name of a directory (which hopefully contains tiff files)
+#                 If $1 left blank, will default to ../data
 
 ## basic 
 # for f in *.tif;
