@@ -19,4 +19,6 @@ with open("../data/testcsv.csv", "r") as f:
         csvwrite = csv.writer(g)
         for row in csvread:
             print(row)
+            # print(row[0])
+            # print(row[4])
             csvwrite.writerow([row[0], row[4]])

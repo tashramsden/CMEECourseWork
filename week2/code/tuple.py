@@ -16,3 +16,10 @@ birds = ( ('Passerculus sandwichensis','Savannah sparrow',18.7),
 # ... etc.
 
 # Hints: use the "print" command! You can use list comprehensions!
+
+# loop
+for bird in birds:
+    print(f"\nLatin name: {bird[0]}\nCommon name: {bird[1]}\nMass: {bird[2]}")
+
+# lc
+bird_info = [print(f"\nLatin name: {bird[0]}\nCommon name: {bird[1]}\nMass: {bird[2]}") for bird in birds]

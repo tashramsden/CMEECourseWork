@@ -63,6 +63,7 @@
 
 # print("Outside the function, the value of _a_global now is", _a_global)
 
+
 ## 4.
 # def a_function():
 #     _a_global = 10

@@ -6,6 +6,7 @@ my_dictionary = {"a key": 10, "another_key": 11}
 
 import pickle
 
+# b here means accept binary files
 f = open("../sandbox/testp.p", "wb")
 pickle.dump(my_dictionary, f)
 f.close()
