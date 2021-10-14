@@ -1,15 +1,9 @@
-#1 Count how many lines there are in each file  ans: 28, 127, 78104 (78259 total) 
-wc -l ../data/fasta/*.fasta  #1
+wc -l ../data/fasta/*.fasta  #1: count lines in fasta files
 
-#2 Print everything starting from the second line for the E. coli genome
-tail -n +2 ../data/fasta/E.coli.fasta  #2
+tail -n +2 ../data/fasta/E.coli.fasta  #2: E.coli genome from 2nd line
 
-#3 Count the sequence length of this genome  and: 4764240
-tail -n +2 ../data/fasta/E.coli.fasta | wc -m  #3
+tail -n +2 ../data/fasta/E.coli.fasta | wc -m  #3: sequence length of E.coli genome
 
-#4 Count the matches of a particular sequence, “ATGC” in the genome of E. coli (hint: Start by removing the first line and removing newline characters)  ans: 20853
-grep -o ATGC ../data/fasta/E.coli.fasta | wc -l  #4
+grep -o ATGC ../data/fasta/E.coli.fasta | wc -l  #4: matches of "ATGC" in E.coli
 
-#5 Compute the AT/GC ratio. That is, the (A+T)/(G+C) ratio. This is a summary measure of base composition of double-stranded DNA. DNA from different organisms and lineages has different ratios of the A-to-T and G-to-C base pairs. For example DNA from organisms that live in hot springs have a higher GC content, which takes advantage of the increased thermal stability of the GC base pair (google “Chargaff’s rule”)
-#NOTE: Note that there may be some Y and R’s in DNA sequences, denoting bases where there is uncertainty about identity, with R denoting purine (A or G) and Y pyrimidine (C or T) ribonucleotides. No agreed symbols exist for the other possible combinations, but these too may arbitrarily be reprsented by some non ATGC letters. To handle these, the calculation should be done by keeping these extra letters in place. That is, do not delete them before calculating the ratio, as this will shift the sequences.
-echo "scale=4;" $(grep -o "A\|T" ../data/fasta/E.coli.fasta | wc -c) / $(grep -o "G\|C" ../data/fasta/E.coli.fasta| wc -c) | bc  # 5
+echo "scale=4;" $(grep -o "A\|T" ../data/fasta/E.coli.fasta | wc -c) / $(grep -o "G\|C" ../data/fasta/E.coli.fasta| wc -c) | bc  #5: AT/GC ratio
