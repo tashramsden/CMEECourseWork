@@ -26,7 +26,7 @@ echo "Creating a comma delimited version of $1 ..."
 # echo ${1:: -4}  # this would strip extension - UNLESS file w no extension, then would remove end of name...
 filename=$(basename "$1")  # remove path
 extension="${filename##*.}"  # isolate extension
-path_and_name=${1//$extension/csv}  # get path + name by removing extension from original input (means take $1 remove bit after // replace w bit after /)
-cat $1 | tr -s "\t" "," >> $path_and_name
+path_and_name_csv=${1//$extension/csv}  # get path + name + csv by removing extension from original input (means take $1 remove bit after // replace w bit after /)
+cat $1 | tr -s "\t" "," >> $path_and_name_csv
 echo "Done!"
 exit

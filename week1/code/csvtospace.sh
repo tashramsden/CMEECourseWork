@@ -8,8 +8,8 @@
 #                   If left blank, default is to convert all csvs from ../data/temperatures
 
 if [ $# -ne 1 ] && [ $# -ne 0 ]; then
-    echo -e "\nPlease provide a maximum of one argument:"
-    echo "Provide a relative path if you want to convert csv files in another directory (default is ../data/temperatures if no argumnet passed)"
+    echo -e "\nPlease provide a maximum of one argument, either:"
+    echo "Provide a directory if you want to convert csv files in another directory (default is ../data/temperatures if no argument passed)"
     echo -e "Or provide a csv file to be converted.\n"
     exit;
 fi
@@ -49,7 +49,7 @@ elif [ $# -eq 1 ]; then
 fi
 
 # if no args or if directory passed, search for csv files here to convert
-shopt -s nullglob # if no .csvs found do not print error
+shopt -s nullglob # if no .csvs found do not print error - will get message that "If none exist nothing will happen"
 for csv in $CSV_LOC/*.csv;
     do
         echo "Creating a space separated value version of $csv ...";
