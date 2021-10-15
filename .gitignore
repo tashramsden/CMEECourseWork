@@ -2,10 +2,11 @@
 *.tmp
 *.Rhistory
 
-# week1/sandbox/
-
-#python
-__pycache__/
+week1/sandbox/
 
 results/*
 !results/.gitkeep
+
+#python
+__pycache__/
+.pytest_cache
