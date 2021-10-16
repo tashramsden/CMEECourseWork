@@ -1,15 +1,26 @@
-# finds square root of x (x to the power 0.5)
-def foo_1(x):
-    return x ** 0.5
+#!/usr/bin/env python3
 
-# returns the bigger number out of the two inputs
+"""Some input/output functions."""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
+## imports ##
+import sys
+
+## functions ##
+def foo_1(x):
+    """Finds square root of a number, x"""
+    return f"\nThe square root of {x} is {x ** 0.5}"
+
 def foo_2(x, y):
+    """Return the largest of two numbers"""
     if x > y:
-        return x
-    return y
+        return f"\nThe bigger number of {x} and {y} is: {x}"
+    return f"\nThe bigger number of {x} and {y} is: {y}"
 
 # moves the biggest number to the last position (if re-run w output would sort all into ascending order)
 def foo_3(x, y, z):
+    """Moves the largest of 3 numbers to the last position"""
     if x > y:
         # swaps positions depending on relative size
         tmp = y
@@ -19,25 +30,41 @@ def foo_3(x, y, z):
         tmp = z
         z = y
         y = tmp
-    return [x, y, z]
+    return f"\nReordered list: {[x, y, z]}"
 
-# calculates factorial of x
 def foo_4(x):
+    "Returns the factorial of a number, x"
     result = 1
     for i in range(1, x + 1):
         result = result * i
-    return result
+    return f"\nThe factorial of {x} is {result}"
 
-# a recursive function that calculates the factorial of x
 def foo_5(x):
+    """Returns the factorial of a number, x, using a recursive method"""
     if x == 1:
+        print("\nThe factorial is:")
         return 1
     return x * foo_5(x - 1)
 
-# Calculate the factorial of x in a different way
 def foo_6(x):
+    """Returns the factorial of a number, x"""
     facto = 1
     while x >= 1:
         facto = facto * x
         x = x - 1
-    return facto
+    return f"\nThe factorial is: {facto}"
+
+def main(argv):
+    print(foo_1(16))
+    print(foo_2(3.4, 3.5))
+    print(foo_2(100, -3))
+    print(foo_3(8, 4, 5))
+    print(foo_4(20))
+    print(foo_4(5))
+    print(foo_5(5))
+    print(foo_6(5))
+    return 0
+
+if __name__ == "__main__":
+    status = main(sys.argv) 
+    sys.exit(status) 
