@@ -4,7 +4,7 @@ def buggyfunc(x):
         try: 
             y = y - 1
             z = x / y
-        # import ipdb; ipdb.set_trace()  # not available?
+        # import ipdb; ipdb.set_trace()
         # import pdb; pdb.set_trace()
         except ZeroDivisionError:
             print(f"The result of dividing a number by zero is undefined")
