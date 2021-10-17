@@ -19,7 +19,11 @@
 
 # f.close()
 
-## Same as above but now using with open (don't have to remember to close file afterwards)
+#############################
+
+## The same but using with open
+## (don't have to remember to close file afterwards)
+
 # Open a file for reading
 with open('../sandbox/test.txt', 'r') as f:
     # use "implicit" for loop:
