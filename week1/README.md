@@ -35,7 +35,7 @@ Project structure: 12 script files in code directory (described below), some of 
   * Shell script that will search for tiff files in a directory and convert them to pngs to be saved in the same location.
   * By default the script will search for tiff files in week1/data (one example tiff is here).
   * Optionally, a relative path to a different directory can be provided and any tiff files here will be converted.
-  * Requires installation of [imagemagick](https://imagemagick.org/index.php)
+  * Requires installation of [`imagemagick`](https://imagemagick.org/index.php)
 
 * [**csvtospace.sh**](code/csvtospace.sh)
   * Shell script for converting csv files to space separated values files; all .ssv outputs will be saved to the same directory as the inputs.
