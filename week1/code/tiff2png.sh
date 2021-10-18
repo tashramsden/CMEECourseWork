@@ -25,7 +25,7 @@ if [ $# > 1 ]; then
     echo "NOTE: You provided more than one argument but only the first will be considered."
 fi
 
-shopt -s nullglob # if no .tifs found do not print error
+shopt -s nullglob # if no .tifs found do not print error, will see "If none exist nothing will happen"
 for f in $TIF_LOC/*.tif;
     do
         echo "Converting $f";
