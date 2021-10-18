@@ -55,6 +55,7 @@ def foo_6(x):
     return f"\nThe factorial is: {facto}"
 
 def main(argv):
+    """Main entry point of the program"""
     print(foo_1(16))
     print(foo_2(3.4, 3.5))
     print(foo_2(100, -3))

@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""Creates lists of tuples containing monthly rainfall data from tuples using loops and list comprehensions"""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 # Average UK Rainfall (mm) for 1910 by month
 # http://www.metoffice.gov.uk/climate/uk/datasets
 rainfall = (('JAN',111.4),

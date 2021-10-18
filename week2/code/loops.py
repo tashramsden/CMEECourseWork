@@ -1,4 +1,8 @@
-# FOR loops in Python
+#!/usr/bin/env python3
+
+"""Exploring FOR loops in Python"""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
 
 # remember indexing from 0 - so this prints 0:4
 for i in range(5):

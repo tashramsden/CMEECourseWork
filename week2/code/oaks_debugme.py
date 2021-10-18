@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""Reads ../data/TestOaksData.csv; determines whether the tree species are oaks or not. Oak species written to a new csv, ../data/JustOaksData.csv"""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 import csv
 import sys
 import doctest
@@ -14,11 +20,12 @@ def is_an_oak(name):
 
     >>> is_an_oak('Quercuss alba')  # should this pass or fail?!
     True
-    
+
     """
     return name.lower().startswith('quercus')
 
 def main(argv): 
+    """Reads ../data/TestOaksData, writes only oak information to ../data/TestOaksData.csv"""
     f = open('../data/TestOaksData.csv','r')
     g = open('../data/JustOaksData.csv','w')
     taxa = csv.reader(f)

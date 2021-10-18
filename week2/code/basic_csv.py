@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""Reads testcsv.csv from ../data; prints species information and writes new file, bodymass.csv, to ../data with species and bodymass info"""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 import csv
 
 # Read a file containing:

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 """Some functions exemplifying the use of control statements."""
-
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -32,6 +31,7 @@ def even_or_odd(x=0):
     return "%d is odd!" % x
 
 def main(argv):
+    """Main entry point of the program"""
     print(even_or_odd(22))
     print(even_or_odd(33))
     return 0

@@ -1,6 +1,9 @@
-#############################
-# FILE INPUT
-#############################
+#!/usr/bin/env python3
+
+"""File inputs. Opens test.txt in ../sandbox and prints the lines; first as they appear and then with blank lines removed"""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 
 # # Open a file for reading
 # f = open("../sandbox/test.txt", "r")

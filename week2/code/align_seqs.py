@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+"""Reads nucleotide sequences from ../data/sequences.csv; calculates alignments with highest number of matching bases; saves last alignment with highest score to ../results/sequence_alignmet.txt"""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 

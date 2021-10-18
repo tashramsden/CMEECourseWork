@@ -1,3 +1,9 @@
+#!/usr/bin/env python3
+
+"""Creates a dictionary of orders mapped to sets of taxa."""
+__author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
+__version__ = '0.0.1'
+
 taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Gerbillus henleyi','Rodentia',),
          ('Peromyscus crinitus', 'Rodentia'),
@@ -33,4 +39,3 @@ taxa = [ ('Myotis lucifugus','Chiroptera'),
 taxa_dict2 = {entry[1]: set(row[0] for row in taxa if row[1] == entry[1]) for entry in taxa}
 
 print(taxa_dict2)
-
