@@ -1,6 +1,5 @@
 *~ 
 *.tmp
-*.Rhistory
 
 week1/sandbox/
 
@@ -10,3 +9,10 @@ results/*
 #python
 __pycache__/
 .pytest_cache
+
+#R
+.RData
+.Rhistory
+.Rapp.history
+.Ruserdata
+.Renviron
