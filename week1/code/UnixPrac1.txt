@@ -2,7 +2,7 @@ wc -l ../data/fasta/*.fasta  #1: count lines in fasta files
 
 tail -n +2 ../data/fasta/E.coli.fasta  #2: E.coli genome from 2nd line
 
-tail -n +2 ../data/fasta/E.coli.fasta | wc -m  #3: sequence length of E.coli genome
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d "\n" | wc -m  #3: sequence length of E.coli genome
 
 grep -o ATGC ../data/fasta/E.coli.fasta | wc -l  #4: matches of "ATGC" in E.coli
 
