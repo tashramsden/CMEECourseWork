@@ -1,7 +1,9 @@
 *~ 
 *.tmp
 
-week1/sandbox/
+sandbox/
+# some week2 code files take inputs/output to sandbox
+!week2/sandbox/
 
 results/*
 !results/.gitkeep
