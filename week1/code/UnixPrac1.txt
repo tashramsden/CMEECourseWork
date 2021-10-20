@@ -4,6 +4,6 @@ tail -n +2 ../data/fasta/E.coli.fasta  #2: E.coli genome from 2nd line
 
 tail -n +2 ../data/fasta/E.coli.fasta | tr -d "\n" | wc -m  #3: sequence length of E.coli genome
 
-grep -o ATGC ../data/fasta/E.coli.fasta | wc -l  #4: matches of "ATGC" in E.coli
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d "\n" | grep -o ATGC | wc -l  #4: matches of "ATGC" in E.coli
 
 echo "scale=4;" $(grep -o "A\|T" ../data/fasta/E.coli.fasta | wc -c) / $(grep -o "G\|C" ../data/fasta/E.coli.fasta| wc -c) | bc  #5: AT/GC ratio
