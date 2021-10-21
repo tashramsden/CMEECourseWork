@@ -1,0 +1,801 @@
+Starting code feedback for Tash, Week1
+
+Current Points = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 2.20 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: .git, week3, week2, Feedback, week1
+
+Found the following files in parent directory: README.md, .gitignore
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+
+**********************************************************************
+*~ 
+*.tmp
+
+sandbox/
+# some week2 code files take inputs/output to sandbox
+!week2/sandbox/
+
+results/*
+!results/.gitkeep
+
+#python
+__pycache__/
+.pytest_cache
+
+#R
+.RData
+.Rhistory
+.Rapp.history
+.Ruserdata
+.Renviron
+
+**********************************************************************
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+
+**********************************************************************
+# CMEE Coursework Repository
+
+**Coursework completed as part of MSc in Computational Methods in Ecology and Evolution at Silwood Park Imperial College London; see course guidebook [TheMulQuaBio](https://mhasoba.github.io/TheMulQuaBio/intro.html).**
+
+## Directories
+
+* [**week1**](week1)
+  * Topics covered: [UNIX and Linux](https://mhasoba.github.io/TheMulQuaBio/notebooks/01-Unix.html), [Shell scripting](https://mhasoba.github.io/TheMulQuaBio/notebooks/02-ShellScripting.html), [LaTeX for scientific documents](https://mhasoba.github.io/TheMulQuaBio/notebooks/04-LaTeX.html), and [version control with Git](https://mhasoba.github.io/TheMulQuaBio/notebooks/03-Git.html).
+
+* [**week2**](week2)
+  * Topics covered: [Biological Computing in Python I](https://mhasoba.github.io/TheMulQuaBio/notebooks/05-Python_I.html#) (variables, loops, comprehensions, functions, scope, writing programs, unit testing and debugging)
+
+## Author
+
+Tash Ramsden | tash.ramsden21@imperial.ac.uk
+
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 3 weekly directories: week1, week2, week3
+
+The Week1 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK1...
+
+Found the following directories: code, results, data
+
+Found the following files: README.md
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: README.md
+
+Printing contents of README.md:
+
+**********************************************************************
+# Week 1
+
+**Topics covered this week:** [UNIX and Linux](https://mhasoba.github.io/TheMulQuaBio/notebooks/01-Unix.html), [Shell scripting](https://mhasoba.github.io/TheMulQuaBio/notebooks/02-ShellScripting.html), [LaTeX for scientific documents](https://mhasoba.github.io/TheMulQuaBio/notebooks/04-LaTeX.html), and [version control with Git](https://mhasoba.github.io/TheMulQuaBio/notebooks/03-Git.html).
+
+Languages: Shell, LaTeX, (git)
+
+Project structure: 12 script files in code directory (described below), some of which will manipulate files from data directory. Data directory contains sub-directories: fasta, (LaTeX) and temperatures. Results directory will be populated by running code files as described below.
+
+## Code Files:
+
+* [**UnixPrac1.txt**](code/UnixPrac1.txt)
+  * UNIX shell commands which perform calculations on data in FASTA files in week1/data/fasta.
+  
+* [**boilerplate.sh**](code/boilerplate.sh)
+  * First shell script; prints "This is a shell script!".
+  
+* [**tabtocsv.sh**](code/tabtocsv.sh)
+  * Shell script that takes a tab-separated text file input and converts to a csv which will be saved in the same location as the input file.
+  
+* [**variables.sh**](code/variables.sh)
+  * Shell script exploring variable assignment; reads in a variable to be printed/numbers to be added.
+  
+* [**MyExampleScript.sh**](code/MyExampleScript.sh)
+  * More shell variable examples; prints welcome message for user.
+  
+* [**CountLines.sh**](code/CountLines.sh)
+  * Shell script that takes one file as an input and returns the number of lines.
+  
+* [**ConcatenateTwoFiles.sh**](code/ConcatenateTwoFiles.sh)
+  * Shell script that concatenates two files and saves the output file to week1/results.
+  * Two files are required as inputs, these will be concatenated.
+  * Optionally, a third argument can be given: this will be used as the name of the new file created in week1/results. If this argument is left blank the new file will be called concatenated_output.txt.
+  
+* [**tiff2png.sh**](code/tiff2png.sh)
+  * Shell script that will search for tiff files in a directory and convert them to pngs to be saved in the same location.
+  * By default the script will search for tiff files in week1/data (one example tiff is here).
+  * Optionally, a relative path to a different directory can be provided and any tiff files here will be converted.
+  * Requires installation of [`imagemagick`](https://imagemagick.org/index.php)
+
+* [**csvtospace.sh**](code/csvtospace.sh)
+  * Shell script for converting csv files to space separated values files; all .ssv outputs will be saved to the same directory as the inputs.
+  * By default the script will search for .csv files in week1/data/temperatures, all of which will be converted.
+  * Optionally, one argument can be passed to the script, either:
+  * The relative path to a different directory - all csv files here will be converted, or
+  * The name of one csv file to be changed to a space separated values file.
+
+* [**CompileLaTeX.sh**](code/CompileLaTeX.sh)
+  * Shell script that creates a LaTeX pdf and saves it to week1/results. 
+  * Takes one argument: the name of the LaTeX .tex file which must be saved in the working directory.
+  * Bibliography .bib file (if used) should also be saved here (but does not need to be passed as an argument).
+
+* [**FirstExample.tex**](code/FirstExample.tex)
+    * LaTeX file to be compiled by [CompileLaTeX.sh](code/CompileLaTeX.sh).
+
+* [**FirstBiblio.bib**](code/FirstBiblio.bib)
+    * LaTeX bibliography file which will be used to produce the bibliography for the LaTeX pdf output created by [CompileLaTeX.sh](code/CompileLaTeX.sh).
+
+## Author
+
+Tash Ramsden | tash.ramsden21@imperial.ac.uk
+
+**********************************************************************
+
+Results directory is empty - good! 
+
+Found 12 code files: tiff2png.sh, CountLines.sh, FirstBiblio.bib, tabtocsv.sh, variables.sh, FirstExample.tex, boilerplate.sh, csvtospace.sh, ConcatenateTwoFiles.sh, UnixPrac1.txt, CompileLaTeX.sh, MyExampleScript.sh
+
+Found the following extra files: 1
+0.5 pt deducted per extra file
+
+Current Points = 99.5
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file tiff2png.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: tiff2png.sh
+# Description: More shell variable examples - convert all tiffs in a directory to png and save to same location as input
+# Arguments: 1 -> Optional: the name of a directory (which hopefully contains tiff files)
+#                 Default: If $1 left blank, will default to ../data and convert all tifs here
+
+if [ -z "$1" ]; then  # -z checks if $1 is empty string
+    echo "Provide a relative path if you want to convert .tifs in another directory (default is ../data)."
+    # default directory
+    TIF_LOC=../data; 
+else
+    # checks input is a directory
+    if [ -d "$1" ]; then
+        TIF_LOC=$1;
+        echo "Searching $TIF_LOC for .tif files... If none exist nothing will happen."
+    else
+        echo "Please provide the name of a directory which (ideally) contains .tifs (if no arguments passed, default is ../data).";
+        exit;
+    fi
+fi
+
+# if more than one arg passed, code still runs but ignores additional args
+if [ $# > 1 ]; then
+    echo "NOTE: You provided more than one argument but only the first will be considered."
+fi
+
+shopt -s nullglob # if no .tifs found do not print error, will see "If none exist nothing will happen"
+for f in $TIF_LOC/*.tif;
+    do
+        echo "Converting $f";
+        # convert "$f" "../results/$(basename "$f" .tif).png";  # output to results
+        # convert "$f" "${f:: -4}.png";  # could remove some of name if no extension...
+        filename=$(basename "$f")  # remove path
+        extension="${filename##*.}"  # isolate extension
+        path_and_name_png=${f//$extension/png}  # path + name + png extension by removing original extension
+        convert "$f" $path_and_name_png;
+    done
+exit;
+
+**********************************************************************
+
+Testing tiff2png.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Provide a relative path if you want to convert .tifs in another directory (default is ../data).
+NOTE: You provided more than one argument but only the first will be considered.
+Converting ../data/example.tif
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.06237s
+
+======================================================================
+Inspecting script file CountLines.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: Countlines.sh
+# Description: More shell variable examples - Count lines in a file
+# Arguments: 1 -> A file
+
+# check 1 input
+if [ $# -ne 1 ]; then
+    echo "Please provide one file as an input.";
+    exit;
+fi
+
+# check if file
+if ! [ -f "$1" ]; then
+    echo "Please provide a file as an input.";
+    exit;
+fi
+
+NumLines=`wc -l < $1`
+echo "The file $1 has $NumLines lines"
+echo
+
+**********************************************************************
+
+Testing CountLines.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Please provide one file as an input.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00274s
+
+======================================================================
+Inspecting script file FirstBiblio.bib...
+
+File contents are:
+
+**********************************************************************
+@article {verhulst1838notice,
+  title = {Notice on the law that the population follows in its growth},
+  author = {Verhulst, Pierre-François},
+  journal = {Corresp. Math. Phys.},
+  volume = {10},
+  pages = {113--126},
+  year = {1838}
+}
+**********************************************************************
+
+Testing FirstBiblio.bib...
+
+======================================================================
+Inspecting script file tabtocsv.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: tabtocsv.sh
+# Description: substitute the tabs in the files with commas
+# Saves the output into a .csv file in same location as input file
+# Arguments: 1 -> tab delimited file
+# Date: Oct 2021
+
+# $1 is the argument placeholder for a var (here the filename)
+
+# checks if one file provided, if not exits
+# in bash, # treated as special param which expands to number of positional params
+# so here, this will count how many args passed and check if != 1
+
+if [ $# -ne 1 ]; then
+    echo "You need to provide one input file (should be separated by tabs which will be replaced with commas).";
+    exit;
+elif ! [ -f $1 ]; then
+    echo "Please provide a file as an input.";
+    exit;
+fi
+
+echo "Creating a comma delimited version of $1 ..."
+
+## strip extension (whatever it is) and save output .csv to same location as input file
+# echo ${1:: -4}  # this would strip extension - UNLESS file w no extension, then would remove end of name...
+filename=$(basename "$1")  # remove path
+extension="${filename##*.}"  # isolate extension
+path_and_name_csv=${1//$extension/csv}  # get path + name + csv by removing extension from original input (means take $1 remove bit after // replace w bit after /)
+cat $1 | tr -s "\t" "," >> $path_and_name_csv
+echo "Done!"
+exit
+
+**********************************************************************
+
+Testing tabtocsv.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+You need to provide one input file (should be separated by tabs which will be replaced with commas).
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00324s
+
+======================================================================
+Inspecting script file variables.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: variables.sh
+# Description: Exploring variables in shell scripts + special variables
+
+## special variables
+echo "This script was called with $# parameters"
+echo "The script's name is $0"
+echo "The arguments are $@"
+echo "The first argument is $1"
+echo "The second argument is $2"
+
+## Assigned variables - explicit declaration
+# NOTE: lack of spaces for assigning variables!
+MyVar="some string"
+echo "The current value of the variable is:" $MyVar
+echo
+echo "Please enter a new string"
+read MyVar
+echo
+echo "The current value of the variable is:" $MyVar
+echo
+
+## Reading multiple values
+echo "Enter two numbers separated by space(s)"
+read a b
+echo "You entered" $a "and" $b". Their sum is:";
+# works with floats too
+mysum=`echo "$a + $b" | bc`;
+echo $mysum;
+
+**********************************************************************
+
+Testing variables.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+This script was called with 0 parameters
+The script's name is variables.sh
+The arguments are 
+The first argument is 
+The second argument is 
+The current value of the variable is: some string
+
+Please enter a new string
+
+The current value of the variable is:
+
+Enter two numbers separated by space(s)
+You entered and . Their sum is:
+
+
+**********************************************************************
+
+Encountered error (or warning):
+(standard_in) 1: syntax error
+
+======================================================================
+Inspecting script file FirstExample.tex...
+
+File contents are:
+
+**********************************************************************
+\documentclass[12pt]{article}
+
+\title{A Simple Document}
+
+\author{Tash}
+
+\date{}
+
+\begin{document}
+  \maketitle
+  
+  \begin{abstract}
+    This paper analyses a seminal equation in population biology.
+  \end{abstract}
+  
+  \section{Introduction}
+    Blah Blah
+  
+  \section{Materials \& Methods}
+  
+  A foundational equation of population biology is:
+  
+  \begin{equation}
+    \frac{dN}{dt} = r N (1 - \frac{N}{K})
+  \end{equation}
+  
+  It was first proposed by Verhulst in 1838 \cite{verhulst1838notice}.
+  
+  \bibliographystyle{plain}
+  
+  \bibliography{FirstBiblio}
+
+\end{document}
+**********************************************************************
+
+Testing FirstExample.tex...
+
+======================================================================
+Inspecting script file boilerplate.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: boilerplate.sh
+# Desc: simple boilerplate for shell scripts
+# Arguments: none
+# Date: Oct 2021
+
+echo -e "\nThis is a shell script! \n" #what does -e do?
+
+#exit
+
+**********************************************************************
+
+Testing boilerplate.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+This is a shell script! 
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00334s
+
+======================================================================
+Inspecting script file csvtospace.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: tcsvtospace.sh
+# Description: Practical - convert csv to space separated values file and save to same location as inputs
+# Arguments: 1 -> Optional:
+#                   Can be the name of a csv file - only this will be converted
+#                   Can be the name of a directory (which hopefully contains csv files) - all csvs converted
+#                   If left blank, default is to convert all csvs from ../data/temperatures
+
+if [ $# -ne 1 ] && [ $# -ne 0 ]; then
+    echo -e "\nPlease provide a maximum of one argument, either:"
+    echo "Provide a directory if you want to convert csv files in another directory (default is ../data/temperatures if no argument passed)"
+    echo -e "Or provide a csv file to be converted.\n"
+    exit;
+fi
+
+# if no args passed, convert csvs in ../data/temperatues as default
+if [ $# -eq 0 ]; then
+    echo -e "\nYou can provide a relative path if you want to convert csv files in another directory (default is ../data/temperatures)"
+    echo -e "Or provide a csv file to be converted.\n"
+    CSV_LOC=../data/temperatures;
+fi
+
+# if a directory passed, search for csvs here
+if [ $# -eq 1 ] && [ -d $1 ]; then
+    CSV_LOC=$1;
+    echo -e "\nSearching $CSV_LOC for csv files... If none exist nothing will happen.\n"
+
+# if a csv file passed just convert this
+elif [ $# -eq 1 ]; then
+    filename=$(basename "$1")
+    extension="${filename##*.}"
+    # echo $extension
+    # checks if csv file passed
+    if [ $extension != "csv" ]; then
+        echo -e "\nYou need to provide either a csv file or relative path to a directory.";
+        echo -e "You can also pass no arguments: csv files in ../data/temperatures will be converted by default.\n"
+        exit;
+    else
+        echo -e "\nCreating a space separated value version of $1 ...";
+        # cat $1 | tr -s "," " " >> "../results/$(basename "$1" .csv).ssv";  # output to ../results
+        # cat $1 | tr -s "," " " >> "${1:: -4}.ssv";  # trim extension...
+        path_and_name_ssv=${1//$extension/ssv}  # path + name + ssv extension by removing original extension
+        cat $1 | tr -s "," " " >> $path_and_name_ssv;
+        echo -e "Done!\n";
+        exit;
+    fi
+
+fi
+
+# if no args or if directory passed, search for csv files here to convert
+shopt -s nullglob # if no .csvs found do not print error - will get message that "If none exist nothing will happen"
+for csv in $CSV_LOC/*.csv;
+    do
+        echo "Creating a space separated value version of $csv ...";
+        # cat $csv | tr -s "," " " >> "../results/$(basename "$csv" .csv).ssv";  # output to ../results
+        # cat $csv | tr -s "," " " >> "${csv:: -4}.ssv";  # trim extension...
+        filename=$(basename "$csv")  # remove path
+        extension="${filename##*.}"  # isolate extension
+        path_and_name_ssv=${csv//$extension/ssv}  # path + name + ssv extension by removing original extension
+        cat $csv | tr -s "," " " >> $path_and_name_ssv;
+        echo -e "Done!\n";
+    done
+exit;
+
+**********************************************************************
+
+Testing csvtospace.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+
+You can provide a relative path if you want to convert csv files in another directory (default is ../data/temperatures)
+Or provide a csv file to be converted.
+
+Creating a space separated value version of ../data/temperatures/1800.csv ...
+Done!
+
+Creating a space separated value version of ../data/temperatures/1801.csv ...
+Done!
+
+Creating a space separated value version of ../data/temperatures/1802.csv ...
+Done!
+
+Creating a space separated value version of ../data/temperatures/1803.csv ...
+Done!
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.01363s
+
+======================================================================
+Inspecting script file ConcatenateTwoFiles.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: ConcatenateTwoFiles.sh
+# Description: More shell variable examples - join 2 files, save output to ../results (inputs can be from different directories)
+# Arguments: 1 -> A file name (+relative path - can have any location, doesn't have to be same as other file), 
+#            2 -> A file name, 
+#            3 -> Optional, provide a name for the output file
+
+# Note: 3 variables need to be passed here not just 2! ($3 isn't created automatically)
+# cat $1 > $3
+# cat $2 >> $3
+# echo "Merged File is"
+# cat $3
+
+# check num inputs
+if [ $# -ne 3 ]; then
+    if [ $# -ne 2 ]; then
+        echo "You need to provide at least 2 arguments (max 3): 2 files to be concatenated and (optional) name an output file.";
+        exit;
+    else
+        OUTPUT="../results/concatenated_output.txt";
+    fi
+else
+    OUTPUT="../results/$3";
+fi
+
+# check if files
+if ! [ -f "$1" ] || ! [ -f "$2" ]; then
+    echo "Your inputs must be file names.";
+    exit;
+fi
+
+cat $1 > $OUTPUT
+cat $2 >> $OUTPUT
+echo "Merged File, $OUTPUT, is"
+cat $OUTPUT
+exit
+
+**********************************************************************
+
+Testing ConcatenateTwoFiles.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+You need to provide at least 2 arguments (max 3): 2 files to be concatenated and (optional) name an output file.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00438s
+
+======================================================================
+Inspecting script file UnixPrac1.txt...
+
+File contents are:
+
+**********************************************************************
+wc -l ../data/fasta/*.fasta  #1: count lines in fasta files
+
+tail -n +2 ../data/fasta/E.coli.fasta  #2: E.coli genome from 2nd line
+
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d "\n" | wc -m  #3: sequence length of E.coli genome
+
+tail -n +2 ../data/fasta/E.coli.fasta | tr -d "\n" | grep -o ATGC | wc -l  #4: matches of "ATGC" in E.coli
+
+echo "scale=4;" $(grep -o "A\|T" ../data/fasta/E.coli.fasta | wc -c) / $(grep -o "G\|C" ../data/fasta/E.coli.fasta| wc -c) | bc  #5: AT/GC ratio
+
+**********************************************************************
+
+Testing UnixPrac1.txt...
+
+======================================================================
+Inspecting script file CompileLaTeX.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: CompileLaTeX.sh
+# Description: Bash script to compile LaTeX, pdf output saved to ../results
+# Arguments: 1 -> The name of a LaTeX .tex file in the working directory (can have .tex extension or none)
+
+
+if [ $# -ne 1 ] || [ -d $1 ]; then
+    echo "You need to provide the name of one TeX file to compile from the current directory.";
+    exit;
+fi
+
+
+#### This method a bit clunky - hard coded paths.... (but DOES allow compiling from different (set) directory than working dir and outputs pdf to results)
+## .tex and .bib must be saved in ../data/LaTeX - arg passed is still just name of file NOT inc. path - FirstExample or FirstExample.tex
+
+# pdflatex --output-directory ../results ../data/LaTeX/$(basename "$1" .tex).tex
+## .bib has to be in same location as outputs for biblio to be compiled correctly
+# cp ../data/LaTeX/*.bib ../results
+# cd ../results ; bibtex $(basename "$1" .tex)
+# cd ../code
+# bibtex ../data/LaTeX/$(basename "$1" .tex)
+# pdflatex --output-directory ../results ../data/LaTeX/$(basename "$1" .tex).tex
+# pdflatex --output-directory ../results ../data/LaTeX/$(basename "$1" .tex).tex
+# evince ../results/$(basename "$1" .tex).pdf &
+
+## Cleanup
+# rm ../results/*.aux
+# rm ../results/*.log
+# rm ../results/*.bbl
+# rm ../results/*.blg
+# # remove copied .bib file too
+# rm ../results/*.bib
+
+
+## Alternatively!!
+## Inputs from working directory, output goes to results (can pass FirstExample or FirstExample.tex)
+pdflatex $(basename "$1" .tex).tex
+bibtex $(basename "$1" .tex)
+pdflatex $(basename "$1" .tex).tex
+pdflatex $(basename "$1" .tex).tex
+
+# save output pdf to results instead
+cp $(basename "$1" .tex).pdf ../results
+rm $(basename "$1" .tex).pdf
+
+evince ../results/$(basename "$1" .tex).pdf &
+
+rm *.aux
+rm *.log
+rm *.bbl
+rm *.blg
+
+**********************************************************************
+
+Testing CompileLaTeX.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+You need to provide the name of one TeX file to compile from the current directory.
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00366s
+
+======================================================================
+Inspecting script file MyExampleScript.sh...
+
+File contents are:
+
+**********************************************************************
+#!/bin/bash
+# Author: Tash Ramsden ter21@imperial.ac.uk
+# Script: MyExampleScript.sh
+# Description: More shell variable examples
+
+msg1="Hello"
+msg2=$USER
+echo "$msg1 $msg2"
+echo "Hello $USER"
+echo
+**********************************************************************
+
+Testing MyExampleScript.sh...
+
+Output (only first 500 characters): 
+
+
+**********************************************************************
+Hello mhasoba
+Hello mhasoba
+
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.00456s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 1 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Points for the Week = 99.5
+
+NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!
