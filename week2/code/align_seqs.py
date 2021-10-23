@@ -101,6 +101,7 @@ def main(argv):
     s1, s2, l1, l2 = get_sequences_lengths(csv_file)
     my_best_align, my_best_score = find_best_alignment(s1, s2, l1, l2)
     save_best_align(my_best_align, my_best_score, s1)
+    return 0
 
 
 if __name__ == "__main__":
