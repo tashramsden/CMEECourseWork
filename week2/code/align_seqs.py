@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Reads nucleotide sequences from ../data/sequences.csv; calculates alignments with highest number of matching bases; saves last alignment with highest score to ../results/sequence_alignmet.txt"""
+"""Reads nucleotide sequences from ../data/sequences.csv; calculates alignments with highest number of matching bases; saves last alignment with highest score to ../results/sequence_alignment.txt"""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -71,9 +71,9 @@ for i in range(l1): # Note that you just take the first/last alignment with the 
     if z >= my_best_score:  # if this >= then would get last matching alignment (> for first)
         my_best_align = "." * i + s2 # think about what this is doing!
         my_best_score = z 
-print(my_best_align)
-print(s1)
-print("Best score:", my_best_score)
+# print(my_best_align)
+# print(s1)
+# print("Best score:", my_best_score)
 
 
 ## Save best alignemnt information to text file in ../results ##
@@ -81,4 +81,6 @@ output_contents = f"Aligned sequences:\n\n{my_best_align}\n{s1}\n\nBest score: {
 print(output_contents)
 
 with open("../results/sequence_alignment.txt", "w") as output:
+    print("Saving best alignment to ../results/sequence_alignment.txt...")
     output.write(output_contents)
+    print("Done!")
