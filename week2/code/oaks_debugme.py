@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Reads ../data/TestOaksData.csv; determines whether the tree species are oaks or not. Oak species written to a new csv, ../data/JustOaksData.csv"""
+"""Reads ../data/TestOaksData.csv; determines whether the tree species are oaks or not. 
+Oak species written to a new csv, ../data/JustOaksData.csv"""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -10,19 +11,19 @@ import doctest
 
 #Define function
 def is_an_oak(name):
-    """ Returns True if name starts with 'quercus' 
+    """ Returns True if name is 'quercus' 
     
-    >>> is_an_oak('Fagus sylvatica')
+    >>> is_an_oak('Fagus')
     False
 
-    >>> is_an_oak('Quercus alba')
+    >>> is_an_oak('Quercus')
     True
 
-    >>> is_an_oak('Quercuss alba')  # should this pass or fail?!
-    True
+    >>> is_an_oak('Quercuss')
+    False
 
     """
-    return name.lower().startswith('quercus')
+    return name.lower() == 'quercus'
 
 def main(argv): 
     """Reads ../data/TestOaksData, writes only oak information to ../data/TestOaksData.csv"""
@@ -30,7 +31,6 @@ def main(argv):
     g = open('../data/JustOaksData.csv','w')
     taxa = csv.reader(f)
     csvwrite = csv.writer(g)
-    oaks = set()
     for row in taxa:
         print(row)
         print ("The genus is: ") 
