@@ -24,7 +24,7 @@ Project structure: 22 python script files in code directory, some of which will 
   * Exploring loops and comprehensions whilst determining whether trees are oaks.
 
 * [**scope.py**](code/scope.py)
-  * A script split into 5 sections which explore variable scope, and gloabl and local variables.
+  * A script split into 5 sections which explore variable scope, and global and local variables.
 
 * [**basic_io1.py**](code/basic_io1.py)
   * Script that opens test.txt in ../sandbox and prints the lines; first as they appear and then with blank lines removed.
@@ -69,7 +69,7 @@ Project structure: 22 python script files in code directory, some of which will 
   * Using list comprehension on a tuple of tuples to print information about bird species.
 
 * [**align_seqs.py**](code/align_seqs.py)
-  * A script which reads 2 nucleotide sequences from sequences.csv in the data directory and iterates through the possible alignments to calculate the alignments with the highest number of matching bases. The last alignment with the highest matching score is then printed and saved to a text file, sequence_alignment.txt, in the results directory.
+  * A program which reads 2 nucleotide sequences from sequences.csv in the data directory and iterates through the possible alignments to calculate the alignments with the highest number of matching bases. The last alignment with the highest matching score is then printed and saved to a text file, sequence_alignment.txt, in the results directory.
 
 * [**oaks_debugme.py**](code/oaks_debugme.py)
   * A script that reads the csv file, TestOaksData.csv, from the data directory and determines whether the tree species are oaks or not. Oak species are then written to a new csv, JustOaksData.csv, in the data directory.
