@@ -59,7 +59,7 @@ def main(argv):
     print(foo_1(16))
     print(foo_2(3.4, 3.5))
     print(foo_2(100, -3))
-    print(foo_3(8, 4, 5))
+    print(foo_3(8, 5, 4))
     print(foo_4(20))
     print(foo_4(5))
     print(foo_5(5))
