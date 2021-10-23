@@ -5,7 +5,7 @@ __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
 def buggyfunc(x):
-    """Takes a number, x, iterates from this down to 0, divides original input by this number reduced number"""
+    """Takes a number, x, iterates from this down to 0, divides original input by this reduced number"""
     y = x
     for i in range(x):
         try: 
