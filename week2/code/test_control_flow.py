@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Some functions exemplifying the use of control statements."""
+"""Contains a function with unit testing. Try: run test_control_flow.py -v to see unit testing."""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -39,4 +39,4 @@ def main(argv):
 if __name__ == "__main__":
     status = main(sys.argv) 
 
-doctest.testmod()  # to run with embedded tests
+doctest.testmod()  # to run with embedded tests - run test_control_flow.py -v
