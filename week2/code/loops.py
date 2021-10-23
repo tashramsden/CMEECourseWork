@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Exploring FOR loops in Python"""
+"""Exploring FOR loops in Python - watch out for the infinite loop! (commented out for safety)"""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -25,6 +25,6 @@ while z < 100:
     z = z + 1
     print(z)
 
-b = True
-while b:
-    print("GERONIMO! infinite loop! ctrl+c to stop!")
+# b = True
+# while b:
+#     print("GERONIMO! infinite loop! ctrl+c to stop!")
