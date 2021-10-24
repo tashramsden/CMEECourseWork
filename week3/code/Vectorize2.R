@@ -2,6 +2,8 @@
 
 rm(list = ls())  # removes functions already in workspace
 
+# set.seed(12345)
+
 stochrick <- function(p0 = runif(1000, .5, 1.5), r = 1.2, K = 1, sigma = 0.2, numyears = 100) {
 
     N <- matrix(NA, numyears, length(p0))  #initialize empty matrix
@@ -28,6 +30,8 @@ stochrick <- function(p0 = runif(1000, .5, 1.5), r = 1.2, K = 1, sigma = 0.2, nu
 # Now write another function called stochrickvect that vectorizes the above to
 # the extent possible, with improved performance: 
 
+# set.seed(12345)
+
 stochrickvect <- function(p0 = runif(1000, .5, 1.5), r = 1.2, K = 1, sigma = 0.2, numyears = 100) {
 
     N <- matrix(NA, numyears, length(p0))  # initialize empty matrix
@@ -42,10 +46,16 @@ stochrickvect <- function(p0 = runif(1000, .5, 1.5), r = 1.2, K = 1, sigma = 0.2
         N[yr, ] <- N[yr-1, ] * exp(r * (1 - N[yr - 1, ] / K) + rnorm(1, 0, sigma))  # add one fluctuation from normal distribution
     
     }
-   
+
     return(N)
 
 }
 
 print("Vectorized Stochastic Ricker takes:")
 print(system.time(res2<-stochrickvect()))
+
+# if (res1 == res2) {
+#     print("Yay")
+# } else {
+#     print("no")
+# }
