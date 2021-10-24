@@ -17,34 +17,11 @@ TreeHeight <- function(degrees, distance) {
 
     return (height)
 }
-
-# TreeHeight(41.28264, 31.66583)
+# TreeHeight(41.28264, 31.66583)  # test first tree values  
 
 all_trees <- read.csv("../data/trees.csv", header=TRUE)
-
 # print(all_trees)
-# print(all_trees[1,][3])
-# nrow(all_trees)
 
-heights <- vector()
+all_trees$Height.m <- TreeHeight(all_trees$Angle.degrees, all_trees$Distance.m)
 
-for (index in 1:nrow(all_trees)) {  # find num of rows in all_trees
-    row = all_trees[index,]  # get hold of each row
-    dist <- row[2]
-    angle <- row[3]
-    # print(paste("dist:", dist, "angle:", angle))
-
-    height <- TreeHeight(angle, dist)
-    # print(height)
-
-    heights <- c(heights, height)
-
-}
-
-# print(heights)
-
-all_trees_height <- all_trees
-all_trees_height$Height.m <- heights
-# all_trees_height
-
-write.csv(all_trees_height, "../results/TreeHts.csv", row.names=FALSE)
+write.csv(all_trees, "../results/TreeHts.csv", row.names=FALSE)
