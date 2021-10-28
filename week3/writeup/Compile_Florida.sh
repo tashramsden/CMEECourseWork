@@ -1,26 +1,17 @@
 #!/bin/bash
 # Author: Tash Ramsden ter21@imperial.ac.uk
 # Script: CompileFlorida.sh
-# Description: Bash script to compile LaTeX, pdf output
-# Arguments: 1 -> The name of a LaTeX .tex file in the working directory (can have .tex extension or none)
+# Description: Bash script to compile Florida.tex LaTeX, pdf output
+# Arguments: 0 (specific for Florida.tex)
 
+# run R script, graphics will be saved to results directory - used in .tex
+Rscript ../code/Florida.R
 
-if [ $# -ne 1 ] || [ -d $1 ]; then
-    echo "You need to provide the name of one TeX file to compile from the current directory.";
-    exit;
-fi
-
-## Inputs from working directory, output goes to results (can pass FirstExample or FirstExample.tex)
-pdflatex $(basename "$1" .tex).tex
-bibtex $(basename "$1" .tex)
-pdflatex $(basename "$1" .tex).tex
-pdflatex $(basename "$1" .tex).tex
-evince $(basename "$1" .tex).pdf &
-
-# # save output pdf to results instead
-# cp $(basename "$1" .tex).pdf ../results
-# rm $(basename "$1" .tex).pdf
-# evince ../results/$(basename "$1" .tex).pdf &
+pdflatex Florida.tex
+bibtex Florida
+pdflatex Florida.tex
+pdflatex Florida.tex
+evince Florida.pdf &
 
 rm *.aux
 rm *.log

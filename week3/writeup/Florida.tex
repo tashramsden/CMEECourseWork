@@ -1,31 +1,48 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 
-\usepackage[a4paper, total={6in, 10in}]{geometry}
+\usepackage[a4paper, total={6in, 10.5in}]{geometry}
+
 \usepackage{graphicx}
-\usepackage{float}
 
-\title{Is Florida getting warmer?}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L,R,C]{}
+\fancyfoot[L,C]{}
+\fancyfoot[R]{\color{lightgray}Tash Ramsden}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
 
-\author{Tash Ramsden}
+\usepackage{caption}
+\captionsetup{font=footnotesize}
 
+\title{\vspace{-1.5em}{Is Florida getting warmer?\vspace{-2em}}}
 \date{}
+\author{}
 
 \begin{document}
     \maketitle
+
+    \thispagestyle{fancy}
+
+    Pearson's product-moment correlation was used to analyse the relationship between temperature and time from the year 1901 to 2000 in Florida ($\rho$ = 0.53) (Fig. \ref{fig:florida_data}).
     
-    \section{Introduction}
-
-    This Practical assumes you have at least a basic understanding of correlation coefficients and p-values.
-
-    \begin{figure}[H]
+    \begin{figure}[h!]
         \centering
-            \includegraphics[width=0.7\linewidth]{coefs_hist.pdf}
-            \caption{Histogram of correlation coefficients.}
-            \label{fig:coefs_hist}
+        \includegraphics[width=0.7\linewidth]{../results/florida_data.pdf}
+        \caption{Temperature ($^{\circ}$C) over time in Florida.}
+        \label{fig:florida_data}
     \end{figure}
 
-    Your goal is to write an R script that will help answer the question: Is Florida getting warmer? Call this script Florida.R.
+    A permutation test with 10,000 replicates was carried out in which temperature was randomised and the correlation coefficients calculated. A permutation test was implemented in order to account for the non-independence of temperature points over time.
 
-    To answer the question, you need to calculate the correlation coefficients between temperature and time. However, you can’t use the standard p-value calculated for a correlation coefficient, because measurements of climatic variables in successive time-points in a time series (successive seconds, minutes, hours, months, years, etc.) are not independent. Therefore you will use a permutation analysis instead, by generating a distribution of random correlation coefficients and compare your observed coefficient with this random distribution.
-    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.7\linewidth]{../results/florida_coefs_hist.pdf}
+        \caption{Distribution of correlation coefficients for temperature explained by time from 10,000 randomised samples of temperature. The dashed red line shows the observed correlation coefficient from the true Florida temperature dataset ($\rho$ = 0.53, p $<$ 0.01).}
+        \label{fig:coefs_hist}
+    \end{figure}
+
+    Figure \ref{fig:coefs_hist} shows the distribution of the values of these randomised correlation coefficients, with the observed correlation coefficient highlighted in red. The observed correlation coefficient is significantly higher than the randomised values (p $<$ 0.01). This demonstrates that there is a significant positive correlation between temperature in Florida and time, even when non-independence is accounted for; Florida is getting hotter.
+
 \end{document}
