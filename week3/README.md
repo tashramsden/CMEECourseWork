@@ -104,12 +104,12 @@ Required R packages: `ggplot2`, `tidyverse`, `maps` (see below for specific scri
   * Requires `ggplot2`.
 
 * [**Florida_warming.tex**](code/Florida_warming.tex)
-  * A LaTeX report of the results of `Florida_warming.R`.
-  * Make sure that `Florida_warming.R` has been run before compiling.
+  * A LaTeX report of the results of [Florida_warming.R](code/Florida_warming.R).
+  * Make sure that [Florida_warming.R](code/Florida_warming.R) has been run before compiling.
 
 * [**Compile_Florida.sh**](code/Compile_Florida.sh)
-  * A shell script that compiles `Florida_warming.tex` into a pdf.
-  * The script runs `Florida_warming.R` before compiling to ensure that the plots to be included in the report have been generated.
+  * A shell script that compiles [Florida_warming.tex](code/Florida_warming.tex) into a pdf.
+  * The script runs [Florida_warming.R](code/Florida_warming.R) before compiling to ensure that the plots to be included in the report have been generated.
 
 
 ## Author
