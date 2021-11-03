@@ -1,12 +1,12 @@
 *~ 
 *.tmp
 
+results/
 sandbox/
-# some week2 code files take inputs/output to sandbox
-!week2/sandbox/
 
-results/*
-!results/.gitkeep
+!.gitkeep
+# some week2 code files take test.txt as input
+!week2/sandbox/test.txt
 
 #python
 __pycache__/
@@ -19,3 +19,4 @@ __pycache__/
 .Rapp.history
 .Ruserdata
 .Renviron
+Rplots.pdf
