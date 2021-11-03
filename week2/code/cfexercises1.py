@@ -33,7 +33,7 @@ def foo_3(x=8, y=9, z=3):
     return f"\nReordered list: {[x, y, z]}"
 
 def foo_4(x=3):
-    "Returns the factorial of a number, x"
+    """Returns the factorial of a number, x"""
     result = 1
     for i in range(1, x + 1):
         result = result * i
