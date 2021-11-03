@@ -3,6 +3,7 @@
 \usepackage[a4paper, total={6in, 10.5in}]{geometry}
 
 \usepackage{graphicx}
+\graphicspath{{../results/}}
 
 \usepackage{xcolor}
 \usepackage{fancyhdr}
@@ -29,7 +30,7 @@
     
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.7\linewidth]{../results/florida_data.pdf}
+        \includegraphics[width=0.7\linewidth]{florida_data.pdf}
         \caption{Temperature ($^{\circ}$C) over time in Florida.}
         \label{fig:florida_data}
     \end{figure}
@@ -38,11 +39,11 @@
 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=0.7\linewidth]{../results/florida_coefs_hist.pdf}
-        \caption{Distribution of correlation coefficients for temperature explained by time from 10,000 randomised samples of temperature. The dashed red line shows the observed correlation coefficient from the true Florida temperature dataset ($\rho$ = 0.53, p $<$ 0.01).}
+        \includegraphics[width=0.7\linewidth]{florida_coefs_hist.pdf}
+        \caption{Distribution of correlation coefficients for temperature explained by time from 10,000 randomised samples of temperature. The dashed red line shows the observed correlation coefficient from the original Florida temperature dataset ($\rho$ = 0.53, p $<$ 0.01).}
         \label{fig:coefs_hist}
     \end{figure}
 
-    Figure \ref{fig:coefs_hist} shows the distribution of the values of these randomised correlation coefficients, with the observed correlation coefficient highlighted in red. The observed correlation coefficient is significantly higher than the randomised values (p $<$ 0.01). This demonstrates that there is a significant positive correlation between temperature in Florida and time, even when non-independence is accounted for; Florida is getting hotter.
+    Figure \ref{fig:coefs_hist} shows the distribution of the values of these randomised correlation coefficients, with the observed correlation coefficient highlighted in red. The observed correlation coefficient is significantly higher than the randomised values (p $<$ 0.01). This demonstrates that there is a significant positive correlation between temperature in Florida and time, even when non-independence is accounted for; Florida is getting warmer.
 
 \end{document}

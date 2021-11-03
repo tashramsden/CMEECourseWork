@@ -5,7 +5,6 @@ require(ggplot2)
 
 load("../data/KeyWestAnnualMeanTemperature.RData")
 ls()
-
 class(ats)
 head(ats)
 
@@ -13,6 +12,7 @@ head(ats)
 # plot(ats)
 str(ats)
 
+# quick plot of the data: temp over time
 florida_data <- ggplot(ats, aes(x=Year, y=Temp)) +
     geom_point() +
     scale_y_continuous(expression("Temperature,"~degree*C),
@@ -25,20 +25,21 @@ pdf("../results/florida_data.pdf", 6, 4)
 print(florida_data)
 dev.off()
 
+
 ## calculate and store correlation coef between years and temp ----
 # ?cor
-obs_correlation <- cor.test(x=ats$Year, y=ats$Temp)  # has all stats
-obs_correlation
+# obs_correlation <- cor.test(x=ats$Year, y=ats$Temp)  # has all stats - not used but useful!
+# obs_correlation
 
 # observed correlation coefficient
 obs_coef <- cor(x=ats$Year, y=ats$Temp) # just the cor coef
-obs_coef
+print(paste("Observed correlation coefficient:",obs_coef))
 
 
 ## repeat w randomly shuffled temps (lots!) ----
 repeats = 10000  # how many times to resample the temp data
 # ?sample
-temp_shuffle <- sample(ats$Temp)
+# temp_shuffle <- sample(ats$Temp)
 temps_shuffled <- replicate(repeats, sample(ats$Temp))
 
 all_coefs <- rep(NA, repeats)  # preallocate vector for coefs
@@ -46,8 +47,8 @@ for (n in 1:ncol(temps_shuffled)) {
     # print(temps_shuffled[,n])
     all_coefs[n] <- cor(x=ats$Year, y=temps_shuffled[,n])
 }
-
 # all_coefs
+
 
 # plot histogram of random coefs, add observed coef as line ----
 # hist(all_coefs, xlim=c(-0.6, 0.6))
@@ -68,6 +69,7 @@ pdf("../results/florida_coefs_hist.pdf", 6, 4)
 print(coefs_hist)
 dev.off()
 
+
 ## what fraction of random cor-coefs are greater than the observed? ----
 # print(length(all_coefs[all_coefs > obs_coef]))
 
@@ -75,4 +77,3 @@ fraction <- length(all_coefs[all_coefs > obs_coef]) / length(all_coefs)
 fraction
 
 print(paste("The p-value is:", fraction, "(",repeats, "repeats )"))
-
