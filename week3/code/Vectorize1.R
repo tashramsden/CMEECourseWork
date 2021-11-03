@@ -1,3 +1,6 @@
+# Vectorization in R - comparing the run-time of a non-vectorized
+# function to a vectorized one
+
 M <- matrix(runif(1000000), 1000, 1000)
 
 SumAllElements <- function(M) {
@@ -14,5 +17,5 @@ SumAllElements <- function(M) {
 print("Using loops, the time taken is:")
 print(system.time(SumAllElements(M)))
 
-print("Using the in-biult vectorized function, the time taken is:")
+print("Using the in-built vectorized function, the time taken is:")
 print(system.time(sum(M)))

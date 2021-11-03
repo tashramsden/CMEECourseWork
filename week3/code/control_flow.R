@@ -4,7 +4,7 @@
 
 ## 1. if statements
 a <- TRUE
-if (a == TRUE){
+if (a == TRUE) {
     print("a is TRUE")
     } else {
         print("a is FALSE")
@@ -17,7 +17,6 @@ if (z <= 0.5) {print ("Less than a half")}
 #########################################
 
 ## 2. for loops
-
 for (i in 1:10) {  # or seq(10)
     j <- i * i
     print(paste(i, " squared is", j))
@@ -39,7 +38,6 @@ for (i in v1) {
 #########################################
 
 ## 3. while loops
-
 i <- 0
 while (i < 10) {
     i <- i + 1

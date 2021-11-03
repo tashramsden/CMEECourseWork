@@ -1,6 +1,8 @@
-## Takes each row in a matrix, if sum of row is positive, returns row w each item * 100
-# otherwise returns row as it was
+## Using the apply function with a newly defined function
 
+## Takes each v as input, if sum of v is positive, 
+# returns v w each item * 100
+# otherwise returns v as it was
 SomeOperation <- function(v) {
     if (sum(v) > 0) {
         return (v * 100)

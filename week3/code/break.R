@@ -1,3 +1,5 @@
+# The break statement in R
+
 i <- 0  # initialise i
 
 while(i < Inf) {

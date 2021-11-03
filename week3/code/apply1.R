@@ -1,3 +1,5 @@
+## Using the apply function with R's inbuilt functions
+
 ## Build a random matrix
 M <- matrix(rnorm(100), 10, 10)
 
