@@ -25,7 +25,8 @@ utils::View(MyMetaData)
 MyData <- na_if(MyData, "") %>% replace_na(0)
 
 ############# Transpose and convert to data frame ###############
-MyData <- data.frame(t(MyData))
+MyData <- as_tibble(t(MyData))
+
 dim(MyData)
 class(MyData)
 
