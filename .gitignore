@@ -3,6 +3,7 @@
 
 results/
 sandbox/
+handout_pdfs/
 
 !.gitkeep
 # some week2 code files take test.txt as input
