@@ -1,3 +1,6 @@
+## Comparing run-times of functions with/without vectorization 
+# and preallocation, some using sapply and lapply
+
 ################## Functions ##################
 
 ## A function to take a sample of size n from a population "popn" and return its mean:
@@ -50,7 +53,7 @@ sapply_sample <- function(popn, n, num) {
 ## Generate a population:
 set.seed(12345)
 popn <- rnorm(10000)
-hist(popn)
+# hist(popn)
 
 ## Run and time the different functions:
 n <- 100 # sample size for each experiment

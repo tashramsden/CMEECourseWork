@@ -20,8 +20,7 @@ plot <- ggplot(MyDF, aes(x = Prey.mass, y = Predator.mass,
     theme(legend.position = "bottom", aspect.ratio=0.45) +
     geom_smooth(method = "lm", fullrange = TRUE, size=0.5) +
     guides(colour = guide_legend(nrow = 1))
-
-plot
+# plot
 
 pdf("../results/PP_Regress.pdf", 8, 10)
 print(plot)
@@ -37,17 +36,12 @@ dev.off()
 #     filter(Type.of.feeding.interaction == "predacious/piscivorous")
 # eg_lm <- lm(Predator.mass ~ Prey.mass, data = subset)
 # slope <- eg_lm$coefficients[[2]]
-# slope
 # intercept <- eg_lm$coefficients[[1]]
-# intercept
 # r_squared <- summary(eg_lm)$r.squared
-# r_squared
 # f_stat <- summary(eg_lm)$fstatistic[[1]]
-# f_stat  
 # p_value <- summary(eg_lm)$coefficients[,4][[2]]
-# p_value
 # stats <- c(slope, intercept, r_squared, f_stat, p_value)
-# stats
+# print(stats)
 # write.table(t(stats), "../results/PP_Regress_Results.csv",
 #             row.names=FALSE, append=TRUE, sep=",", col.names=FALSE) 
 
@@ -66,7 +60,7 @@ MyDF$Type.of.feeding.interaction <- as.factor(MyDF$Type.of.feeding.interaction)
 
 
 ## need this because otherwise get error for piscivorous, postlarva/juveniile 
-# - not all stats values exist for this combo
+# there is no lm for this combo (no line plotted on graph either)
 save_stats <- function(subset_lm, interaction, lifestage) {
     out <- tryCatch(
         {
@@ -120,7 +114,6 @@ for (interaction in levels(MyDF$Type.of.feeding.interaction)) {
 #     filter(Type.of.feeding.interaction == "piscivorous")
 # eg_lm <- lm(Predator.mass ~ Prey.mass, data = subset)
 # summary(eg_lm)$coefficients
-# 
 # 
 # subset <- MyDF %>% 
 #     filter(Predator.lifestage == "juvenile") %>% 

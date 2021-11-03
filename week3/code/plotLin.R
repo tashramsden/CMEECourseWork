@@ -34,7 +34,7 @@ p <- p +
                   label = "sqrt(alpha) * 2* pi"), 
               parse = TRUE, size = 6, 
               colour = "blue")
-p
+# p
 
 # Save plot
 pdf("../results/MyLinReg.pdf", 4.5, 4.5)

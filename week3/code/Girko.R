@@ -1,8 +1,8 @@
 ## Girko's circular law:
-# the eigenvalues of a matrix M of size N x N are approxiamately contained
+# the eigenvalues of a matrix M of size N x N are approximately contained
 # in a circle in the complex plane w radius sqrt(N) 
 
-# Aim: draw results of a simulation displaying this result:
+# Aim: draw results of a simulation displaying this result
 
 require(ggplot2)
 
@@ -37,7 +37,7 @@ p <- ggplot(eigDF, aes(x = Real, y = Imaginary)) +
                  aes(x = Real, y = Imaginary, alpha = 1/20, fill = "red")) +
     theme_bw() +
     theme(legend.position = "none")
-p
+# p
 
 ## Saving plot
 pdf("../results/Girko.pdf", 5, 5)

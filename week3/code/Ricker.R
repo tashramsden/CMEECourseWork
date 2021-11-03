@@ -1,3 +1,5 @@
+## Running the Ricker model
+
 Ricker <- function(N0=1, r=1, K=10, generations=50) {
 
     # Runs a simulation of the Ricker model
@@ -13,4 +15,8 @@ Ricker <- function(N0=1, r=1, K=10, generations=50) {
 
 }
 
-plot(Ricker(generations=10), type="l")
+# plot(Ricker(generations=10), type="l")
+
+pdf("../sandbox/Ricker.pdf", 6, 6)
+print(plot(Ricker(generations=10), type="l", xlab="Generations", ylab="Population Size", main="Ricker Model"))
+dev.off()

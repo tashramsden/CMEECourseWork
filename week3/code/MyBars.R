@@ -49,7 +49,7 @@ p <- p +
     scale_y_continuous("My y axis") + 
     theme_bw() + 
     theme(legend.position = "none") 
-p
+# p
 
 # Save plot
 pdf("../results/MyBars.pdf", 8.5, 6)
