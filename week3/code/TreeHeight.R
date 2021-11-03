@@ -22,6 +22,8 @@ TreeHeight <- function(degrees, distance) {
 all_trees <- read.csv("../data/trees.csv", header=TRUE)
 # print(all_trees)
 
+# append tree height info to dataset
 all_trees$Height.m <- TreeHeight(all_trees$Angle.degrees, all_trees$Distance.m)
 
+# save new dataset, inc tree height in meters to csv in results
 write.csv(all_trees, "../results/TreeHts.csv", row.names=FALSE)

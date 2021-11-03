@@ -44,7 +44,7 @@ rownames(TempData) <- NULL
 require(reshape2) # load the reshape2 package - require() similar to library 
 # but returns FALSE rather than error if package doesn't exist
 
-?melt #check out the melt function
+# ?melt #check out the melt function
 
 MyWrangledData <- melt(TempData, 
                        id=c("Cultivation", "Block", "Plot", "Quadrat"),
