@@ -5,11 +5,25 @@ rm(list=ls())
 require(ggplot2)
 require(tidyverse)
 
-MyDF <- as.data.frame(read.csv("../data/EcolArchives-E089-51-D1.csv"))
-dplyr::glimpse(MyDF)
+raw_MyDF <- as.data.frame(read.csv("../data/EcolArchives-E089-51-D1.csv"))
+dplyr::glimpse(raw_MyDF)
+
+
+## make sure prey mass in g for all (some are mg)
+# convert mg to grams
+mg_mass <- raw_MyDF %>%
+    dplyr::filter(raw_MyDF$Prey.mass.unit == "mg") %>%
+    mutate(Prey.mass.g = Prey.mass / 1000)
+# keep g mass the same but make new column
+g_mass <- raw_MyDF %>%
+    dplyr::filter(raw_MyDF$Prey.mass.unit == "g") %>%
+    mutate(Prey.mass.g = Prey.mass)
+# combine the 2 above to get full dataset again (w new column Prey.mass.g)
+MyDF <- full_join(mg_mass, g_mass)
+
 
 ## plot
-plot <- ggplot(MyDF, aes(x = Prey.mass, y = Predator.mass,
+plot <- ggplot(MyDF, aes(x = Prey.mass.g, y = Predator.mass,
                          colour = Predator.lifestage)) +
     geom_point(shape = I(3)) +
     scale_x_log10("Prey Mass in grams", minor_breaks=NULL) +
@@ -34,7 +48,7 @@ dev.off()
 # subset <- MyDF %>% 
 #     filter(Predator.lifestage == "adult") %>% 
 #     filter(Type.of.feeding.interaction == "predacious/piscivorous")
-# eg_lm <- lm(Predator.mass ~ Prey.mass, data = subset)
+# eg_lm <- lm(log10(Predator.mass) ~ log10(Prey.mass.g), data = subset)
 # slope <- eg_lm$coefficients[[2]]
 # intercept <- eg_lm$coefficients[[1]]
 # r_squared <- summary(eg_lm)$r.squared
@@ -101,7 +115,7 @@ for (interaction in levels(MyDF$Type.of.feeding.interaction)) {
             filter(Predator.lifestage == lifestage)
         
         # linear regression
-        subset_lm <- lm(Predator.mass ~ Prey.mass, data = sub2)
+        subset_lm <- lm(log10(Predator.mass) ~ log10(Prey.mass.g), data = sub2)
         # get stats and save to csv
         save_stats(subset_lm, interaction, lifestage)
     }
@@ -112,11 +126,11 @@ for (interaction in levels(MyDF$Type.of.feeding.interaction)) {
 # subset <- MyDF %>% 
 #     filter(Predator.lifestage == "postlarva/juvenile") %>% 
 #     filter(Type.of.feeding.interaction == "piscivorous")
-# eg_lm <- lm(Predator.mass ~ Prey.mass, data = subset)
+# eg_lm <- lm(log10(Predator.mass) ~ log10(Prey.mass.g), data = subset)
 # summary(eg_lm)$coefficients
 # 
 # subset <- MyDF %>% 
 #     filter(Predator.lifestage == "juvenile") %>% 
 #     filter(Type.of.feeding.interaction == "planktivorous")
-# eg_lm <- lm(Predator.mass ~ Prey.mass, data = subset)
+# eg_lm <- lm(log10(Predator.mass) ~ log10(Prey.mass.g), data = subset)
 # summary(eg_lm)$coefficients
