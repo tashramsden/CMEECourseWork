@@ -22,6 +22,9 @@ Project strcuture: 4 python script files in the code directory; the reuslts dire
 * [**timeitme.py**](code/timeitme.py)
   * Imports some functions from the profileme scripts; for exploring profiling using the timeit and time modules. 
 
+* [**oaks_debugme.py**](code/oaks_debugme.py)
+  * A script that reads the csv file, `TestOaksData.csv`, from the data directory and determines whether tree species are oaks or not. Oak species are then written to a new csv, `JustOaksData.csv`, in the data directory.
+
 
 ## Author
 
