@@ -1,9 +1,9 @@
 *~ 
 *.tmp
 
-results/
+results/*
 sandbox/
-handout_pdfs/
+course_material/
 
 !.gitkeep
 # some week2 code files take test.txt as input
@@ -13,6 +13,7 @@ handout_pdfs/
 __pycache__/
 .pytest_cache
 *.pyc
+profires
 
 #R
 .RData
