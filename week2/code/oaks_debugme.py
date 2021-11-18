@@ -22,6 +22,9 @@ def is_an_oak(name):
     >>> is_an_oak('Quercuss')
     False
 
+    >>> is_an_oak('Querc')
+    False
+
     """
     return name.lower() == 'quercus'
 
