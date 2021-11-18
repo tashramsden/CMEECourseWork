@@ -22,3 +22,5 @@ profires
 .Ruserdata
 .Renviron
 Rplots.pdf
+
+.ipynb_checkpoints/
