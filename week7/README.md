@@ -4,7 +4,7 @@
 
 Languages: Python3 (version 3.10)
 
-Project strcuture: 4 python script files in the code directory; the reuslts directory will be populated by running these.
+Project strcuture: 6 python script files and an R script in the code directory; the reuslts directory will be populated by running these.
 
 
 ## Code Files:
@@ -24,6 +24,12 @@ Project strcuture: 4 python script files in the code directory; the reuslts dire
 
 * [**oaks_debugme.py**](code/oaks_debugme.py)
   * A script that reads the csv file, `TestOaksData.csv`, from the data directory and determines whether tree species are oaks or not. Oak species are then written to a new csv, `JustOaksData.csv`, in the data directory.
+
+* [**TestR.R**](code/TestR.R)
+  * An R script that prints "Hello, this is R!".
+
+* [**TestR.py**](code/TestR.py)
+  * Using python subprocess to run `TestR.R` and save the outputs and any errors to files in the results directory.
 
 
 ## Author
