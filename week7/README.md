@@ -2,9 +2,9 @@
 
 **Topics covered this week:** [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization)
 
-Languages: Python3 (version 3.10)
+Languages: Python3 (version 3.10.0), R (version 4.1.2), Jupyter notebook (version 6.4.6)
 
-Project strcuture: 6 python script files and an R script in the code directory; the reuslts directory will be populated by running these.
+Project strcuture: 6 python script files; an R script and a Jupyter notebook in the code directory; the reuslts directory will be populated by running these. Data files in the data directory.
 
 
 ## Code Files:
@@ -30,6 +30,9 @@ Project strcuture: 6 python script files and an R script in the code directory; 
 
 * [**TestR.py**](code/TestR.py)
   * Using python subprocess to run `TestR.R` and save the outputs and any errors to files in the results directory.
+
+* [**MyFirstJupyterNb.ipynb**](code/MyFirstJupyterNb.ipynb)
+  * A simple Jupyter notebook with some data exploration using `pandas`, `matplotlib` and `scipy`.
 
 
 ## Author
