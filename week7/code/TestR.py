@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Workflow with subprocess: this script will run TestR.R and save the output and any errors to the results directory."""
+"""Workflow with subprocess: this script will run TestR.R and save the output and any bash messages/errors to the results directory."""
 __author__ = 'Tash Ramsden (tash.ramsden21@imperial.ac.uk)'
 __version__ = '0.0.1'
 
