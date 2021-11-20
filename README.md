@@ -23,7 +23,7 @@
   * Topics covered: Genomics and Bioinformatics in R (allele and genotype frequencies; genetic drift, mutation and divergence; coalescence theory; population subdivision and demography).
 
 * [**week7**](week7)
-  * Topics covered: [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization).
+  * Topics covered: [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization); [Introduction to Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-JupyIntro.html); and [Data Analyses with Python and Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-Data-Python.html).
 
 
 ## Author
