@@ -1,10 +1,10 @@
 # Week 7
 
-**Topics covered this week:** [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization)
+**Topics covered this week:** [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization); [Introduction to Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-JupyIntro.html); and [Data Analyses with Python and Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-Data-Python.html).
 
 Languages: Python3 (version 3.10.0), R (version 4.1.2), Jupyter notebook (version 6.4.6)
 
-Project strcuture: 6 python script files; an R script and a Jupyter notebook in the code directory; the reuslts directory will be populated by running these. Data files in the data directory.
+Project strcuture: 6 python script files, an R script and a Jupyter notebook in the code directory; the results directory will be populated by running these. Data files in the data directory.
 
 
 ## Code Files:
