@@ -24,3 +24,7 @@ profires
 Rplots.pdf
 
 .ipynb_checkpoints/
+
+# miniproject
+growth_plots/*
+!.gitkeep
