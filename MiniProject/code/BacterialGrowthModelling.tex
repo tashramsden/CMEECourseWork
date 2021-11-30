@@ -1,0 +1,162 @@
+\documentclass[11pt]{article}
+
+\usepackage{graphicx}
+\graphicspath{{../results/}}
+
+\usepackage[margin=1in]{geometry}  % for page margin
+
+\usepackage{helvet}  % for font
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{setspace}  % for 1.5 line spacing
+\onehalfspacing
+
+\usepackage{lineno}  % for line nums
+
+\usepackage[round]{natbib}  % for better biblio
+
+\usepackage{authblk}  % for author affiliation
+\title{Mechanistic Models Outperform Phenomenological Models for Quantifying Bacterial Growth Data}
+\author[1]{Natasha Ramsden}
+\affil[1]{Imperial College London}
+\date{}
+
+\begin{document}
+
+    \begin{titlepage}
+    \maketitle
+    \thispagestyle{empty}
+    
+    \begin{center}
+        Word count: 
+    \end{center}
+    
+    \end{titlepage}
+
+    \begin{linenumbers}
+    
+    \begin{abstract}
+        some text
+
+    \end{abstract}
+
+
+    \section{Introduction}
+    
+        Understanding microbial growth is important intrinsically and commercially \citep{najafpour_chapter_2007}. In the food production sector as an example, bacterial growth has implications in terms of yield (product and economical) and food waste through spoilage \citep{zwietering_modeling_1990}. Being able to predict population abundance is critical in optimising food production and distribution as well as in mitigating public health risks caused by food-borne infection \citep{ross_modeling_2003, mahdinia_microbial_2020}. Understanding microbial growth has importance beyond this, in subjects ranging from water treatment to carbon fixation \citep{esser_modeling_2015}.
+        
+        In batch culture, bacterial growth tends to follow a sigmoidal structure involving three or four defined phases which are common to growth curves in other organisms and systems: lag, exponential, stationary and (variably) death \citep{najafpour_chapter_2007}. The initial lag phase is defined by a lack of growth in which abundance is constant. During this phase, transcription and translation of genes involved in metabolism occur in bacterial cells conferring adaptation to the environment \citep{buchanan_when_1997}. Following this, a phase of exponential growth is observed where a constant, maximal rate of growth is achieved \citep{najafpour_chapter_2007}. Once resources become limiting and carrying capacity is reached the population will transition into a second stationary phase of non-replication. Finally, a death phase can sometimes be observed characterised by a decline in abundance \citep{zwietering_modeling_1990}.
+        
+        plot showing general growth curve?
+        
+        A wide range of modelling techniques have been proposed to describe these phases and predict bacterial growth which vary in complexity, empirical basis and scientific consensus. Broadly, a collection of these models can be split into two main categories: those which are phenomenological and those which are mechanistic. Phenomenological, or empirical, models aim to mathematically describe specific patterns in observed data. These do not require any knowledge of the unobserved or underlying causes of any trends, but aim only to predict the observed output \citep{vlazaki_integrating_2019}. Conversely, mechanistic models have their basis in theory; these models aim to determine and quantify the mechanisms which drive observed phenomena \citep{ferrer_mathematical_2009}. 
+        
+        This paper will attempt to determine which out of a set of five models best describes bacterial growth curves based on a collection of datasets from a variety of sources. Further, I will group these models based on whether they are phenomenological or mechanistic to determine which model type is better at predicting the functional responses of the bacteria.
+        
+        
+
+
+
+
+
+
+
+
+        
+    
+        - bacterial growth - why important to understand
+        - description of shapes - lag, expo, stationary
+        - how can be described by models
+        - phenomenological
+        - mechanistic
+        - want to knwo which is better
+
+
+
+    \section{Methods}
+
+        \subsection{Data}
+
+            Models were fitted to 285 datasets of bacterial growth which came from 10 sources. In these data, population density was measured both directly through counts, $N$ UNITS!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \citep{phillips_relation_1987, gill_growth_1991, zwietering_modeling_1994, bernhardt_metabolic_2018,  silva_modelling_2018} and indirectly by measuring colony forming units \citep{stannard_temperaturegrowth_1985, roth_continuity_1962, galarz_predicting_2016}, optical density at 595nm \citep{bae_growth_2014} and dry weight (mg/ml) \citep{sivonen_effects_1990} over time. These data include growth information for 23 different bacterial genera at 17 temperatures and on 18 different growth media. 
+            
+            67 observations were removed from the datasets which corresponded to negative time values as this improved model fitting both visually and in terms of successful convergence. A further 22 observations of negative population biomass were removed as these points had no biological meaning. The absolute value was taken for one negative value of population size as the negative sign was a clear mistake which could not be found in the original paper \citep{bernhardt_metabolic_2018}. All models were fitted to log-transformed population data. ALL MODELS WERE FITTED TO LOG-TRANSFORMED POP DATA?!?!?!?!?!??!?!?!??!?!?!?!??
+
+
+        \subsection{Models}
+        
+            Five models were fitted to each dataset to describe bacterial growth over time. Two linear, phenomenological models were used: the general quadratic (\emph{Equation 1}) and cubic polynomial models (\emph{Equation 2}), where $N_t$ is population size at time, $t$. 
+            
+            \begin{equation}
+                N_t = B_0 + B_1 t + B_2 t^2
+            \end{equation}
+            
+            \begin{equation}
+                N_t = B_0 + B_1 t + B_2 t^2 + B_3 t^3
+            \end{equation}
+            
+            Three non-linear models were also applied which are all mechanistic to some extent: a logistic model, modified Gompertz model \citep{zwietering_modeling_1990}, and Baranyi model \citep{baranyi_dynamic_1994, grijspeerdt_estimating_1999}. \emph{Equation 3} describes the classical logistic model:
+            
+            \begin{equation}
+                N_t = \frac{N_0 K e^{rt}}{K + N_0 (e^{rt} - 1)}
+            \end{equation}
+            
+            Here, $N_0$ is the initial population size, $r$ is the maximum growth rate and $K$ the carrying capacity. The Gompertz (\emph{Equation 4}) and Baranyi (\emph{Equation 5}) models include a 4th parameter, $t_lag$, which describes the length in time of the lag-phase observed in bacterial populations before exponential growth begins.
+            
+            \begin{equation}
+                log(N_t) = N_0 + (K - N_0) e^{-e^{r \cdot e(1) \frac{t_lag - t}{(K - N_0) log(10)}+1}}
+            \end{equation}
+            
+            \begin{equation}
+                log(N_t) = N_0 + r t + \frac{1}{r} \ln(e^{-v \cdot t} + e^{-h_0} - e^{-v \cdot t -h_0}) - \frac{1}{m} \ln(1 + \frac{e^{m \cdot r \cdot t + \frac{1}{r} \ln(e^{-v \cdot t} + e^{-h_0} - e^{-v \cdot t -h_0}}) - 1}{e^{m(K - N_0)}})
+            \end{equation}
+            
+            In the Baranyi model (\emph{Equation 5}), $m$ refers to a curvature parameter describing the transition from the exponential to stationary phase, and $v$, another curvature parameter, characterises the transition from the lag to exponential phase. Here, these curvature parameters have been set to equal 1 and $r$ respectively, as per \cite{baranyi_simple_1997}. $h_0$ quantifies the initial physiological state of bacterial cells and is equal to $r \times t_lag$. The number of parameters for this model is therefore equal to four in total ($r$, $K$, $N_0$ and $t_lag$) since $m$ and $h_0$ are derived from these and $v$ is a constant \citep{grijspeerdt_estimating_1999}. 
+
+
+        \subsection{Model Fitting}
+        
+        
+        did all these things to imorve num of fits better convergence etc!!! - point it out that ive done these extra bits for a reason!
+        
+            Non-linear models were fitted to the data using non-linear least squares; strating values for the parameters $r$, $K$, $N_0$ and $t_lag$ were estimated for each dataset. The lowest value of population size from the dataset was used as a starting value for $N_0$ whilst $K$ was assigned the highest population size. A rolling linear regression was fitted to each dataset and the maximal slope used as an estimate of $r$. The lag time, $t_lag$, was estimated as the time at which the maximal slope from the rolling regression intercepted the value of $N_0$; this method produced better estimates than when using the x-intercept of the maximal slope since the log starting population size was sometimes negative or not close to 0. Parameter sampling was implemented in which new parameter estimates were randomly sampled from a normal distribution around the starting values 70 times, using double the parameter estimate as the standard deviation. The combination of starting values which resulted in the lowest value of the size-corrected Akaike Information Criterion (AICc) upon model fitting was selected for the final model fit. 
+            
+            Model predictions of population size over time were calculated for all datasets and plotted to visually assess model fitting. A COUPLE OF EXAMPLES WERE PLOTTED - FIGS WHATEVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Model selection criteria were also calculated for each model fit to quantify relative model success. The size-corrected AIC, AIC\textsubscript{C}, was calculated to account for the small sample sizes \citep{yang_4_2019}. \citet[p.~445]{burnham_model_2002} recommended that AIC\textsubscript{C} be used when the sample size divided by number of parameters in each model is less than 40; since the maximum sample size was 151, AIC would never be appropriate for the models compared here. The Bayesian Information Criterion (BIC) for each model was also calculated \citep{johnson_model_2004}. Akaike weights and Schwarz weights were calculated from AIC\textsubscript{C} and BIC respectively \citep{wagenmakers_aic_2004} to quantify the probability of each model being the optimal model out of those explored. Box plots of Akaike weight, Schwarz weight and R\textsuperscript{2} were produced FIGURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
+            
+
+        \subsection{Computing Tools}
+        
+            R (version 4.1.2, \citet{R_language_2021}) was used for data manipulation and model fitting, plotting and analysis. The $dplyr$ package \citep{dplyr_2021} was used throughout the project due to its ease of use for data frame manipulation. The nlsLM() function from the package $minpack.lm$ \citep{minpack_2016} implements the Levenberg-Marquart optimization algorithm so was used for non-linear model fitting, this is more robust than the Gauss-Newton algorithm implemented in the base-R nls() function. The $rollRegres$ package \citep{roll_Regres_2019} was used to fit a rolling regression to each dataset to estimate the maximal growth rate, and plots were produced using $ggplot2$ \citep{ggplot_2016}. 
+            
+            Python (version 3.10.0, \citet{python_2009}) MYABE USED SUBPROCESS TO RUN EVERYTHING ELSE?!?!?!?!
+            
+            Bash (version 5.0.17(1)) was used to compile this LaTeX document.
+            
+            bash GNU bash version 5.0.17(1)
+            latex pdfTeX version 3.14159265-2.6-1.40.20
+        
+            how each language used
+            what packages
+            why
+        
+
+    \section{Results}
+
+
+    \section{Discussion}
+
+        baranyi not so intuitive....all params...?!
+        
+        models might vary in terms of which predicts certain characteristics of growth better - depend on what aim is - eg food production or ....
+        
+        buchanan whiting and daert 1997 - linear more robust when not many data points - here don't se that....
+
+    \end{linenumbers}
+  
+    \bibliographystyle{agsm}
+    \bibliography{BacteriaBiblio}
+
+\end{document}
+
+
+
+
