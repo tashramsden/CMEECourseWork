@@ -1,7 +1,7 @@
 # MiniProject
 
 **About**: A fully reproducible computing project aiming to determine a best fitting model for a large dataset of bacterial growth curves, as per 
-[The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines.
+[The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines. Run [**run_MiniProject.py**](code/run_MiniProject.py) to run the whole project, the report "Mechanistic Models Outperform Phenomenological Models for Predicting Bacterial Growth" will be created in the results directory.
 
 **Languages**: R (version 4.1.2), Python3 (version 3.10.0), Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.20).
 
