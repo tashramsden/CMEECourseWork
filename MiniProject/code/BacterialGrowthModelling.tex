@@ -33,7 +33,7 @@
     \thispagestyle{empty}
     
     \begin{center}
-        Word count: 3483
+        Word count: 3488
     \end{center}
     
     \end{titlepage}
@@ -105,9 +105,7 @@
 
         \subsection{Model Fitting}
         
-            I fitted linear models to the data using R's $lm()$ function. Non-linear models were fitted using non-linear least squares; starting values for the parameters $r$, $K$, $N_0$ and $t_lag$ were estimated for each dataset. The lowest value of population size from the dataset was used as a starting value for $N_0$ whilst $K$ was assigned the highest population size. I fitted a rolling linear regression to each dataset to improve estimation of the maximal slope, this was used as an estimate of $r$ for the Gompertz and Baranyi models. The slope of a simple linear model was used to estimate $r$ for the logistic model as this produced better convergence. The lag time, $t_lag$, was estimated as the time at which the maximal slope from the rolling regression intercepted the value of $N_0$. I implemented parameter sampling in which new parameter estimates were randomly chosen from a normal distribution around the starting values 70 to 150 times, using double the parameter estimate as the standard deviation. The combination of starting values which resulted in the lowest value of the size-corrected Akaike Information Criterion (AIC\textsubscript{C}) upon model fitting was selected for the final model fit. Residuals and model predictions were plotted to visually assess model fitting. 
-            
-            % this method produced better estimates than when using the x-intercept of the maximal slope since the log starting population size was sometimes negative or not close to 0.
+            I fitted linear models to the data using R's $lm()$ function. Non-linear models were fitted using non-linear least squares; starting values for the parameters $r$, $K$, $N_0$ and $t_lag$ were estimated for each dataset. The lowest value of population size from the dataset was used as a starting value for $N_0$ whilst $K$ was assigned the highest population size. I fitted a rolling linear regression to each dataset to improve estimation of the maximal slope, this was used as an estimate of $r$ for the Gompertz and Baranyi models. The slope of a simple linear model was used to estimate $r$ for the logistic model as this produced better convergence. The lag time, $t_lag$, was estimated as the time at which the maximal slope from the rolling regression intercepted the value of $N_0$. I implemented parameter sampling to avoid getting stuck in local minima. New parameter estimates were randomly chosen from a normal distribution around the starting values 70 to 150 times, using double the parameter estimate as the standard deviation. The combination of starting values which resulted in the lowest value of the size-corrected Akaike Information Criterion (AIC\textsubscript{C}) upon model fitting was selected for the final model fit. Residuals and model predictions were plotted to visually assess model fitting. 
             
             Since three of the models produce an estimate of $N_t$ while the other two predict $log(N_t)$, I calculated residuals by transforming the data and predictions for each non-log model into log space (quadratic, cubic, logistic). This ensured that the residuals were all calculated on the same scale and therefore that the subsequent calculations of selection criteria were comparable. The opposite transformation was also performed, calculating residuals in not-log space, to determine whether inferences about best models were affected by this choice.
             
