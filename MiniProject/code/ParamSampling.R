@@ -4,9 +4,9 @@
 param_sample_logistic <- function(subset, r_max_est, N_0_est, K_est, n) {
     success_fit <- tryCatch(
         {
-            r_max_start = rnorm(1, r_max_est, abs(r_max_est*3))
-            N_0_start = rnorm(1, N_0_est, abs(N_0_est*3))
-            K_start = rnorm(1, K_est, abs(K_est*3))
+            r_max_start = rnorm(1, r_max_est, abs(r_max_est*2))
+            N_0_start = rnorm(1, N_0_est, abs(N_0_est*2))
+            K_start = rnorm(1, K_est, abs(K_est*2))
             
             growth.log <- nlsLM(PopBio ~ logistic_model(t = Time, r_max, K, N_0), 
                                 data=subset,

@@ -1,7 +1,11 @@
 \documentclass[11pt]{article}
 
-\usepackage{graphicx}
+\usepackage{graphicx}  % for plots
 \graphicspath{{../results/}}
+
+% to have subplots
+\usepackage{caption}  
+\usepackage{subcaption}
 
 \usepackage[margin=1in]{geometry}  % for page margin
 
@@ -16,7 +20,7 @@
 \usepackage[round]{natbib}  % for better biblio
 
 \usepackage{authblk}  % for author affiliation
-\title{Mechanistic Models Outperform Phenomenological Models for Quantifying Bacterial Growth Data}
+\title{Mechanistic Models Outperform Phenomenological Models for Predicting Bacterial Growth}
 \author[1]{Natasha Ramsden}
 \affil[1]{Imperial College London}
 \date{}
@@ -28,7 +32,7 @@
     \thispagestyle{empty}
     
     \begin{center}
-        Word count: 
+        Word count: 3461
     \end{center}
     
     \end{titlepage}
@@ -36,127 +40,198 @@
     \begin{linenumbers}
     
     \begin{abstract}
-        some text
+        
+        Predicting bacterial growth is crucial in many sectors. Models have been derived that aim to quantify the lag, exponential, stationary and death phases of the bacterial growth curve. This paper aims to identify which of five models best achieves this goal and whether, when grouped, models which are mechanistic or phenomenological perform better overall. Five primary models were fitted to 285 datasets of bacterial growth and their relative success compared using AIC\textsubscript{C}, BIC, Akaike and Schwarz weights. The modified Gompertz model was a better predictor than all others by these criteria. It did not however achieve overwhelming support from the data. The mechanistic models in this set far outperformed the phenomenological models. In the future, a set of mechanistic models which are able to predict all four phases of growth should be compared to identify a best model. In industry however, model choice should be informed by modelling purpose.
 
     \end{abstract}
 
 
     \section{Introduction}
     
-        Understanding microbial growth is important intrinsically and commercially \citep{najafpour_chapter_2007}. In the food production sector as an example, bacterial growth has implications in terms of yield (product and economical) and food waste through spoilage \citep{zwietering_modeling_1990}. Being able to predict population abundance is critical in optimising food production and distribution as well as in mitigating public health risks caused by food-borne infection \citep{ross_modeling_2003, mahdinia_microbial_2020}. Understanding microbial growth has importance beyond this, in subjects ranging from water treatment to carbon fixation \citep{esser_modeling_2015}.
+        Understanding microbial growth is important intrinsically and commercially \citep{najafpour_chapter_2007}. In the food production sector for example, bacterial growth has implications in terms of yield (product and economical) and food waste through spoilage \citep{zwietering_modeling_1990}. Being able to predict population abundance is critical in optimising food production and distribution in addition to mitigating public health risks caused by food-borne infection \citep{ross_modeling_2003, mahdinia_microbial_2020}. Understanding microbial growth has importance beyond this, in subjects ranging from water treatment to carbon fixation \citep{esser_modeling_2015}.
         
-        In batch culture, bacterial growth tends to follow a sigmoidal structure involving three or four defined phases which are common to growth curves in other organisms and systems: lag, exponential, stationary and (variably) death \citep{najafpour_chapter_2007}. The initial lag phase is defined by a lack of growth in which abundance is constant. During this phase, transcription and translation of genes involved in metabolism occur in bacterial cells conferring adaptation to the environment \citep{buchanan_when_1997}. Following this, a phase of exponential growth is observed where a constant, maximal rate of growth is achieved \citep{najafpour_chapter_2007}. Once resources become limiting and carrying capacity is reached the population will transition into a second stationary phase of non-replication. Finally, a death phase can sometimes be observed characterised by a decline in abundance \citep{zwietering_modeling_1990}.
+        In batch culture, bacterial growth tends to follow a sigmoidal structure involving three or four defined phases common to growth curves in other organisms and systems: these are referred to respectively as the lag, exponential, stationary and death phases \citep{najafpour_chapter_2007}. The initial lag phase is defined by a lack of growth in which abundance is constant. During this phase transcription and translation of genes involved in metabolism occur in bacterial cells, conferring adaptation to the environment \citep{buchanan_when_1997}. Following this, a phase of exponential growth is observed where a constant, maximal rate of growth is achieved \citep{najafpour_chapter_2007}. Once resources become limiting and carrying capacity is reached the population will transition into a second stationary phase of non-replication. Finally, a death phase characterised by a decline in abundance can sometimes be observed \citep{zwietering_modeling_1990}.
         
-        plot showing general growth curve?
+        A wide range of modelling techniques have been proposed to describe these phases and predict bacterial growth which vary in complexity, empirical basis and scientific consensus. Broadly, many primary models can be split into two categories: those which are phenomenological and those which are mechanistic. Phenomenological, or empirical, models aim to mathematically describe specific patterns in observed data. These do not require any knowledge of the unobserved causes of any trends but aim to predict the observed output \citep{vlazaki_integrating_2019}. Conversely, mechanistic models have their basis in theory; these models aim to determine and quantify the mechanisms which drive observed phenomena \citep{ferrer_mathematical_2009}. 
         
-        A wide range of modelling techniques have been proposed to describe these phases and predict bacterial growth which vary in complexity, empirical basis and scientific consensus. Broadly, a collection of these models can be split into two main categories: those which are phenomenological and those which are mechanistic. Phenomenological, or empirical, models aim to mathematically describe specific patterns in observed data. These do not require any knowledge of the unobserved or underlying causes of any trends, but aim only to predict the observed output \citep{vlazaki_integrating_2019}. Conversely, mechanistic models have their basis in theory; these models aim to determine and quantify the mechanisms which drive observed phenomena \citep{ferrer_mathematical_2009}. 
-        
-        This paper will attempt to determine which out of a set of five models best describes bacterial growth curves based on a collection of datasets from a variety of sources. Further, I will group these models based on whether they are phenomenological or mechanistic to determine which model type is better at predicting the functional responses of the bacteria.
-        
-        
-
-
-
-
-
-
-
-
-        
-    
-        - bacterial growth - why important to understand
-        - description of shapes - lag, expo, stationary
-        - how can be described by models
-        - phenomenological
-        - mechanistic
-        - want to knwo which is better
-
+        In this paper I will attempt to determine which out of a set of five models best describes the full bacterial growth curve based on a collection of datasets from a variety of sources. Further, I will group these models based on whether they are phenomenological or mechanistic to determine which model type is better at predicting the functional responses of the bacteria.
 
 
     \section{Methods}
 
         \subsection{Data}
 
-            Models were fitted to 285 datasets of bacterial growth which came from 10 sources. In these data, population density was measured both directly through counts, $N$ UNITS!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \citep{phillips_relation_1987, gill_growth_1991, zwietering_modeling_1994, bernhardt_metabolic_2018,  silva_modelling_2018} and indirectly by measuring colony forming units \citep{stannard_temperaturegrowth_1985, roth_continuity_1962, galarz_predicting_2016}, optical density at 595nm \citep{bae_growth_2014} and dry weight (mg/ml) \citep{sivonen_effects_1990} over time. These data include growth information for 23 different bacterial genera at 17 temperatures and on 18 different growth media. 
+            The data explored consisted of 285 datasets of bacterial growth from 10 sources. In these data, population density was measured both directly through counts (cells/ml) \citep{phillips_relation_1987, gill_growth_1991, zwietering_modeling_1994, bernhardt_metabolic_2018,  silva_modelling_2018} and indirectly by measuring colony forming units \citep{stannard_temperaturegrowth_1985, roth_continuity_1962, galarz_predicting_2016}, optical density at 595nm \citep{bae_growth_2014} and dry weight (mg/ml) \citep{sivonen_effects_1990} over time.
             
-            67 observations were removed from the datasets which corresponded to negative time values as this improved model fitting both visually and in terms of successful convergence. A further 22 observations of negative population biomass were removed as these points had no biological meaning. The absolute value was taken for one negative value of population size as the negative sign was a clear mistake which could not be found in the original paper \citep{bernhardt_metabolic_2018}. All models were fitted to log-transformed population data. ALL MODELS WERE FITTED TO LOG-TRANSFORMED POP DATA?!?!?!?!?!??!?!?!??!?!?!?!??
+            I removed 67 observations from the datasets which corresponded to negative time values as this improved model fitting visually and in terms of successful convergence. A further 22 observations of negative population biomass were removed as these points had no biological meaning. I took the absolute value for one large negative value of population size as the negative sign was a clear mistake which could not be found in the original paper \citep{bernhardt_metabolic_2018}.
 
 
         \subsection{Models}
         
-            Five models were fitted to each dataset to describe bacterial growth over time. Two linear, phenomenological models were used: the general quadratic (\emph{Equation 1}) and cubic polynomial models (\emph{Equation 2}), where $N_t$ is population size at time, $t$. 
+            I fitted five models to each dataset to describe bacterial growth over time. Two linear phenomenological models were used: the general quadratic (Equation \ref{eq:quadratic}) and cubic polynomial models (Equation \ref{eq:cubic}), where $N_t$ is population size at time, $t$. 
             
             \begin{equation}
                 N_t = B_0 + B_1 t + B_2 t^2
+                \label{eq:quadratic}
             \end{equation}
             
             \begin{equation}
                 N_t = B_0 + B_1 t + B_2 t^2 + B_3 t^3
+                \label{eq:cubic}
             \end{equation}
             
-            Three non-linear models were also applied which are all mechanistic to some extent: a logistic model, modified Gompertz model \citep{zwietering_modeling_1990}, and Baranyi model \citep{baranyi_dynamic_1994, grijspeerdt_estimating_1999}. \emph{Equation 3} describes the classical logistic model:
+            Three non-linear models were also applied which are all mechanistic to varying extents: a logistic model, modified Gompertz model \citep{zwietering_modeling_1990}, and Baranyi model \citep{baranyi_dynamic_1994, grijspeerdt_estimating_1999}. Equation \ref{eq:logistic} describes the classical logistic model:
             
             \begin{equation}
                 N_t = \frac{N_0 K e^{rt}}{K + N_0 (e^{rt} - 1)}
+                \label{eq:logistic}
             \end{equation}
             
-            Here, $N_0$ is the initial population size, $r$ is the maximum growth rate and $K$ the carrying capacity. The Gompertz (\emph{Equation 4}) and Baranyi (\emph{Equation 5}) models include a 4th parameter, $t_lag$, which describes the length in time of the lag-phase observed in bacterial populations before exponential growth begins.
+            Here, $N_0$ is the initial population size, $r$ is the maximum growth rate and $K$ the carrying capacity. The modified Gompertz (Equation \ref{eq:gompertz}) and Baranyi (Equation \ref{eq:baranyi}) models include a 4th parameter, $t_lag$, which describes the length in time of the lag-phase.
             
             \begin{equation}
                 log(N_t) = N_0 + (K - N_0) e^{-e^{r \cdot e(1) \frac{t_lag - t}{(K - N_0) log(10)}+1}}
+                \label{eq:gompertz}
             \end{equation}
             
             \begin{equation}
                 log(N_t) = N_0 + r t + \frac{1}{r} \ln(e^{-v \cdot t} + e^{-h_0} - e^{-v \cdot t -h_0}) - \frac{1}{m} \ln(1 + \frac{e^{m \cdot r \cdot t + \frac{1}{r} \ln(e^{-v \cdot t} + e^{-h_0} - e^{-v \cdot t -h_0}}) - 1}{e^{m(K - N_0)}})
+                \label{eq:baranyi}
             \end{equation}
             
-            In the Baranyi model (\emph{Equation 5}), $m$ refers to a curvature parameter describing the transition from the exponential to stationary phase, and $v$, another curvature parameter, characterises the transition from the lag to exponential phase. Here, these curvature parameters have been set to equal 1 and $r$ respectively, as per \cite{baranyi_simple_1997}. $h_0$ quantifies the initial physiological state of bacterial cells and is equal to $r \times t_lag$. The number of parameters for this model is therefore equal to four in total ($r$, $K$, $N_0$ and $t_lag$) since $m$ and $h_0$ are derived from these and $v$ is a constant \citep{grijspeerdt_estimating_1999}. 
+            In the Baranyi model (Equation \ref{eq:baranyi}), $m$ refers to a curvature parameter describing the transition from the exponential to stationary phase, and $v$, another curvature parameter, characterises the transition from the lag to exponential phase. I have set these curvature parameters to to equal 1 and $r$ respectively, as per \cite{baranyi_simple_1997}. $h_0$ quantifies the initial physiological state of bacterial cells and is equal to $r \times t_lag$. The number of parameters for this model is therefore equal to four in total ($r$, $K$, $N_0$ and $t_lag$) since $m$ and $h_0$ are derived from these and $v$ is a constant \citep{grijspeerdt_estimating_1999}. 
 
 
         \subsection{Model Fitting}
         
-        
-        did all these things to imorve num of fits better convergence etc!!! - point it out that ive done these extra bits for a reason!
-        
-            Non-linear models were fitted to the data using non-linear least squares; strating values for the parameters $r$, $K$, $N_0$ and $t_lag$ were estimated for each dataset. The lowest value of population size from the dataset was used as a starting value for $N_0$ whilst $K$ was assigned the highest population size. A rolling linear regression was fitted to each dataset and the maximal slope used as an estimate of $r$. The lag time, $t_lag$, was estimated as the time at which the maximal slope from the rolling regression intercepted the value of $N_0$; this method produced better estimates than when using the x-intercept of the maximal slope since the log starting population size was sometimes negative or not close to 0. Parameter sampling was implemented in which new parameter estimates were randomly sampled from a normal distribution around the starting values 70 times, using double the parameter estimate as the standard deviation. The combination of starting values which resulted in the lowest value of the size-corrected Akaike Information Criterion (AICc) upon model fitting was selected for the final model fit. 
+            I fitted linear models to the data using R's $lm()$ function. Non-linear models were fitted using non-linear least squares; starting values for the parameters $r$, $K$, $N_0$ and $t_lag$ were estimated for each dataset. The lowest value of population size from the dataset was used as a starting value for $N_0$ whilst $K$ was assigned the highest population size. I fitted a rolling linear regression to each dataset to improve estimation of the maximal slope, this was used as an estimate of $r$ for the Gompertz and Baranyi models. The slope of a simple linear model was used to estimate $r$ for the logistic model as this produced better convergence. The lag time, $t_lag$, was estimated as the time at which the maximal slope from the rolling regression intercepted the value of $N_0$. I implemented parameter sampling in which new parameter estimates were randomly chosen from a normal distribution around the starting values 70 to 150 times, using double the parameter estimate as the standard deviation. The combination of starting values which resulted in the lowest value of the size-corrected Akaike Information Criterion (AIC\textsubscript{C}) upon model fitting was selected for the final model fit. Residuals and model predictions were plotted to visually assess model fitting. 
             
-            Model predictions of population size over time were calculated for all datasets and plotted to visually assess model fitting. A COUPLE OF EXAMPLES WERE PLOTTED - FIGS WHATEVER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Model selection criteria were also calculated for each model fit to quantify relative model success. The size-corrected AIC, AIC\textsubscript{C}, was calculated to account for the small sample sizes \citep{yang_4_2019}. \citet[p.~445]{burnham_model_2002} recommended that AIC\textsubscript{C} be used when the sample size divided by number of parameters in each model is less than 40; since the maximum sample size was 151, AIC would never be appropriate for the models compared here. The Bayesian Information Criterion (BIC) for each model was also calculated \citep{johnson_model_2004}. Akaike weights and Schwarz weights were calculated from AIC\textsubscript{C} and BIC respectively \citep{wagenmakers_aic_2004} to quantify the probability of each model being the optimal model out of those explored. Box plots of Akaike weight, Schwarz weight and R\textsuperscript{2} were produced FIGURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
+            % this method produced better estimates than when using the x-intercept of the maximal slope since the log starting population size was sometimes negative or not close to 0.
             
+            Since three of the models produce an estimate of $N_t$ while the other two predict $log(N_t)$, I calculated residuals by transforming the data and predictions for each non-log model into log space (quadratic, cubic, logistic). This ensured that the residuals were all calculated on the same scale and therefore that the subsequent calculations of selection criteria were comparable. The opposite transformation was also performed, calculating residuals in not-log space, to determine whether inferences about best models were affected by this choice.
+            
+            Model selection criteria were calculated for each model fit to quantify relative model success. I calculated the size-corrected AIC, AIC\textsubscript{C}, to account for the small sample sizes in these data \citep{yang_4_2019}. \citet[p.~445]{burnham_model_2002} recommended that AIC\textsubscript{C} be used when the sample size divided by number of parameters in each model is less than 40; since the maximum sample size was 151, AIC would never be appropriate for these data. The Bayesian Information Criterion (BIC) for each model was also calculated which takes into account model fit and complexity and data sample size \citep{johnson_model_2004}. I calculated a count of which model was considered best for each dataset based on AIC\textsubscript{C} and BIC; the model with the lowest value was considered best as well as any other models whose value was less than 2 higher than this. Akaike and Schwarz weights were calculated from AIC\textsubscript{C} and BIC respectively to quantify the probability of each model being the optimal model of those explored \citep{wagenmakers_aic_2004}.
+
 
         \subsection{Computing Tools}
         
-            R (version 4.1.2, \citet{R_language_2021}) was used for data manipulation and model fitting, plotting and analysis. The $dplyr$ package \citep{dplyr_2021} was used throughout the project due to its ease of use for data frame manipulation. The nlsLM() function from the package $minpack.lm$ \citep{minpack_2016} implements the Levenberg-Marquart optimization algorithm so was used for non-linear model fitting, this is more robust than the Gauss-Newton algorithm implemented in the base-R nls() function. The $rollRegres$ package \citep{roll_Regres_2019} was used to fit a rolling regression to each dataset to estimate the maximal growth rate, and plots were produced using $ggplot2$ \citep{ggplot_2016}. 
+            R (version 4.1.2, \citet{R_language_2021}) was used for data manipulation as well as model fitting, plotting and analysis. I used the $dplyr$ package \citep{dplyr_2021} throughout the project due to its ease of use for data frame manipulation. The $nlsLM()$ function from the package $minpack.lm$ \citep{minpack_2016} implements the Levenberg-Marquart optimization algorithm so was used for non-linear model fitting as this is more robust than the Gauss-Newton algorithm implemented in the base-R $nls()$ function. The $rollRegres$ package \citep{roll_Regres_2019} was used to fit a rolling regression to each dataset to estimate the maximal growth rate, and plots were produced using $ggplot2$ \citep{ggplot_2016}. Bash (version 5.0.17(1)) was used for LaTeX compiling (LaTeX pdfTeX version 3.14159265-2.6-1.40.20) and Python's (version 3.10.0, \citet{python_2009}) $subprocess$ package was used to run all project scripts and capture outputs. 
             
-            Python (version 3.10.0, \citet{python_2009}) MYABE USED SUBPROCESS TO RUN EVERYTHING ELSE?!?!?!?!
-            
-            Bash (version 5.0.17(1)) was used to compile this LaTeX document.
-            
-            bash GNU bash version 5.0.17(1)
-            latex pdfTeX version 3.14159265-2.6-1.40.20
-        
-            how each language used
-            what packages
-            why
-        
 
     \section{Results}
+        
+        The quadratic and cubic linear models were successfully fitted to all datasets. For the non-linear models, the modified Gompertz and Baranyi successfully converged for all datasets but the logistic model failed to converge for 31 datasets. Figure \ref{fig:both growth plots} shows two datasets with all five models fitted. I removed datasets for which one model failed to converge from the subsequent analysis so that the set of models was the same throughout and included all five. Four further datasets were identified for which one of the models gave large negative R\textsuperscript{2} values; with more time model fitting could have been optimised, but for this analysis these datasets were also removed. 
+        
+        \begin{figure}
+            \centering
+            \begin{subfigure}[a]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{ID15.pdf}
+                \caption{}
+                \label{fig: growth plot lag}
+            \end{subfigure}
+            \hfill
+            \begin{subfigure}[a]{0.45\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{ID40.pdf}
+                \caption{}
+                \label{fig:growth plot death}
+            \end{subfigure}
+            \caption{Log optical density over time for two datasets with all 5 models fitted. (a) Demonstrating how the logistic, quadratic and cubic models are poor predictors of the lag phase and (b) how the Gompertz and Baranyi models cannot predict the bacterial death phase.}
+            \label{fig:both growth plots}
+        \end{figure}
+        
+        Counts of which model was best according to AIC\textsubscript{C} and BIC in log-space both show that the modified Gompertz model was the best model out of this set most often (AIC\textsubscript{C}: 170 times, BIC: 196 times, Figure \ref{fig: counts in log space}). By these measures the Baranyi model was second best (AIC\textsubscript{C}: best 95 times, BIC: 114). The logistic and quadratic models performed similarly, with the cubic model being counted as the best the fewest times.
+    
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{AICc_BIC_counts.pdf}
+            \caption{Counts of how many times each model was considered best in terms of having the lowest AIC\textsubscript{C} and BIC (calculated in log space). The best model is that which has the lowest value, models which are less than 2 higher than this are not different to the best model and so have also been counted as best.}
+            \label{fig: counts in log space}
+        \end{figure}
+        
+        Akaike weights and Schwarz weights were in agreement that the modified Gompertz model is most likely to be the best model compared to the others in this set (Figures \ref{fig: Akaike in log space} and \ref{Sfig: Schwarz in log space}). The Baranyi model had the second highest Akaike and Schwarz weights, while the other three models have weights values close to 0 (Table \ref{table: Akaike and Schwarz weights}).
+        
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{AICc_Akaike_weights.pdf}
+            \caption{Akaike weights based on AIC\textsubscript{C} for each model (calculated in log space); probability that each model is the best given the 250 datasets included and the set of models compared.}
+            \label{fig: Akaike in log space}
+        \end{figure}
+        
+        \begin{table}[ht!]
+        \caption{Mean and standard deviation of Akaike and Schwarz weights for each model (calculated in log space).}
+        \begin{center}
+        \begin{tabular}{c||c|c|c|c|c}
+             & Baranyi & Cubic & Gompertz & Logistic & Quadratic\\
+            \hline
+            \hline
+            Akaike weight & 0.256 (0.28) & 0.053 (0.20) & 0.487 (0.37) & 0.087 (0.21) & 0.117 (0.28) \\
+            Schwarz weight & 0.284 (0.27) & 0.070 (0.22) & 0.557 (0.34) & 0.040 (0.11) & 0.049 (0.17)
+        \end{tabular}
+        \end{center}
+        \label{table: Akaike and Schwarz weights}
+        \end{table}
+
+        The modified Gompertz and Baranyi models explained more than 90\% of the observed data (median R\textsuperscript{2} 0.99 (IQR 0.02) and R\textsuperscript{2} 0.99 (IQR 0.03) respectively, Figure \ref{fig: R squared}). The cubic and logistic models explained roughly 80\% of the data, with a much higher spread of R\textsuperscript{2} (median R\textsuperscript{2} 0.84 (IQR 0.32) and 0.83 (IQR 0.54) respectively). The quadratic model had a median R\textsuperscript{2} value of 0.70 (IQR 0.31). 
+        
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{R_squared.pdf}
+            \caption{R\textsuperscript{2} values for each of the five models for the 250 datasets included (calculated in log space).}
+            \label{fig: R squared}
+        \end{figure}
+        
+        When the same analyses were carried out with residuals for all models calculated in not-logged space different trends were observed. Here the logistic model appeared to be most successful by all measures (Figure \ref{fig: Akaike in not-log space} and Figures \ref{Sfig: counts in not-log space} and \ref{Sfig: Schwarz in not-log space} in the Supplementary Figures section).
+        
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{AICc_Akaike_weights_not_log_space.pdf}
+            \caption{Akaike weights based on AIC\textsubscript{C} calculated in not-logged space for each model; probability that each model is the best given the 250 datasets included and the set of models compared.}
+            \label{fig: Akaike in not-log space}
+        \end{figure}
 
 
     \section{Discussion}
-
-        baranyi not so intuitive....all params...?!
+    
+        In this study, I have fitted both phenomenological and mechanistic models to the datasets of bacterial growth explored . The quadratic and cubic models are purely phenomenological as they make no attempt to explain the underlying mechanisms driving the observed trends. Conversely, the logistic, modified Gompertz and Baranyi models are mechanistic to certain extents \citep{ferrer_mathematical_2009}. These models' parameters attempt to quantify phenomena observed in bacteria to predict their growth patterns. All three of these models determine a value of exponential growth and minimum and maximum population sizes; the Gompertz and Baranyi models have an additional parameter which describes the initial lag phase. In general, a model could be identified as the best out of a set of models if it successfully explains the data (i.e. fitting is maximised) whilst being parsimonious in terms of parameters \citep{johnson_model_2004}. Selection criteria, such as AIC\textsubscript{C} and BIC, can be used to compare models and determine which is best.
         
-        models might vary in terms of which predicts certain characteristics of growth better - depend on what aim is - eg food production or ....
+        When all residuals were calculated in log-space, the number of times that the Gompertz model was the best in terms of AIC\textsubscript{C} and BIC was higher than for all other models (best model around 50\% of the time; 1.75 times more often than the next best model; Figure \ref{fig: counts in log space}). The Baranyi model was the second best model according to these criteria, being the best model more than two to four times more often than any of the other three models (according to AIC\textsubscript{C} and BIC respectively). Akaike and Schwarz weights allow the AIC\textsubscript{C} and BIC selection criteria to be compared across datasets and describe the probability that a model is best given the dataset and set of models explored. These weighted criteria support the idea that the Gompertz model is the best out of this set, followed by the Baranyi model (Figures \ref{fig: Akaike in log space} and \ref{Sfig: Schwarz in log space}). The Gompertz model is around 1.9 (0.487 / 0.256) times more likely to be the best model than the Baranyi according to Akaike weight, and 2.0 times (0.557 / 0.284) according to Schwarz weights. The other three models are very unlikely to be the best (Table \ref{table: Akaike and Schwarz weights}).
         
-        buchanan whiting and daert 1997 - linear more robust when not many data points - here don't se that....
+        The quadratic and cubic equations are not well suited to describing all stages of bacterial growth. Although they capture some of the general trend, these models could not predict the full growth curves (Figure \ref{fig: R squared}). The logistic model has some mechanistic basis but did not perform well according to the weight criteria or counts of AIC\textsubscript{C} and BIC. This might suggest that model fitting for the logistic equation could have been optimised further, however this model has been found to be less useful than the Gompertz and Baranyi models by other sources \citep{peleg_modeling_1997, mckellar_primary_2003}. Further, many of the datasets in this analysis demonstrated a lag phase and the standard logistic model is not optimised for predicting this stage (e.g. Figure \ref{fig: growth plot lag}): several modified logistic models have been proposed exactly to correct this \citep[e.g.][]{fujikawa_new_2004}. 
 
-    \end{linenumbers}
-  
+        This flaw in the logistic model may be reflected in the comparison between selection criteria calculated in log space compared to those not. Interestingly, when residuals and selection criteria were calculated in not-log space the logistic model appeared to outperform all others (Figures \ref{fig: Akaike in not-log space}, \ref{Sfig: counts in not-log space} and \ref{Sfig: Schwarz in not-log space}). This may be because less weighting is accorded to the lag phase in non-log space and therefore the logistic model, which does not predict this phase well, is successful. The Gompertz and Baranyi models appear to be the least-best models under these criteria; this may be because they do not predict the death phase of bacterial growth. Lots of the datasets demonstrated this phase of decline following the stationary phase, which is more pronounced in not-log space. The quadratic and cubic models may have captured some of this trend whereas the Gompertz and Baranyi models remain stationary once carrying capacity is reached (e.g. Figure \ref{fig:growth plot death}). This side-analysis demonstrates that the logistic, quadratic and cubic models are successful in their descriptions of parts of the bacterial growth curve. It has also highlighted that the Gompertz and Baranyi models are not able to explain all four stages of bacterial growth.
+
+        Returning to log-space, the Gompertz and Baranyi models performing better than the other three models explored here is supported by the literature \citep{zwietering_modeling_1990, mckellar_primary_2003}. These models are able to predict the lag, exponential and stationary phases of bacterial growth successfully, unlike the other three models. There is not general consensus that one of these two models always performs better than the other; differing datasets, applications and tests have reached different results \citep[e.g.][]{zwietering_modeling_1990, baranyi_non-autonomous_1993, buchanan_when_1997}. Based on the datasets and set of models in this analysis, the Gompertz model is the best according to all selection criteria. It is also parsimonious, having the same number of parameters as the next best model - all of which can be interpreted as biologically meaningful. 
+
+        Although the Gompertz model is the best out of this set, it is not overwhelmingly supported by the data. According to \cite{johnson_model_2004}, a model can be considered the best if its Akaike weight is greater than 0.9: a benchmark that is not met here by any model. A possible reason for the Gompertz model not achieving this threshold is that this model has been found to be less robust when the data is not representative of the first three phases of the growth curve or when it is of lower quality \citep{mckellar_primary_2003, baty_estimating_2004}. The datasets here varied in sample size and functional response shape; some presenting the defined stages of growth and others not. Some datasets included the death phase which this version of the Gompertz model cannot predict \citep{chatterjee_antibacterial_2015}.
+
+
+        The Akaike and Schwarz weights ($w(AIC_C)$ and $w(BIC)$) can be grouped for sets of models to compare the relative likelihood of one set being better than the other \citep{wagenmakers_aic_2004}. When the models are split into groups by whether they are phenomenological (quadratic, cubic) or mechanistic (logistic, Gompertz, Baranyi), these calculations are:
+        
+        \begin{equation}
+            \frac{w_{mechanistic}(AIC_C)}{w_{phenomenological}(AIC_C)} = \frac{0.83}{0.17} \approx 4.9 
+        \end{equation}
+        
+        \begin{equation}
+            \frac{w_{mechanistic}(BIC)}{w_{phenomenological}(BIC)} = \frac{0.88}{0.12} \approx 7.4
+        \end{equation}
+        
+        The mechanistic models are 4.9 (according to $w(AIC_c)$) or 7.4 ($w(BIC)$) times more likely to be the best models than the phenomenological models. 
+        
+        There is discrepancy in whether or to what extent the logistic, modified Gompertz and Baranyi models are mechanistic. There is not a complete distinction between models which are mechanistic or phenomenological, with many models incorporating aspects of both types \citep{ferrer_mathematical_2009}. \cite{peleg_modeling_1997} argued that these models are phenomenological whereas \cite{ferrer_mathematical_2009} distinguished the Baranyi model as mechanistic; \cite{mckellar_primary_2003} described the original logistic and Gompertz functions as mechanistic but noted that their modified versions lacked biological interpretability and were therefore empirical. For this study, I will however assume that these three models are mechanistic as they have some degree of biological interpretation to their parameters. It is clear therefore, that the mechanistic models outperform the phenomenological models explored in this paper. 
+        
+        A caveat of deciding which model or group of models is best by comparing Akaike and Schwarz weights is that any inferences depend on the starting set of models compared \citep{johnson_model_2004}. It is assumed that the best model is included in the set, however this may not be true and here no single model was overwhelmingly supported by the data \citep{buchanan_when_1997}. Further, if too many models are included in the set which are meaningless, inferences can be misguided. In the future, a more robust study of which model best predicts bacterial growth should involve a set of mechanistic models which can attempt to describe all four stages of the growth curve. By refining the initial set of models, a more robust conclusion could be made.
+        
+        The best model may also vary depending on the purpose of modelling bacterial growth. For example in the food industry, predicting the lag phase is critical in terms of shelf life and food safety and so a model which could accurately determine this time parameter would be best \citep{ross_modeling_2003, mahdinia_microbial_2020}. In the scope of this study, parameter estimates were not scrutinised for biological plausibility or accuracy but this would be important in determining a best model for a specific purpose. 
+        
+        In conclusion, according to counts of AIC\textsubscript{C} and BIC as well as Akaike and Schwarz weights the Gompertz model outperforms the other four models explored here. This model and the Baranyi model were better predictors of bacterial growth than the logistic, quadratic and cubic models. However, no single model could be defined as best with overwhelming support from the data. When grouped, the mechanistic models far outperformed the phenomenological models in this set. Further study should focus on examining mechanistic models which are able to predict the full shape of bacterial growth, including the death phase, to determine a best overall model. For applied modelling in industry the best model may vary depending on the modelling purpose.
+
     \bibliographystyle{agsm}
     \bibliography{BacteriaBiblio}
+    
+    \include{Supplementary}
+    
+    \end{linenumbers}
 
 \end{document}
-
-
-
-

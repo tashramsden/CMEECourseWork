@@ -9,7 +9,7 @@ data <- read.csv("../data/LogisticGrowthData.csv")
 print(paste("Loaded", length(colnames(data)), "columns."))
 
 colnames(data)
-head(data)
+# head(data)
 
 # meta data 
 meta <- read.csv("../data/LogisticGrowthMetaData.csv")

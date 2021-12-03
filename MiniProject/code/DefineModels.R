@@ -23,16 +23,3 @@ baranyi_model <- function(t, r_max, K, N_0, t_lag) {  # Baranyi model (Grijspeer
     B = t + (1/r_max) * log(exp(-v*t) + exp(-h_0) - exp((-v*t)-h_0))  # separate out part of equation which is repeated
     return(N_0 + r_max*B - (1/m)*log(1 + ((exp(m*r_max*B) - 1) / exp(m*(K - N_0)))))
 } 
-
-
-# # Buchanan (three-phase linear model)
-# buchanan_model <- function(t, r_max, K, N_0, t_lag) {  # Buchanan model (Buchanan et al, 1997)
-#     # during exponential growth
-#     Nt = N_0 + r_max*(t - t_lag)
-#     # during lag phase
-#     Nt[t < t_lag] = Nt = N_0
-#     # once K reached (during stationary phase)
-#     Nt[Nt > K] = K
-#     return(Nt)
-# }
-

@@ -1,0 +1,36 @@
+
+\section{Supplementary Figures}
+     
+    \setcounter{figure}{0}  % reset figure counter to 1 
+    \makeatletter  % and add S in front
+    \renewcommand{\thefigure}{S\@arabic\c@figure}
+    \makeatother
+
+    \subsection{Schwarz weight}
+    
+        Schwarz weights were in agreement with Akaike weights that the modified Gompertz model is most likely to be the best model in this set (Figure \ref{Sfig: Schwarz in log space} and Figure \ref{fig: Akaike in log space}).
+
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{supplementary/BIC_Schwarz_weights.pdf}
+            \caption{Schwarz weights based on BIC for each model (calculated in log space); probability that each model is the best given the 250 datasets included and the set of models compared.}
+            \label{Sfig: Schwarz in log space}
+        \end{figure}
+
+    \subsection{Not-log space}
+    
+        When residuals were calculated in not-log space, the resulting selection criteria suggested that the logistic model was best followed by the cubic model (Figures \ref{Sfig: counts in not-log space} and \ref{Sfig: Schwarz in not-log space}, Figure \ref{fig: Akaike in not-log space}). This difference when compared with log-space may be caused by the relative weighting of different sections of the growth curve.
+    
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{supplementary/AICc_BIC_counts_not_log_space.pdf}
+            \caption{Counts of how many times each model was considered best in terms of having the lowest AIC\textsubscript{C} and BIC (calculated in not-log space). The best model is that which has the lowest value, models which are less than 2 higher than this are not different to the best model and so have also been counted as best.}
+            \label{Sfig: counts in not-log space}
+        \end{figure}
+        
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.75\linewidth]{supplementary/BIC_Schwarz_weights_not_log_space.pdf}
+            \caption{Schwarz weights based on BIC for each model (calculated in not-log space); probability that each model is the best given the 250 datasets included and the set of models compared.}
+            \label{Sfig: Schwarz in not-log space}
+        \end{figure}

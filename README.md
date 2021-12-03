@@ -25,6 +25,10 @@
 * [**week7**](week7)
   * Topics covered: [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization); [Introduction to Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-JupyIntro.html); and [Data Analyses with Python and Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-Data-Python.html).
 
+* [**MiniProject**](MiniProject)
+  * About: A fully reproducible computing project aiming to determine a best fitting model for a large dataset of bacterial growth curves, as per 
+[The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines.
+
 
 ## Author
 
