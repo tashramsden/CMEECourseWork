@@ -9,13 +9,13 @@ course_material/
 # some week2 code files take test.txt as input
 !week2/sandbox/test.txt
 
-#python
+# python
 __pycache__/
 .pytest_cache
 *.pyc
 profires
 
-#R
+# R
 .RData
 .Rhistory
 .Rapp.history
@@ -26,5 +26,16 @@ Rplots.pdf
 .ipynb_checkpoints/
 
 # miniproject
-growth_plots/*
-!.gitkeep
+!results/supplementary/.gitkeep
+miniproj_prelim/*
+
+# HPC
+HPC/*
+!HPC/README.md
+!HPC/ter21/
+HPC/ter21/*.rda
+HPC/ter21/run_cluster_shell.sh.*
+HPC/ter21/ter21_HPC_feedback
+
+# maths
+maths_primer/*

@@ -1,4 +1,4 @@
-# Week 3
+# Week 4
 
 **Topics covered this week:** Statistics in R, mostly using data on sparrows - "Stats with Sparrows"!
 
