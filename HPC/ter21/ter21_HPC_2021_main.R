@@ -10,6 +10,7 @@ require(ggplot2)
 
 # please remember *not* to clear the workspace here, or anywhere in this file. If you do, it'll wipe out your username information that you entered just above, and when you use this file as a 'toolbox' as intended it'll also wipe away everything you're doing outside of the toolbox.  For example, it would wipe away any automarking code that may be running and that would be annoying!
 
+
 # Question 1
 species_richness <- function(community){
   spp_rich <- length(unique(community))  # num of diff spp in a community, ie spp richness
