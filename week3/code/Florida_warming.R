@@ -18,7 +18,7 @@ florida_data <- ggplot(ats, aes(x=Year, y=Temp)) +
     scale_y_continuous(expression("Temperature,"~degree*C),
                        minor_breaks = NULL) +
     scale_x_continuous(minor_breaks = NULL) + 
-    theme_bw()
+    theme_classic()
 # florida_data
 
 pdf("../results/florida_data.pdf", 6, 4)
@@ -33,7 +33,7 @@ dev.off()
 
 # observed correlation coefficient
 obs_coef <- cor(x=ats$Year, y=ats$Temp) # just the cor coef
-print(paste("Observed correlation coefficient:",obs_coef))
+print(paste("Observed correlation coefficient:", obs_coef))
 
 
 ## repeat w randomly shuffled temps (lots!) ----
@@ -61,8 +61,11 @@ coefs_hist <- ggplot(coefs_df, aes(all_coefs)) +
     scale_y_continuous("Count", limits=c(0, 1300), minor_breaks = NULL,
                        expand=c(0,0)) +
     geom_vline(xintercept=obs_coef, colour="red", cex=1, linetype="dashed") +
-    theme_bw()
-# coefs_hist
+    annotate(geom="text", x=0.37, y=1000, 
+             label=paste("Observed correlation\ncoefficient = ", round(obs_coef,3)),
+             col="red", size=3.5) +
+    theme_classic()
+coefs_hist
 
 # save plot
 pdf("../results/florida_coefs_hist.pdf", 6, 4)
@@ -74,6 +77,6 @@ dev.off()
 # print(length(all_coefs[all_coefs > obs_coef]))
 
 fraction <- length(all_coefs[all_coefs > obs_coef]) / length(all_coefs)
-fraction
+# fraction
 
 print(paste("The p-value is:", fraction, "(",repeats, "repeats )"))

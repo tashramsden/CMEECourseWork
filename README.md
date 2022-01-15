@@ -30,7 +30,7 @@
 [The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines.
 
 * [**High Performance Computing**](HPC)
-  * About: Neutral theory simulations using the Imperial HPC cluster and Coalesence theory; creating abundance distributions and species richness time series. Fractals in nature.
+  * Topics covered: Neutral theory simulations using the Imperial HPC cluster and Coalesence theory; creating abundance distributions and species richness time series. Fractals in nature.
 
 
 ## Author

@@ -26,5 +26,10 @@ echo "Enter two numbers separated by space(s)"
 read a b
 echo "You entered" $a "and" $b". Their sum is:";
 # works with floats too
-mysum=`echo "$a + $b" | bc`;
+if [ -z "$a" ] || [ -z "$b" ]  # if a or b null/empty - avoid error in addition
+then 
+    mysum=NULL
+else 
+    mysum=`echo "$a + $b" | bc`
+fi
 echo $mysum;
