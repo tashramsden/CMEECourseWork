@@ -2,6 +2,8 @@
 
 **Coursework completed as part of MSc in Computational Methods in Ecology and Evolution at Silwood Park Imperial College London; see course guidebook [TheMulQuaBio](https://mhasoba.github.io/TheMulQuaBio/intro.html).**
 
+Languages: Python3 (version 3.10.0), R (version 4.1.2), Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.20), Jupyter notebook (version 6.4.6), (see subdirectories for dependencies).
+
 ## Directories
 
 * [**week1**](week1)

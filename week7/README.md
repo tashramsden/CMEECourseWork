@@ -4,8 +4,9 @@
 
 Languages: Python3 (version 3.10.0), R (version 4.1.2), Jupyter notebook (version 6.4.6)
 
-Project strcuture: 6 python script files, an R script and a Jupyter notebook in the code directory; the results directory will be populated by running these. Data files in the data directory.
+Project structure: 6 python script files, an R script and a Jupyter notebook in the code directory; the results directory will be populated by running these. Data files in the data directory.
 
+Required Python packages: `scipy`, `numpy`, `matplotlib.pylab`, `csv`, `sys`, `doctest`, `subprocess`, `timeit`, `time`.
 
 ## Code Files:
 

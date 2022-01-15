@@ -25,6 +25,9 @@ Rplots.pdf
 
 .ipynb_checkpoints/
 
+# not include large data files form GIS week
+week5/data/
+
 # miniproject
 !results/supplementary/.gitkeep
 miniproj_prelim/*

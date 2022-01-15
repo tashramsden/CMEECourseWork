@@ -6,6 +6,7 @@ Languages: R (version 4.1.2 "Bird Hippie")
 
 Project strcuture: 4 R scripts exploring different aspects of genomics and bioinformatics; these scripts manipulate and analyse genomics data from the data directory. The results directory will be populated by running the code files.
 
+Required R packages: `dplyr`, `ggplot2`, `vegan`.
 
 ## Code Files:
 

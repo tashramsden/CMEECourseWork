@@ -2,7 +2,7 @@
 
 **Topics covered this week:** [UNIX and Linux](https://mhasoba.github.io/TheMulQuaBio/notebooks/01-Unix.html), [Shell scripting](https://mhasoba.github.io/TheMulQuaBio/notebooks/02-ShellScripting.html), [LaTeX for scientific documents](https://mhasoba.github.io/TheMulQuaBio/notebooks/04-LaTeX.html), and [version control with Git](https://mhasoba.github.io/TheMulQuaBio/notebooks/03-Git.html).
 
-Languages: Shell, LaTeX, (git)
+Languages: Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.20), (git).
 
 Project structure: 12 script files in code directory (described below), some of which will manipulate files from data directory. Data directory contains sub-directories: fasta, (LaTeX) and temperatures. Results directory will be populated by running code files as described below.
 

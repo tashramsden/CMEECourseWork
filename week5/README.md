@@ -4,7 +4,9 @@
 
 Languages: R (version 4.1.2 "Bird Hippie")
 
-Project strcuture: 3 R scripts exploring different aspects of GIS use; GIS data files in the data directory.
+Project strcuture: 3 R scripts exploring different aspects of GIS use; GIS data files not in data directory (large files).
+
+Required R packages: `sp`, `rgdal`, `raster`, `sf`, `units`, `rgeos`, `gdistance`, `openxlsx`, `ggplot2`, `RColorBrewer`, `lwgeom`, `sp`, `dismo`, `ncf`, `spdep`, `fastmatrix`, `SpatialPack`, `spatialreg`, `nlme`, `spgwr`, `spmoran`.
 
 
 ## Code Files:
