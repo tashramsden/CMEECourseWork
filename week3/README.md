@@ -3,11 +3,13 @@
 **Topics covered this week:** [Biological Computing in R](https://mhasoba.github.io/TheMulQuaBio/notebooks/07-R.html#) (variables, creating and manipulating data, importing and exporting data, functions, vectorization, errors and debugging). 
 [Data Management and Visualization](https://mhasoba.github.io/TheMulQuaBio/notebooks/08-Data_R.html) (Data wrangling, data visualization, tidyverse and ggplot)
 
-Languages: R (version 4.1.1), Shell, LaTeX
+Languages: Python3 (version 3.10.0), R (version 4.1.2), Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.20)
 
-Project structure: 25 R script files in the code directory, 1 LaTeX .tex file and a shell script file (described below), some of these will manipulate files from the data directory. The results directory will be populated by running the R scripts, and some quick plots will be saved to the sandbox directory.
+Project structure: 25 R script files in the code directory, 1 LaTeX .tex file and a shell script file (described below), some of these will manipulate files from the data directory. The results directory will be populated by running the R scripts, and some quick plots will be saved to the sandbox directory. There are a further 6 groupwork code files, see below.
 
-Required R packages: `ggplot2`, `tidyverse`, `maps` (see below for specific scripts with these requirements)
+Required R packages: `ggplot2`, `tidyverse`, `maps` (see below for specific scripts with these requirements).
+
+Required Python packages (for groupwork): `os`, `sys`, `csv`, `numpy`.
 
 ## Code Files:
 
@@ -115,3 +117,36 @@ Required R packages: `ggplot2`, `tidyverse`, `maps` (see below for specific scri
 ## Author
 
 Tash Ramsden | tash.ramsden21@imperial.ac.uk
+
+
+<br>
+
+## Groupwork Code Files:
+
+* [**get_TreeHeight.R**](code/get_TreeHeight.R)
+  * An improvement on [TreeHeight.R](code/TreeHeight.R).
+  * Takes a csv file as a command line argument, from which heights of trees are calculated given distance of each tree from its base and angle to its top.
+
+* [**get_TreeHeight.py**](code/get_TreeHeight.py)
+  * Python version of [get_TreeHeight.R](code/get_TreeHeight.R). 
+
+* [**run_get_TreeHeight.sh**](code/run_get_TreeHeight.sh)
+  * Shell script that runs the above two get_TreeHeight scripts ([get_TreeHeight.R](code/get_TreeHeight.R) and [get_TreeHeight.py](code/get_TreeHeight.py))
+
+* [**TAutoCorr.R**](code/TAutoCorr.R)
+  * Analysing temperature data from Florida between 1901 and 2000 from `KeyWestAnnualMeanTemperature.RData` to answer the question: Are temperatures of one year significantly correlated with the next year (successive years), across years in a given location?
+
+* [**TAutoCorr.tex**](code/TAutoCorr.tex)
+  * A LaTeX report of the results of [TAutoCorr.R](code/TAutoCorr.R).
+  * Make sure that [TAutoCorr.R](code/TAutoCorr.R) has been run before compiling.
+
+* [**CompileLaTex.sh**](code/CompileLaTex.sh)
+  * A shell script that compiles [TAutoCorr.tex](code/TAutoCorr.tex) into a pdf.
+  * The script runs [TAutoCorr.R](code/TAutoCorr.R) before compiling to ensure that the plots to be included in the report have been generated.
+
+
+## Authors - AwesomeAardvarks
+
+See our [groupwork repository](https://github.com/tashramsden/CMEE_AwesomeArdvarks) on GitHub.
+
+Sarah Dobson, An Nguyen, Grace Skinner, Jiwen (Doris) Sun, Tash Ramsden

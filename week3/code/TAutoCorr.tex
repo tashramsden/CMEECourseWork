@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+
+\title{\vspace{-1.5cm}Are temperatures of one year significantly correlated with the next year (successive years), across years in Florida?} % use vspace to put title nearer the top of the page 
+
+\author{CMEE AwesomeArdvarks}
+
+\date{06/01/21}
+
+\usepackage{graphicx} % use this package to include figures in document
+\graphicspath{ {../results/} } % this is the path to the directory where the images to be included are stored. 
+
+\usepackage[margin=0.5in]{geometry}
+
+\begin{document}
+    \maketitle
+
+    \noindent Figure 1 plots Florida temperatures (°C) in pairs of successive years. The observed correlation coefficient for temperature between successive years is 0.326. 
+
+    \begin{figure}[h] % h puts the figure 'h'ere, i.e., approximately at the same point it occurs in the source text
+        \centering % put figure in center of page
+        \includegraphics[scale=0.8]{Auto_Cor_Florida_Temp} % make figure a third of the actual size. % don't include .png extension after filename 
+        \caption{Scatterplot of Florida temperatures (°C) between successive years. The \(x\) axis represents temperatures between the years 1901 and 1999. The \(y\) axis represents temperatures between 1902 and 2000.} % include figure legend 
+    \end{figure}
+
+    \noindent A permutation analysis with 100,000 permutations was undertaken to test the significance of this correlation coefficient. 
+    Very few of the randomly calculated correlation coefficients were greater than the observed correlation coefficient, yielding a p-value of p\(<\)0.001 (Figure 2).
+    These results indicate that temperatures of one year are significantly correlated with the next year (successive years), across years in Florida during the 20th century. Therefore, we can conlcude that there is autocorrelation in Florida temperatures. 
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.8]{Auto_cor_Florida_histogram}
+        \caption{Distribution of ramdomly calculated correlation coefficients. The observed correlation coefficient is shown for comparison.}
+    \end{figure}
+
+\end{document}
