@@ -44,7 +44,7 @@ pdflatex $(basename "$1" .tex).tex
 cp $(basename "$1" .tex).pdf ../results
 rm $(basename "$1" .tex).pdf
 
-evince ../results/$(basename "$1" .tex).pdf &
+# evince ../results/$(basename "$1" .tex).pdf &
 
 rm *.aux
 rm *.log

@@ -11,7 +11,7 @@ Rscript Florida_warming.R
 pdflatex Florida_warming.tex
 pdflatex Florida_warming.tex
 pdflatex Florida_warming.tex
-evince Florida_warming.pdf &
+# evince Florida_warming.pdf &
 
 rm *.aux
 rm *.log
