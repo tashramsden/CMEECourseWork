@@ -6,6 +6,8 @@ Languages: Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.2
 
 Project structure: 12 script files in code directory (described below), some of which will manipulate files from data directory. Data directory contains sub-directories: fasta, (LaTeX) and temperatures. Results directory will be populated by running code files as described below.
 
+Required package: [`imagemagick`](https://imagemagick.org/index.php)
+
 ## Code Files:
 
 * [**UnixPrac1.txt**](code/UnixPrac1.txt)
