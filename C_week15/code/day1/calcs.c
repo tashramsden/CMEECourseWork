@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+int main(void)
+{
+    int a;
+    int b;
+    int c;
+
+    a = 1 + 2;
+    b = 7; //assign directly
+    c = a + b;
+
+    printf("The result of a + b using c: %i\n", c);
+    printf("The result of a + b: %i\n", a + b);
+
+    c = b / a;
+
+    printf("The result of a / b: %i\n", c);
+
+    float d;
+    float e;
+
+//    e = b;
+
+//    d = e / a;
+
+    // Type-cast
+    d = (float)b / a;
+
+    printf("The result of a / b: %f\n", d);
+
+    d = 7f / 3; // this and below work the same
+//    d = (float)7 / 3;
+
+    printf("The result of a / b: %f\n", d);
+
+    return 0;
+}

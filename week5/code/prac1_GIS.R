@@ -24,7 +24,7 @@ library(units)
 ## a. Making vectors from coordinates ----
 
 # pop density of british isles
-pop_dens <- data.frame(n_km2 = c(260, 67,151, 4500, 133), 
+pop_dens <- data.frame(n_km2 = c(260, 67, 151, 4500, 133), 
                        country = c('England','Scotland', 'Wales', 
                                    'London', 'Northern Ireland'))
 print(pop_dens)
@@ -56,7 +56,7 @@ ireland <- st_polygon(list(ireland))
 
 
 # combine these into simple feature column (sfc):
-# and can set up soord ref syste (crs or projection)
+# and can set up coord ref system (crs or projection)
 
 # NOTE: sf automatically tries to scale the aspect ratio of plots of 
 # geographic coord data based on their latitude - makes them look less squashed
@@ -118,7 +118,7 @@ wales <- st_difference(wales, england)
 # find intersection and diff of that with the Ireland polygon to get NI and Eire
 
 # A rough polygon that includes Northern Ireland and surrounding sea.
-# - not the alternative way of providing the coordinates
+# - note the alternative way of providing the coordinates
 ni_area <- st_polygon(list(cbind(x=c(-8.1, -6, -5, -6, -8.1), 
                                  y=c(54.4, 56, 55, 54, 54.4))))
 
