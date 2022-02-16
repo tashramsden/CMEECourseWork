@@ -34,6 +34,18 @@
 * [**High Performance Computing**](HPC)
   * Topics covered: Neutral theory simulations using the Imperial HPC cluster and Coalesence theory; creating abundance distributions and species richness time series. Fractals in nature.
 
+* [**C_week15**](C_week15)
+  * Topics covered: [Biological Data Structures and C](https://github.com/mhasoba/TheMulQuaBio/tree/master/content/lectures/BiolStructs_C) (C basics; variables and memory; operators, expressions and typecasting; control and looping; arrays and strings; functions; bitwise operations; pointers and memory allocation; struct, typedef, union and enums; headers and libraries; trees; embedding C in python and R).
+
+* [**GLM_week16**](GLM_week16)
+  * Topics covered: Linear Mixed Models and Generalised Linear Models.
+
+* [**Maths**](maths)
+  * Topics covered: [Maths for Biologists](https://christensen5.github.io/MathsForBiologists/intro.html) (Functions; Trigonometry, periodic change and transformations; Sequences, limits, discrete population models; Systems of linear equations, matrices, and structured population models; Eigenvalues and eigenvectors; Analysing change in discrete and continuous time; Differentiation and integration; Taylor series; Ordinary differential equations; Dynamical systems).
+
+* [**Ecological Modelling**](eco_modelling)
+  * Topics covered: Ecological modelling (Exponential and logistic growth; bifurcation diagrams; Lotka-Volterra competition and predator-prey models; Phase planes and isoclines; Phase shifts and catastrophic transitions; Limit cycles; Epidemiology).
+
 
 ## Author
 
