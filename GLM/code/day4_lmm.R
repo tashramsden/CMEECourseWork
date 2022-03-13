@@ -64,7 +64,7 @@ mT1 <- lmer(Tarsus ~ 1 + (1|StudentID), data = d)
 mT2 <- lmer(Tarsus ~ 1 + (1|StudentID) + (1|GroupN), data = d)
 lrtest(mT1, mT2)
 
-# LRT test is stat sig for tarsus - so the more complex model explains the data better
+# LRT (likelihood ratio test) is stat sig for tarsus - so the more complex model explains the data better
 # so studentID and group are important to include as random effects
 
 # summary(mT1)

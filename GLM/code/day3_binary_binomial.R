@@ -83,8 +83,8 @@ str(chytrid)
 
 scatterplot<-ggplot(chytrid, aes(x=Springavgtemp, y=InfectionStatus))+
     geom_point()+
-    labs(x= "Probability of Infection", 
-         y="Average Spring Temperature (Degrees Celsius)")+
+    labs(x="Average Spring Temperature (Degrees Celsius)", 
+         y="Probability of Infection")+
     theme_classic()
 boxplot<- ggplot(chytrid, aes(x=factor(InfectionStatus), y=Springavgtemp))+
     geom_boxplot()+

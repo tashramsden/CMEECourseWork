@@ -3,7 +3,6 @@
 rm(list=ls())
 # setwd("Documents/CMEECourseWork/GLM_week16/code")
 
-
 require(ggplot2)
 require(MASS)
 require(ggpubr)
@@ -26,6 +25,8 @@ ggplot(fish, aes(x = MeanDepth, y = TotAbund)) +
     geom_point() +
     labs(x = "Mean Depth (km)", y = "Total Abundance") +
     theme_classic()
+
+# counts = poisson - log-linear link
 
 # basic model
 # ln(TotAbund) = B0 + B1*MeanDepth
