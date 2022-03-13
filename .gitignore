@@ -43,3 +43,9 @@ HPC/ter21/ter21_HPC_feedback
 
 # maths
 maths_primer/*
+
+# data from machine learning not to be shared
+glopnet-biomass.csv
+
+keras_log/
+*.sql

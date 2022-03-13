@@ -408,36 +408,3 @@ summary(lmer(Ornament ~ Age + (1|BirdID)+(1|Observer)+(1|Year), data=o))
 # decide on final model
 # run model validation
 # interpret model - think logically, biologically - interpret GIVEN the limitations
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

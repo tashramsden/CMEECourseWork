@@ -1,8 +1,8 @@
 # CMEE Coursework Repository
 
-**Coursework completed as part of MSc in Computational Methods in Ecology and Evolution at Silwood Park Imperial College London; see course guidebook [TheMulQuaBio](https://mhasoba.github.io/TheMulQuaBio/intro.html).**
+**Coursework completed as part of MSc in Computational Methods in Ecology and Evolution at Silwood Park Imperial College London.**
 
-**Languages**: Python3 (version 3.10.0), R (version 4.1.2), Bash (version 5.0.17(1)), LaTeX (pdfTeX version 3.14159265-2.6-1.40.20), Jupyter notebook (version 6.4.6), (see subdirectories for dependencies).
+**Languages**: Python3 (version 3.10.0), R (version 4.1.2), Bash (version 5.0.17(1)), C, LaTeX (pdfTeX version 3.14159265-2.6-1.40.20), Jupyter notebook (version 6.4.6), (see subdirectories for dependencies).
 
 ## Directories
 
@@ -28,23 +28,35 @@
   * Topics covered: [Biological Computing in Python II](https://mhasoba.github.io/TheMulQuaBio/notebooks/06-Python_II.html#) (numpy, scipy, arrays, matrices, profiling, vectorization); [Introduction to Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-JupyIntro.html); and [Data Analyses with Python and Jupyter](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-Data-Python.html).
 
 * [**MiniProject**](MiniProject)
-  * About: A fully reproducible computing project aiming to determine a best fitting model for a large dataset of bacterial growth curves, as per 
-[The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines.
+  * About: A fully reproducible computing project aiming to determine a best fitting model for a large dataset of bacterial growth curves, completed as per 
+[The Computing Miniproject](https://mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html#) guidelines in 2 weeks.
 
 * [**High Performance Computing**](HPC)
   * Topics covered: Neutral theory simulations using the Imperial HPC cluster and Coalesence theory; creating abundance distributions and species richness time series. Fractals in nature.
 
-* [**C_week15**](C_week15)
+* [**C**](C)
   * Topics covered: [Biological Data Structures and C](https://github.com/mhasoba/TheMulQuaBio/tree/master/content/lectures/BiolStructs_C) (C basics; variables and memory; operators, expressions and typecasting; control and looping; arrays and strings; functions; bitwise operations; pointers and memory allocation; struct, typedef, union and enums; headers and libraries; trees; embedding C in python and R).
 
-* [**GLM_week16**](GLM_week16)
+* [**GLM**](GLM)
   * Topics covered: Linear Mixed Models and Generalised Linear Models.
 
 * [**Maths**](maths)
   * Topics covered: [Maths for Biologists](https://christensen5.github.io/MathsForBiologists/intro.html) (Functions; Trigonometry, periodic change and transformations; Sequences, limits, discrete population models; Systems of linear equations, matrices, and structured population models; Eigenvalues and eigenvectors; Analysing change in discrete and continuous time; Differentiation and integration; Taylor series; Ordinary differential equations; Dynamical systems).
 
 * [**Ecological Modelling**](eco_modelling)
-  * Topics covered: Ecological modelling (Exponential and logistic growth; bifurcation diagrams; Lotka-Volterra competition and predator-prey models; Phase planes and isoclines; Phase shifts and catastrophic transitions; Limit cycles; Epidemiology).
+  * Topics covered: Exponential and logistic growth; bifurcation diagrams; Lotka-Volterra competition and predator-prey models; Phase planes and isoclines; Phase shifts and catastrophic transitions; Limit cycles; Epidemiology.
+
+* [**Evolutionary Modelling**](evo_modelling)
+  * Topics covered: Gene drive and its potential use for malaria control; simulating evolutionary models including adapted Wright-Fisher; theory of models of drift and selection including their dynamics.
+
+* [**Maximum Likelihood Methods**](max_likelihood)
+  * Topics covered: Random variables, probability mass and density functions; expectation; moment generating functions; multivariate random variables; independence; maximum likelihood estimation; likelihood ratio test; confidence interval estimation using log-likelihood, profiling and approximate normality; limitations.
+
+* [**Bayesian Statistics**](bayesian)
+  * Topics covered: Bayesian models (likelihood, priors, marginal likelihood); Markov chain Monte-Carlo (MCMC); diagnostics; Bayesian model selection.
+
+* [**Machine Learning**](machine_learning)
+  * Topics covered: Unsupervised methods (PCA, PCoA and NMDS; clustering: hierarchical, k-means and model-based); supervised methods (regression trees, LAR and lasso, support vector machines); artificial neural networks; convolutional neural networks and recurrent neural networks.
 
 
 ## Author

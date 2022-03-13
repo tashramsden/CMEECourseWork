@@ -4,9 +4,9 @@
 
 Project structure: In the code directory there are several R scripts exploring maximum likelihood methods, used to complete practicals; some of which use data files from the data directory.
 
-Languages: R (version 4.1.2)
+Languages: R (version 4.1.2).
 
-Required R packages: `BB` 
+Required R packages: `BB`.
 
 
 ## Author

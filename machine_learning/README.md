@@ -6,7 +6,7 @@ Day-long hackathon on Friday with the aim to obtain data, design an artificial n
 
 Project structure: In the code directory there are several R scripts exploring methods in machine learning (described below). There are also several data files in the data directory which are used in some of the practical exercises.
 
-Languages: R (version 4.1.2)
+Languages: R (version 4.1.2).
 
 Required R packages: `mvtnorm`, `splits`, `mclust`, `vegan`, `raster`, `corrplot`, `cluster`, `tree`, `randomForest`, `gbm`, `lars`, `e1071`, `neuralnet`, `NeuralNetTools`, `keras`, `tensorflow` 
 (Note: Installing tensorflow and keras can be a pain! (see first answer here for fix: https://stackoverflow.com/questions/63220597/python-in-r-error-could-not-find-a-python-environment-for-usr-bin-python)).

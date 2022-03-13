@@ -4,9 +4,9 @@
 
 Project structure: In the code directory there are several R scripts exploring evolutionary models (described below).
 
-Languages: R (version 4.1.2)
+Languages: R (version 4.1.2).
 
-Required R packages: `doParallel` 
+Required R packages: `doParallel`.
 
 ## Code Files:
 
