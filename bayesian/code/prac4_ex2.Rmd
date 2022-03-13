@@ -1,0 +1,507 @@
+---
+title: "JAGS -- Just Another Gibbs Sampler"
+author: "Sandra Alvarez-Carretero"
+date: "3/2/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Setting your working environment
+
+First, we will clean and set our working environment. It is important that, whenever you start working on a project, you clean your working environment to avoid issues with objects generated in previous sessions/projects. If you want to do this using the command line, you can do the following:
+
+```{r}
+# Clean environment 
+rm( list = ls( ) )
+
+# Set working directory with package `rstudioapi`:
+#
+# 1. Load the package `rstudioapi`. If you do not have 
+#    it installed, then uncomment and run the
+#    command below
+# install.packages( "rstudioapi" )
+library( rstudioapi ) 
+# 2. Get the path to current open R script
+path_to_file <- getActiveDocumentContext()$path
+wd           <- paste( dirname( path_to_file ), "/", sep = "" )
+setwd( wd )
+```
+
+Now, any data that you generate when you run the commands in this R script will be saved in the directory you have defined above (unless you specify otherwise when saving the data!). 
+
+---
+
+# JAGS in R 
+
+## Installation
+Before getting started, make sure that you have installed everything you need to run JAGS in R. 
+
+First, you will need to download Jags from sourceforge and install it on your PC (click [here]()). Then, you will need to install `R2jags` (`install.packages("R2jags")`). You should also install `coda` if you do not have this package installed.
+
+NOTE: much easier: `sudo apt-get install jags`
+
+## Let's get started!
+We are going to use JAGS to define and run our Bayesian model. 
+
+We can reuse the data we had used for a previous analysis about the width of the leaves:
+
+```{r}
+# Save collected measurements (width leaves, in cm) as data, D
+D <- c( 0.5, 0.8, 0.9, 1.0, 1.15, 0.9, 0.8, 0.9, 1.7, 2, 1.1 )
+# Count number of observations in D
+n <- length( D )
+# Estimate variance and sd 
+sigma <- sd( D ) # ~0.43
+# Estimate mean 
+mu <- mean( D ) # ~1.07
+# Mu for prior function 
+mu_prior <- 0.85
+# SD for prior function 
+sd_prior <- 0.425
+```
+
+Now, we need to define several objects that will contain information about the data, the model (i.e., the likelihood and the prior/s), and the MCMC (e.g., number of iterations, initial values for parameter/s of interest, etc.) that JAGS will use.
+
+>*NOTE*: JAGS uses the precision (1/variance, $\tau$) instead of the variance in the normal distribution.
+
+```{r}
+# Load r2jags and coda packages
+library( "R2jags" )
+library( "coda" )
+
+# Define objects that we will use when defining the model for JAGS
+# 1. Data 
+data_mod <- list( D = D, n = n, # D = data | n = number of values that are part of my dataset
+                  # Parameters in prior (mu_prior, and 1/sd_prior)
+                  mu_prior = mu_prior, tau_prior = 1/sd_prior,
+                  # Parameter in likelihood function, estimated precision using D (i.e., 1/sigma)
+                  tau = 1/sigma
+)
+
+# 2. The model, which includes the likelihood and the prior
+#    The names you use for the arguments in each function are 
+#    the ones that you will need to refer to later
+mod_widthleave <- function(){
+
+ ## Likelihood
+ for( i in 1:n ){
+   D[i] ~ dnorm( mu,tau )
+ }
+
+ ## Prior for mu
+ mu ~ dnorm( mu_prior,tau_prior )
+
+} 
+
+# 3. Initial value/s for parameter/s of interest. We need to use the same name for the parameter of interest that
+# we have used when defining the model (i.e., "mu"). We will need to create as many lists (`init1`, `init2`,
+# `initn`) as chains we are to run. We will run two chains, so we will have `init1` and `init2`. Then, we will
+# put them together in another list, which we will pass to the function that will execute JAGS in R
+init1     <- list( mu = 3 )
+init2     <- list( mu = 1 )
+init_vals <- list( init1, init2 )
+
+# 4. Define parameter/s that will be estimated
+params <- c( "mu" )
+
+# 5. Define parameters that will further customise the MCMC
+burnin <- 500  # Number of iterations to discard as burnin
+iter   <- 2000 # This number includes the iterations that will be discarded as burnin!
+nchain <- 2    # Number of chains
+
+# 6. Run JAGS!
+# Set a seed number for this run 
+set.seed( 12345 )
+# Run JAGS and save the output in object `model`
+mcmc_res <- R2jags::jags( model.file = mod_widthleave, # Pass defined model 
+                          # Object with data  
+                          data = data_mod,
+                          # Object with starting value/s
+                          inits = init_vals,
+                          # Object with parameter/s to keep
+                          parameters.to.save = params,
+                          # Number of chains (always, at least 2 to check for chain convergence!)
+                          n.chains = nchain,
+                          # Number of iterations that will be discarded as part of the burn-in phase
+                          n.burnin = burnin, 
+                          # Number of iterations (includes number of iterations specified in burnin)
+                          n.iter = iter
+)
+
+```
+Now that we have run your Bayesian model with JAGS, we can explore the output that contains all the sampled values for our parameter of interest:
+
+```{r}
+## SOME (BUT NOT ALL) MCMC DIAGNOSTICS ##
+
+# 0. We can explore the content of the object 
+str( mcmc_res )
+
+# 1. Summary of the parameters collected during the MCMC
+mcmc_res$BUGSoutput$summary 
+
+# 2. We may want to convert the output in a list that we 
+#    can easily access and parse. Then, we can divide the 
+#    results in the two chains that we have run
+mcmc_res_list <- coda::as.mcmc( mcmc_res )
+mcmc1 <- mcmc_res_list[[ 1 ]]
+mcmc2 <- mcmc_res_list[[ 2 ]]
+
+# 3. Plot the chains for value "mu" 
+plot( density( mcmc1[,"mu"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"mu"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for mu and the quantiles
+mean( mcmc1[,"mu"])
+mean( mcmc2[,"mu"])
+quantile( x =  mcmc1[,"mu"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"mu"], probs = c( 0.025, 0.975 ) )
+
+# 5. Get trace plot and ACF plots
+R2jags::traceplot( mcmc1[,"mu"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"mu"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"mu"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"mu"] ), ask = FALSE )
+```
+
+
+## EXERCISE 
+You want to evaluate the impact of climatic conditions on a specific population of birds and their breeding success. Specifically, you want to focus on the effect that rainfall and temperature have on this matter. 
+
+During $N=23$ years, you have collected the following data:
+
+```{r}
+# Data collected during N=23 years
+
+## 1. Number of chicks delivered each year
+nbchicks <- c( 151, 105, 73, 107, 113, 87, 77, 108, 118, 122, 112, 120, 122, 89, 
+               69, 71, 53, 41, 53, 31, 35, 14, 18 )
+## 2. Number of pairs per year.
+## E.g., Out of 173 pairs of birds, there were 151 chicks 
+## delivered
+nbpairs  <- c( 173, 164, 103, 113, 122, 112, 98, 121, 132, 136, 133, 137, 145, 117,
+               90, 80, 67, 54, 58, 39, 42, 23, 23 )
+## 3. Temperature per year
+temp     <- c( 15.1, 13.3, 15.3, 13.3, 14.6, 15.6, 13.1, 13.1, 15.0, 11.7, 15.3,
+               14.4, 14.4, 12.7, 11.7, 11.9, 15.9, 13.4, 14.0, 13.9, 12.9, 15.1, 13.0)
+## Rainfall per year
+rain     <- c( 67, 52, 88, 61, 32, 36, 72, 43, 92, 32, 86, 28, 57, 55, 66, 26, 28, 96,
+               48, 90, 86, 78, 87 )
+## 4. Put everything together!
+##    NOTE: We will standardize the values collected for temperature and rainfall, i.e., standardize the covariance.
+datax <- list( N = 23, # Number of years taken to collect the data
+               nbchicks = nbchicks, 
+               nbpairs = nbpairs,
+               temp = ( temp - mean( temp ) ) / sd( temp ),  # Standardized temperature
+               rain = ( rain - mean( rain ) ) / sd( rain )  # Standardized rainfall
+               )
+
+# Model
+model_chicks <- function() {
+
+  for( i in 1:N ){ 
+    # LIKELIHOOD
+    # For each year, you will have a binomial likelihood. You want to assess the
+    # success of breeding each year "i" (p_{i}) given the number of attempts being the number of
+    # pairs of birds
+    nbchicks[i] ~ dbin( p[i], nbpairs[i] ) # first probability, then your number of attempts
+    
+    # REGRESSION TO DEFINE RELATIONSHIP OF "p" PER YEAR WITH RAINFALL AND TEMPERATURE
+    # For each year, you also want to account for the effect of rainfall and temperature.
+    # You do this with a logistic regression that establishes this probability of success per year "i"
+    # with temperature and rainfall. This will be a simple regression in which we specify that the probability
+    # of breeding success per year "i" is a function of temperature in this same year "i" times a slope 
+    # "b_{temp}" plus the effect of
+    # rainfall in this same year "i" times the slope of this covariate. Then, we have an intercept, "a".
+    # **IMPORTANT**
+    # We do not say that the probability of breeding success per year, p_{i}, is a linear function of these
+    # parameters directly on the scale of the probability of success. We use the logit function that sets "p"
+    # per year between -inf to inf. Then, if we transform this, we will have "p" per year going from
+    # 0 to 1. So we do not model "p", we model "logit of pi". 
+    logit( p[i] ) <- a + b.temp * temp[i] + b.rain * rain[i] 
+  }
+  
+  # Define priors on the parameters of interest, which are those included in my logistic regression function
+  # We do not have a lot of info about them, so we will assume that we have a very vague prior.
+  # E.g., Normal distribution on 0 and then a huge variance. A lot of variation around the mean being 0.
+  # **NOTE** You could use a uniform distribution, a beta...
+  # If you wanted, you can try to set other models with different vague priors too!
+  a ~ dnorm( 0, 0.001 )      # intercept
+  b.temp ~ dnorm( 0, 0.001 ) # slope for temperature
+  b.rain ~ dnorm( 0, 0.001 ) # slope for rainfall
+  
+  ## NOTE: JAGS uses precision for normal distribution:
+  # X ~N(0,1000) --> var=1000, in JAGS 1/1000=0.001 --> dnorm( 0, 0.001 )
+  
+}
+
+```
+
+## QUESTION 1.
+**Define the MCMC settings and run JAGS**<br>
+_HINT: you can use the example detailed above as a template!_
+
+```{r}
+
+# Initial value/s for parameter/s of interest
+# interested in effect of climate on breeding - params of interest are: a, b.temp and b.rain
+init1     <- list( a = -0.5, b.temp = -0.5, b.rain = -0.5 )
+init2     <- list( a = 0.5, b.temp = 0.5, b.rain = 0.5 )
+
+init_vals <- list( init1, init2 )
+
+# Define parameter/s that will be estimated
+params <- c( "a", "b.temp", "b.rain" )
+
+
+# Define parameters that will further customise the MCMC
+burnin <- 500  # Number of iterations to discard as burnin
+iter   <- 2000 # This number includes the iterations that will be discarded as burnin!
+nchain <- 2    # Number of chains
+
+# Run JAGS!
+# Set a seed number for this run 
+set.seed( 12345 )
+# Run JAGS and save the output in object `model`
+mcmc_res <- R2jags::jags( model.file = model_chicks, # Pass defined model 
+                          # Object with data  
+                          data = datax,
+                          # Object with starting value/s
+                          inits = init_vals,
+                          # Object with parameter/s to keep
+                          parameters.to.save = params,
+                          # Number of chains (always, at least 2 to check for chain convergence!)
+                          n.chains = nchain,
+                          # Number of iterations that will be discarded as part of the burn-in phase
+                          n.burnin = burnin, 
+                          # Number of iterations (includes number of iterations specified in burnin)
+                          n.iter = iter
+)
+
+
+```
+
+
+## QUESTION 2.
+**Can you extract the mean, sd, and quantiles for each parameter of interest?**
+
+```{r}
+
+#    We may want to convert the output in a list that we 
+#    can easily access and parse. Then, we can divide the 
+#    results in the two chains that we have run
+mcmc_res_list <- coda::as.mcmc( mcmc_res )
+mcmc1 <- mcmc_res_list[[ 1 ]]
+mcmc2 <- mcmc_res_list[[ 2 ]]
+
+# 3. Plot the chains for value "a" 
+plot( density( mcmc1[,"a"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"a"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for a and the quantiles
+print("Mean and quantiles for param 'a'")
+mean( mcmc1[,"a"])
+mean( mcmc2[,"a"])
+quantile( x =  mcmc1[,"a"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"a"], probs = c( 0.025, 0.975 ) )
+
+
+# 3. Plot the chains for value "b.temp" 
+plot( density( mcmc1[,"b.temp"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"b.temp"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for b.temp and the quantiles
+print("Mean and quantiles for param 'b.temp'")
+mean( mcmc1[,"b.temp"])
+mean( mcmc2[,"b.temp"])
+quantile( x =  mcmc1[,"b.temp"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"b.temp"], probs = c( 0.025, 0.975 ) )
+
+
+# 3. Plot the chains for value "b.rain" 
+plot( density( mcmc1[,"b.rain"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"b.rain"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for b.rain and the quantiles
+print("Mean and quantiles for param 'b.rain'")
+mean( mcmc1[,"b.rain"])
+mean( mcmc2[,"b.rain"])
+quantile( x =  mcmc1[,"b.rain"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"b.rain"], probs = c( 0.025, 0.975 ) )
+
+
+```
+
+
+
+
+## QUESTION 3.
+**Plot the traces of the chain for each parameter and check for chain convergence. What would you say about these runs?**
+
+```{r}
+
+# 5. Get trace plot and ACF plots
+
+## param: a
+R2jags::traceplot( mcmc1[,"a"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"a"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"a"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"a"] ), ask = FALSE )
+
+# param: b.temp
+R2jags::traceplot( mcmc1[,"b.temp"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"b.temp"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"b.temp"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"b.temp"] ), ask = FALSE )
+
+# param: b.rain
+R2jags::traceplot( mcmc1[,"b.rain"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"b.rain"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"b.rain"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"b.rain"] ), ask = FALSE )
+
+```
+
+## QUESTION 4.
+**Try to think of other priors, justify your choice, and run again your model. What differences do you observe if you change your prior on the parameters of interest?**
+
+```{r}
+
+# Model
+model_chicks_diff_prior <- function() {
+
+  for( i in 1:N ){ 
+    # LIKELIHOOD -- same as before
+    nbchicks[i] ~ dbin( p[i], nbpairs[i] ) # first probability, then your number of attempts
+    logit( p[i] ) <- a + b.temp * temp[i] + b.rain * rain[i] 
+  }
+  
+  # Define priors on the parameters of interest, which are those included in my logistic regression function
+  # We do not have a lot of info about them, so we will assume that we have a very vague prior.
+
+  # TRY BETA DIST INSTEAD: with this - bad results - gives +ve val for all params - the distribution was a rubbish prior
+  # a ~ dbeta(1, 1)     # intercept
+  # b.temp ~ dbeta(1, 1)  # slope for temperature
+  # b.rain ~ dbeta(1, 1)  # slope for rainfall
+  
+  # UNIFORM DIST - with wide enough limits to allow param exploration -= eg if limit -1, 1 then "a" param dist bad - want to be >1, w these vals: get same results as norm dist priors as above - great!
+  a ~ dunif( -3, 3 )     # intercept
+  b.temp ~ dunif( -3, 3 )  # slope for temperature
+  b.rain ~ dunif( -3, 3 )  # slope for rainfall
+  
+}
+
+# Initial value/s for parameter/s of interest
+# interested in effect of climate on breeding - params of interest are: a, b.temp and b.rain
+init1     <- list( a = 0.1, b.temp = 0.1, b.rain= 0.1)
+init2     <- list( a = 0.5, b.temp = 0.5, b.rain = 0.5 )
+
+init_vals <- list( init1, init2 )
+
+# Define parameter/s that will be estimated
+params <- c( "a", "b.temp", "b.rain" )
+
+
+# Define parameters that will further customise the MCMC
+burnin <- 500  # Number of iterations to discard as burnin
+iter   <- 2000 # This number includes the iterations that will be discarded as burnin!
+nchain <- 2    # Number of chains
+
+# Run JAGS!
+# Set a seed number for this run 
+set.seed( 12345 )
+# Run JAGS and save the output in object `model`
+mcmc_res <- R2jags::jags( model.file = model_chicks_diff_prior, # Pass defined model 
+                          # Object with data  
+                          data = datax,
+                          # Object with starting value/s
+                          inits = init_vals,
+                          # Object with parameter/s to keep
+                          parameters.to.save = params,
+                          # Number of chains (always, at least 2 to check for chain convergence!)
+                          n.chains = nchain,
+                          # Number of iterations that will be discarded as part of the burn-in phase
+                          n.burnin = burnin, 
+                          # Number of iterations (includes number of iterations specified in burnin)
+                          n.iter = iter
+)
+
+
+```
+```{r}
+
+##### LOOK AT PARAMS OF INTEREST MEANS ETC
+
+#    We may want to convert the output in a list that we 
+#    can easily access and parse. Then, we can divide the 
+#    results in the two chains that we have run
+mcmc_res_list <- coda::as.mcmc( mcmc_res )
+mcmc1 <- mcmc_res_list[[ 1 ]]
+mcmc2 <- mcmc_res_list[[ 2 ]]
+
+# 3. Plot the chains for value "a" 
+plot( density( mcmc1[,"a"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"a"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for a and the quantiles
+print("Mean and quantiles for param 'a'")
+mean( mcmc1[,"a"])
+mean( mcmc2[,"a"])
+quantile( x =  mcmc1[,"a"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"a"], probs = c( 0.025, 0.975 ) )
+
+
+# 3. Plot the chains for value "b.temp" 
+plot( density( mcmc1[,"b.temp"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"b.temp"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for b.temp and the quantiles
+print("Mean and quantiles for param 'b.temp'")
+mean( mcmc1[,"b.temp"])
+mean( mcmc2[,"b.temp"])
+quantile( x =  mcmc1[,"b.temp"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"b.temp"], probs = c( 0.025, 0.975 ) )
+
+
+# 3. Plot the chains for value "b.rain" 
+plot( density( mcmc1[,"b.rain"], adj = 1 ), col = "red" )
+lines( density( mcmc2[,"b.rain"], adj = 1 ), col = "green" )
+
+# 4. Get mean estimate for b.rain and the quantiles
+print("Mean and quantiles for param 'b.rain'")
+mean( mcmc1[,"b.rain"])
+mean( mcmc2[,"b.rain"])
+quantile( x =  mcmc1[,"b.rain"], probs = c( 0.025, 0.975 ) )
+quantile( x =  mcmc2[,"b.rain"], probs = c( 0.025, 0.975 ) )
+
+
+```
+
+```{r}
+
+# 5. Get trace plot and ACF plots
+
+## param: a
+R2jags::traceplot( mcmc1[,"a"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"a"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"a"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"a"] ), ask = FALSE )
+
+# param: b.temp
+R2jags::traceplot( mcmc1[,"b.temp"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"b.temp"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"b.temp"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"b.temp"] ), ask = FALSE )
+
+# param: b.rain
+R2jags::traceplot( mcmc1[,"b.rain"], ask = FALSE )
+R2jags::traceplot( mcmc2[,"b.rain"], ask = FALSE, add = T, col = "red" )
+coda::autocorr.plot(as.mcmc( mcmc1[,"b.rain"] ), ask = FALSE )
+coda::autocorr.plot(as.mcmc( mcmc2[,"b.rain"] ), ask = FALSE )
+
+```
+

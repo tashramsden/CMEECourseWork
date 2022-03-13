@@ -1,0 +1,427 @@
+---
+title: "Understanding the MCMC algorithm"
+author: "Sandra Alvarez-Carretero and Mario dos Reis"
+date: "11/30/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# PART 1
+
+## Introduction 
+The data that we will be using for this practical session is the 12S rRNA alignment
+of human and orangutan, which consists of 948 base pairs and 90 differences
+(i.e., 84 transitions and 6 transversions):
+
+> **Table 1**. Numbers and frequencies (in parantheses) of sites for the 16 site configurations
+> (patterns) in human and orangutan mitochondrial 12s rRNA genes.
+> This table is based on Table 1.3, page 7 in [Yang (2014)](http://abacus.gene.ucl.ac.uk/MESA/).
+
+| Orangutan (below) \ Human (right) | T               | C             | A              | G              | Sum ($\pi_{i}$)|
+|-------------------------------------------|-----------------|---------------|----------------|----------------|---------------|
+| T                                         | 179 (0.188819)  | 23 (0.024262) | 1 (0.001055)   | 0 (0)          | 0.2141        |
+| C                                         | 30 (0.03164646) | 219 (0.231013)| 2 (0.002110)   | 0 (0)          | 0.2648        |
+| A                                         | 2 (0.002110)    | 1 (0.001055)  | 291 (0.306962) | 10 (0.010549)  | 0.3207        |
+| G                                         | 0 (0)           | 0 (0)         | 21 (0.022152)  | 169 (0.178270) | 0.2004        |
+| Sum($\pi_{j}$                              | 0.226           | 0.2563        | 0.3323         | 0.1888         | 1             |
+
+>> *Note*: Genbank accesion numbers for the human and orangutan sequences are 
+>> `D38112` and `NC_001646`, respectively ([Horai et al. (1995)](https://pubmed.ncbi.nlm.nih.gov/7530363/)).
+>> There are 954 sites in the alignment, but six sites involve alignment gaps and are removed, leaving 948 sites 
+>> in each sequence. The average base frequencies in the two sequences are 0.2184 (T), 
+>> 0.2605 (C), 0.3265 (A), and 0.1946 (G).
+
+We are going to use the [R programming language](https://cran.r-project.org/) to load,
+parse, and analyse the data.
+You can also run all the commands we will go through in this tutorial from the 
+graphical interface [RStudio](https://www.rstudio.com/products/rstudio/download/).
+If you are unfamiliar with the installation of both these software, you can follow a
+step-by-step tutorial 
+[here](https://github.com/sabifo4/RnBash/tree/master/R_installation). This tutorial has a detailed explanation 
+of each task that you are going to carry out. Note that you can also find all the code shown and explained 
+here in [this R script](Practical_1.R).
+
+## Analysing the data
+First, we will define the variables for our data set: the length of the alignment, 
+the total number of transitions (i.e., substitutions between the two pyrimidines, 
+`T <-> C)`), and the total number of transversions (i.e., substitutions between 
+the two purines, `A <-> G`):
+
+```{r}
+# Length of alignment in bp
+n  <- 948
+# Total number of transitions (23+30+10+21)
+ns <- 84
+# Total number of transversions (1+0+2+0+2+1+0+0)
+nv <- 6
+```
+
+Then, we need to write a function that returns us the log-likelihood given the 
+distance between two sequences ($d$) and the transition/transversion rate ratio ($\kappa=\alpha/\beta$), 
+which is written as $f(D|d,k)$. This function might change depending on the nucleotide substitution model
+that is to be used. In this practical session, we will be using Kimura's 1980 (K80) nucleotide
+substitution model (see page 8, [Yang (2014)](http://abacus.gene.ucl.ac.uk/MESA/)), which 
+accounts for the fact that transitions often occur at higher rates than transversions.
+Therefore, the parameters to consider are the following:   
+
+   * Distance, $d$.   
+   * Kappa, $\kappa$.   
+   * Alignment length, $n$. In this example, $n=948$.   
+   * Number of transitions, $ns$. In this example, $ns=84$.   
+   * Number of transversions, $nv$. In this example, $nv=6$.   
+
+```{r}
+# Define log-likelihood function, f(D|d,k).
+# This uses Kimura's (1980) substitution model. See p.8 in Yang (2014).
+#
+# Arguments:
+#
+#   d  Numeric, value for the distance.
+#   k  Numeric, value for parameter kappa.  = ratio of transitions/transversions
+#   n  Numeric, length of the alignment. Default: 948.
+#   ns Numeric, total number of transitions. Default: 84.
+#   nv Numeric, total number of transcersions. Default: 6.
+
+## d and k are the params of interest
+
+k80.lnL <- function( d, k, n = 948, ns = 84, nv = 6 ) {
+
+  # Define probabilities
+  p0 <- .25 + .25 * exp( -4*d/( k+2 ) ) + .5 * exp( -2*d*( k+1 )/( k+2 ) )
+  p1 <- .25 + .25 * exp( -4*d/( k+2 ) ) - .5 * exp( -2*d*( k+1 )/( k+2 ) )
+  p2 <- .25 - .25 * exp( -4*d/( k+2 ) )
+
+  # Return log-likelihood
+  return ( ( n - ns - nv ) * log( p0/4 ) +
+            ns * log( p1/4 ) + nv * log( p2/4 ) )
+
+}
+```
+
+As we have defined our log-likelihood function, we might want to visually see how this distribution 
+looks like if I am to "plug" in this function different values for my parameters of interest ($d$ and $\kappa$) 
+as well as the values that relate to my data (i.e., $n$, $ns$, $nv$; which relate to my alignment). 
+
+For this example, we are going to select 100 values for $\kappa$ that range from 0 to 100 and
+100 values for $d$ that range from 0 to 0.3. Then, we will create a data frame
+in which we will include all possible combinations of the values selected for $d$ and $\kappa$. In that way, we will be able to extract the paired values of $d$ and $\kappa$ (i.e., each row in the data fram will correspond to one combination of the values paired for $d$ and $\kapp$) and use them for subsequent analyses:
+
+```{r}
+# Number of values that we want to collect for 
+# each parameter of interest
+dim <- 100
+# Vector of `d` values
+d.v <- seq( from = 0, to = 0.3, len = dim )
+# Vector of `k` values
+k.v <- seq( from = 0, to = 100, len = dim )
+# Define grid where we will save all possible 
+# combinations with the 100 values of `d` and 
+# the 100 values of `k`
+dk  <- expand.grid( d = d.v, k = k.v )
+```
+
+The resulting data frame object has 10,000 rows and 2 columns: we have recorded a total of 10,000
+paired values of $d$ and $\kappa$ that have resulted from combining the 100 values of that were proposed 
+for each of these parameters of interest.
+
+Now, we can use this object to extract in the correct order the "paired" values of $\kappa$ and $d$ 
+so we can "plug" them in the log-likelihood function and compute the corresponding log-likelihood 
+values for each combination of $d$ and $\kappa$. 
+
+```{r}
+# Compute likelihood surface, f(D|d,k)
+lnL <- matrix( k80.lnL( d = dk$d, k = dk$k ), ncol = dim )
+```
+
+Once we have saved the output log-likelihood values in the matrix above,
+we will need to scale the likelihood to be 1 at the 
+maximum so there are no numerical issues in subsequent analyses: 
+
+```{r}
+# For numerical reasons, we scale the likelihood to be 1
+# at the maximum, i.e., we subtract max(lnL)
+L <- exp( lnL - max( lnL ) )
+
+## will now integrate to one
+```
+
+At this moment, we have now computed the log-likelihood values for each pair of $d$ and $\kappa$ values 
+provided to the `K80.lnL()` function! 
+
+In addition, if we had some prior information on these two parameters, we could also use it to build the prior distributions for $d$ and $\kappa$. Imagine that you contact an expert on the field, and they tell you that 
+the best distribution that you could use to represent the information about both $d$ and $\kappa$ is the 
+Gamma distribution. They also tell you that $\alpha$ parameter for both Gamma distributions should be $2$ (parameter that the R function `dgamma` has labelled as `shape`) but that the Gamma prior on $d$ should have $\beta=20$ and the Gamma prior on $\kappa$ should have $\beta=0.1$ (the $\beta$ values is passed to argument `rate` in the `dgamma` function). 
+
+```{r}
+# Compute prior surface, f(D)f(k)
+Pri <- matrix( dgamma( x = dk$d, shape = 2, rate = 20 ) *  # trying to generate gamma distribution that has a desired shape, see below eg
+               dgamma( x = dk$k, shape = 2, rate = .1 ),  # multiplied to get full prior (ie f(D) * f(k))
+               ncol = dim )
+
+# eg 
+# curve(dgamma(x, shape=2, rate=20), from=0, to=1)  # manipulating shape and rate (a and b) 
+# mean for gamma = a/b, want to equal 0.1 for param D (vs 20 for k)
+# to get desired shape of plot - how sure about priors you are - v spread or narrow? try diff shape and rate vals here
+# curve(dgamma(x, shape=10, rate=100), from=0, to=1)  # still same mean but now narrower
+
+# create matrix - same size as likelihood matrix
+```
+
+Given that now we have our likelihood and our prior distributions, we might 
+also want to compute the unnormalised posterior now:
+```{r}
+# Compute unnormalised posterior surface, f(d)f(k)f(D|d,k)
+Pos <- Pri * L
+``` 
+
+Once we have computed the three surfaces, it is time to plot them! 
+
+```{r}
+# Plot prior, likelihood, and unnormalised posterior surfaces.
+# We want one row and three columns.
+par( mfrow = c( 1, 3 ) )
+# Prior surface. Note that the `contour()` function creates a contour plot.
+image( x = d.v, y = k.v, z = -Pri, las = 1, col = heat.colors( 50 ),
+       main = "Prior", xlab = "distance, d",
+       ylab = "kappa, k", cex.main = 2.0,
+       cex.lab = 1.5, cex.axis = 1.5 )
+contour( x = d.v, y = k.v, z = Pri, nlev=10, drawlab = FALSE, add = TRUE )
+# Likelihood surface + contour plot.
+image( x = d.v, y = k.v, z = -L, las = 1, col = heat.colors( 50 ),
+       main = "Likelihood", xlab = "distance, d",
+       ylab = "kappa, k", cex.main = 2.0,
+       cex.lab = 1.5, cex.axis = 1.5 )
+contour( x = d.v, y = k.v, z = L, nlev = 10,
+         drawlab = FALSE, add = TRUE)
+# Unnormalised posterior surface + contour plot.
+image( x = d.v, y = k.v, z = -Pos, las = 1, col = heat.colors( 50 ),
+       main = "Posterior", xlab = "distance, d",
+       ylab = "kappa, k", cex.main = 2.0,
+       cex.lab = 1.5, cex.axis = 1.5 )
+contour( x = d.v, y = k.v, z = Pos, nlev = 10,
+         drawlab = FALSE, add = TRUE )
+
+
+## most likely values of D and kappa in red (ie "top of mountain")
+# for prior: can see that most likely d is ~ 0.05 and kappa ~ 10  == prior
+# likelihood: eg is used kappa=80 - likelihood of recovering data is low - hotspot: d~0.1, kappa~25-35
+# posterior: seems good - between prior and likelihood: can see what should be expecting 
+```
+
+# PART 2: Markov Chain Monte Carlo (MCMC) 
+
+## Introduction
+Now, we want to obtain the posterior distribution by MCMC sampling.
+In most practical problems, the marginal likelihood (aka constant $z$) cannot be calculated (either
+analytically or numerically), and so the MCMC algorithm becomes necessary.
+In this case, we do not calculate the posterior as: 
+
+> $f(\kappa,d|D)=\frac{f(d)f(\kappa)f(D|d,\kappa)}{z}$
+
+Instead, we **approximate** the posterior to be the product of the 
+prior distribution/s and the likelihood.
+Following the example used above, we have two priors (the prior on $d$ and the prior 
+on $\kappa$) and the likelihood. To calculate this approximation, aka the **unnormalised**
+posterior, we do the following: 
+
+> $f(\kappa,d|D)\propto f(d)f(\kappa)f(D|d,\kappa)$
+
+Given that the priors for $d$ and $\kappa$ are Gamma distributions, which depend on 
+parameters $\alpha$ and $\beta$, i.e.,  $\Gamma(\alpha,\beta)$...   
+
+> E.g.:
+> $f(d)=\Gamma(d|2,20)$, if $\alpha=2$ and $\beta=20$.   
+> $f(\kappa)=\Gamma(d|2,.1)$, if $\alpha=2$ and $\beta=0.1$.   
+ 
+... we can write a function to compute the unnormalised posterior, which we 
+will later use when running the MCMC:
+
+```{r}
+# Define function that returns the logarithm of the unnormalised posterior:
+#                             f(d) * f(k) * f(D|d,k)
+# By, default we set the priors as:
+#                  f(d) = Gamma(d | 2, 20) and f(k) = Gamma(k | 2, .1)
+#
+# Arguments:
+#
+#   d     Numeric, value for the distance.
+#   k     Numeric, value for parameter kappa.
+#   n     Numeric, length of the alignment. Default: 948.
+#   ns    Numeric, total number of transitions. Default: 84.
+#   nv    Numeric, total number of transcersions. Default: 6.
+#   a.d.  Numeric, alpha value of the Gamma distribution that works as a prior
+#         for the distance (d). Default: 2.
+#   b.d.  Numeric, beta value pf the Gamma distribution that works as a prior
+#         for parameter distance (d). Default: 20.
+#   a.k.  Numeric, alpha value for the Gamma distribution that works as a prior
+#         for parameter kappa (k). Default: 2.
+#   b.k.  Numeric, beta value for the Gamma distribution that works as a prior
+#         for parameter kappa (k). Default: 0.1.
+
+# d and k still params of interest
+# n, ns, nv = data 
+# a.d and b.d are for the prior for d, ie a.d = alpha for d
+# a.k and b.k are for the prior for kappa
+
+ulnPf <- function( d, k, n = 948, ns = 84, nv = 6,
+                   a.d = 2, b.d = 20, a.k = 2, b.k = .1 ){
+
+  # The normalising constant in the prior densities can be ignored
+  lnpriord <- ( a.d - 1 )*log( d ) - b.d * d  # gamma distribution - for d
+  lnpriork <- ( a.k - 1 )*log( k ) - b.k * k  # gamma distribution - for kappa
+
+  # Define log-likelihood (K80 model) (model for nucleotide substitution)
+  expd1 <- exp( -4*d/( k+2 ) )
+  expd2 <- exp( -2*d*( k+1 )/( k+2 ) )
+  p0 <- .25 + .25 * expd1 + .5 * expd2
+  p1 <- .25 + .25 * expd1 - .5 * expd2
+  p2 <- .25 - .25 * expd1
+  lnL <- ( ( n - ns - nv ) * log( p0/4 ) + ns * log( p1/4 ) + nv * log( p2/4 ) )
+
+  # Return unnormalised posterior (they are lnL, so 
+  # you return their sum! (rather than product))
+  return ( lnpriord + lnpriork + lnL )
+}
+```
+
+## The MCMC algorithm
+Once we have established the function to compute the unnormalised posterior, 
+we need to define the function that we will use to run our MCMC!
+The algorithm that we will implement in this function has five main 
+parts, which we detail below:   
+
+   1. Set initial states for $d$ and $\kappa$.   
+   Now, for $n$ iterations:   
+      2. Propose a new state $d^{\*}$ (from an appropriate proposal density).   
+      3. Accept or reject the proposal with probability: $\mathrm{min}(1,p(d^{\*})p(x|d^{\*})/p(d)p(x|d))$. 
+      If the proposal is accepted, then $d=d^{\*}$. Otherwise, the same state for $d$ is kept 
+      for the next iteration, $d=d$.   
+      4. Save $d$.   
+      5. Repeat steps 2-4 for $\kappa$.   
+      6. Go to step 2.
+
+```{r}
+# Define function with MCMC algorithm.
+#
+# Arguments:
+#
+#   init.d  Numeric, initial state value for parameter d.
+#   init.k  Numeric, initial state value for paramter k.
+#   N       Numeric, number of iterations that the MCMC will run.
+#   w.d     Numeric, width of the sliding-window proposal for d.
+#   w.k     Numeric, width of the sliding-window proposal for k.
+mcmcf <- function( init.d, init.k, N, w.d, w.k ) {
+
+  # We keep the visited states (d, k) in sample.d and sample.k
+  # for easy plotting. In practical MCMC applications, these
+  # are usually written into a file. These two objects are numeric
+  # vectors of length N+1.
+  sample.d <- sample.k <- numeric( N+1 )
+
+  # STEP 1: Set initial parameter values to be used during the first
+  #         iteration of the MCMC.
+  # 1.1. Get initial values for parameters k and d. Save these values
+  #      in vectors sample.d and sample.k
+  d <- init.d;  sample.d[1] <- init.d
+  k <- init.k;  sample.k[1] <- init.k
+  # 1.2. Get unnormalised posterior
+  ulnP  <- ulnPf( d = d, k = k )
+  # 1.3. Initialise numeric vectors that will be used to keep track of
+  #      the number of times proposed values for each parameter,
+  #      d and k, have been accepted
+  acc.d <- 0; acc.k <- 0
+  # 1.4. Start MCMC, which will run for N iterations
+  for ( i in 1:N ){
+
+    # STEP 2: Propose a new state d*.
+    # We use a uniform sliding window of width w with reflection
+    # to propose new values d* and k*
+    # 2.1. Propose d* and accept/reject the proposal
+    dprop <- d + runif( n = 1, min = -w.d/2, max = w.d/2 )  # uses sliding window - so that eg if window w.d =30 then here get unif between -15 and 15
+    # 2.2. Reflect if dprop is negative  - here biologically - must be +ve
+    if ( dprop < 0 ) dprop <- -dprop
+    # 2.3. Compute unnormalised posterior
+    ulnPprop <- ulnPf( d = dprop, k = k )
+    lnalpha  <- ulnPprop - ulnP
+
+    # STEP 3: Accept or reject the proposal:
+    #            if ru < alpha accept proposed d*
+    #            else reject and stay where we are
+    if ( lnalpha > 0 || runif( n = 1 ) < exp( lnalpha ) ){
+      d      <- dprop
+      ulnP   <- ulnPprop
+      acc.d  <- acc.d + 1  # just a counter
+    }
+
+    # STEP 4: Repeat steps 2-3 to propose a new state k*.
+    # 4.1. Propose k* and accept/reject the proposal
+    kprop <- k + runif( n = 1, min = -w.k/2, max = w.k/2 )
+    # 4.2. Reflect if kprop is negative
+    if ( kprop < 0 ) kprop <- -kprop
+    # 4.3. Compute unnormalised posterior
+    ulnPprop <- ulnPf( d = d, k = kprop )
+    lnalpha  <- ulnPprop - ulnP
+    # 4.4. Accept/reject proposal:
+    #          if ru < alpha accept proposed k*
+    #          else reject and stay where we are
+    if ( lnalpha > 0 || runif( n = 1 ) < exp( lnalpha ) ){
+      k     <- kprop
+      ulnP  <- ulnPprop
+      acc.k <- acc.k + 1
+    }
+
+    # STEP 5: Save chain state for each parameter so we can later
+    #         plot the corresponding histograms
+    sample.d[i+1] <- d
+    sample.k[i+1] <- k
+  }
+
+  # Print out the proportion of times
+  # the proposals were accepted
+  cat( "Acceptance proportions:\n", "d: ", acc.d/N, " | k: ", acc.k/N, "\n" )
+
+  # Return vector of d and k visited during MCMC
+  return( list( d = sample.d, k = sample.k ) )
+
+}
+```
+
+Before proceeding with the next steps, we can set a seed number so we can 
+later reproduce the results that we get when running the MCMCs that you will see 
+below. You can ommit running the next command if you want to get different results each time you run this tutorial:
+
+```{r}
+set.seed( 12345 )
+```
+
+## Running an MCMC
+Before we run our MCMC function, we might want to estimate 
+how long this might take. The function `system.time()` can be used for 
+this purpose:
+
+```{r}
+# Test run-time
+system.time( mcmcf( init.d = 0.2, init.k = 20, N = 1e4,
+                    w.d = 0.12, w.k = 180 ) )
+```
+
+Once we have an estimate of the time it can take us to run an MCMC
+with specific settings (see R code above), we can run our function 
+and save the output in an object, which we will later have to inspect:
+
+```{r}
+# Run MCMC and save output
+dk.mcmc <- mcmcf( init.d = 0.2, init.k = 20, N = 1e4,
+                  w.d = 0.12, w.k = 180 )
+```
+
+```{r}
+# OUTPUTS!
+dk.mcmc$d
+dk.mcmc$k
+
+```
+
