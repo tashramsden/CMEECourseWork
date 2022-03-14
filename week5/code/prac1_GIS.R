@@ -1,5 +1,7 @@
 ## GIS data and plotting
 
+rm(list=ls())
+
 # https://github.com/davidorme/Masters_GIS
 
 # required packages
@@ -18,6 +20,12 @@ library(rgdal)
 library(raster)
 library(sf)
 library(units)
+library(rgeos)
+library(gdistance)
+library(openxlsx)
+library(ggplot2)
+library(RColorBrewer)
+
 
 #### Vector data ---------
 
@@ -202,7 +210,7 @@ print(uk_eire)
 # Or you can simply convert the `units` version to simple numbers
 uk_eire$length <- as.numeric(uk_eire$length)
 
-# diatance:
+# distance:
 # sf gives closest dist between geometries (might be 0 if 2 features overlap/touch)
 st_distance(uk_eire)
 st_distance(uk_eire_centroids)
@@ -229,13 +237,13 @@ plot(uk_eire['n_km2'], asp=1, logz=TRUE)
 
 ## h. Reprojecting vector data ----
 
-# above - been ASSERTING that we ahve data w particular projection (4326)
+# above - been ASSERTING that we have data w particular projection (4326)
 # NOT reprojection - just saying we know our coords are in this proj
 
 # 4326 just unique numeric code in EPSG database = WGS 84 (most GPS data in WGS 84)
 
 # reprojection = moving data from one set of coords to another
-# ~starightforward ish for vector:
+# ~straightforward ish for vector:
 # spatial info just coords in space, and projections just equations so apply equations to coords 
 
 # reproj often used to convert from coords sys (w units in degrees) to 
@@ -298,7 +306,7 @@ england_not_london_bng <- st_difference(st_transform(st_sfc(england, crs=4326), 
 others_bng <- st_transform(st_sfc(eire, northern_ireland, scotland, wales, crs=4326), 27700)
 corrected <- c(others_bng, london_bng, england_not_london_bng)
 # Plot that and marvel at the nice circular feature around London
-par(mar=c(3,3,1,1))
+par(mfrow=c(1,1), mar=c(3,3,1,1))
 plot(corrected, main='25km radius London', axes=TRUE)
 
 
@@ -374,9 +382,10 @@ as.matrix(square_agg_modal)
 
 # Copy parents
 square_disagg <- disaggregate(square, fact=2)
-# as.matrix(square_disagg)
+as.matrix(square_disagg)
 # Interpolate
 square_disagg_interp <- disaggregate(square, fact=2, method='bilinear')
+as.matrix(square_disagg_interp)
 
 # to visualise this - doesn't seem to like being zoomed!!!!
 par(mfrow=c(1,3))
@@ -533,7 +542,7 @@ plot(st_geometry(uk_eire_BNG), add=TRUE, border='grey')
 # or a point in the center - use a point
 
 # extra feature for creating polygons dissolve=TRUE but requires rgeos package
-library(rgeos)
+# library(rgeos)
 
 # rasterToPolygons returns a polygon for each cell and returns a Spatial object
 poly_from_rast <- rasterToPolygons(uk_eire_poly_20km)
@@ -848,6 +857,8 @@ uk_eire_elev <- mask(uk_eire_etopo, uk_eire_detail_raster)
 
 par(mfrow=c(1,2), mar=c(3,3,1,1), mgp=c(2,1,0))
 plot(uk_eire_etopo, axis.args=list(las=3))
+plot(st_geometry(uk_eire_detail), add=TRUE, border='grey')
+
 plot(uk_eire_elev, axis.args=list(las=3))
 plot(st_geometry(uk_eire_detail), add=TRUE, border='grey')
 
@@ -880,7 +891,7 @@ plot(max_sfc, add=TRUE, pch=24, bg='red')
 plot(bsl_sfc, add=TRUE, pch=25, bg='lightblue', cex=0.6)
 
 # is the max altitude the REAL max altitude in the UK?
-# actaul max altitude is Ben Nevis in Scotland - doesn't look like that's 
+# actual max altitude is Ben Nevis in Scotland - doesn't look like that's 
 # where the red point is...
 # lots of points below sea level
 
@@ -924,7 +935,7 @@ pennine_way <- st_read("../data/National_Trails_Pennine_Way.gpx",
 
 # before anything else, our data (etopo_uk and pennine_way) are in WGS84
 # doesn't make sense to calc distances and transects on a geo coord system
-# reproject into the British National Grid, w 2km resoltuion:
+# reproject into the British National Grid, w 2km resolution:
 
 # reproject vector data
 pennine_way_BNG <- st_transform(pennine_way, crs=27700)
@@ -1023,7 +1034,7 @@ ng_extent_utm <- extent(-732000, 1506000, 8874000, 10000000)  # these values fro
 ng_template_utm <- raster(ng_extent_utm, res=1000, crs="+init=EPSG:32754")
 ng_annual_prec_utm <- projectRaster(ng_annual_precip, ng_template_utm)
 
-# 4. create and reproject the transect and then segemntize to 1000m
+# 4. create and reproject the transect and then segmentize to 1000m
 transect <-  st_linestring(cbind(x=transect_long, y=transect_lat))
 transect <- st_sfc(transect, crs=4326)
 transect_utm <- st_transform(transect, crs=32754)
@@ -1071,7 +1082,7 @@ plot(layer ~ distance, data=transect_data, type="l",
 # simplifying assumption that each village will always use closest site
 
 # can't use st_distances because dists need to reflect travel distances 
-# trhough sea not straight line dists
+# though sea not straight line dists
 # going to use COST DISTANCE ANALYSIS
 # cost dist models use raster to define cost surface: moving from a cell to 
 # neighbouring cell has a cost derived from values in the raster
@@ -1081,8 +1092,9 @@ plot(layer ~ distance, data=transect_data, type="l",
 # using data from excel file
 # install.packages('gdistance') # Cost distance analysis
 # install.packages('openxlsx') # Load data from Excel directly
-library(gdistance)
-library(openxlsx)
+
+# library(gdistance)
+# library(openxlsx)
 
 
 # 1. Loading the data
@@ -1123,7 +1135,7 @@ plot(st_geometry(kadavu), add=TRUE)
 # cost surface should assign uniform cost to moving through sea and an
 # infinte cost (NA) to moving over land
 # resolution really matters - v fine res will give v precise distances but 
-# take a long time, coarse res will run quickly but be v curde
+# take a long time, coarse res will run quickly but be v crude
 # need to:
 # pick extents to cover the islands and sites
 # pick a resolution
@@ -1250,7 +1262,7 @@ site_load <- aggregate(building_count ~ nearest_site_name, data=villages,
 sites <- merge(sites, site_load, by.x='Name', by.y='nearest_site_name', 
                all.x=TRUE)
 
-par(mar=c(2,2,7,4))
+par(mfrow=c(1,1), mar=c(2,2,7,4))
 # Now build up a complex plot
 plot(st_geometry(kadavu))
 # add the villages, colouring by nearest site and showing the village 
@@ -1275,7 +1287,7 @@ for(idx in seq(nrow(villages))){
 
 # tmap package - works in similar way to ggplot -but more focussed on map plotting
 
-library(ggplot2)
+# library(ggplot2)
 ggplot(ne_110) +
    geom_sf() +
    theme_bw()
@@ -1312,7 +1324,7 @@ hcl.pals()
 # has palettes: viridis, magma, plasma, inferno - use option argument to specify
 
 # brewer
-library(RColorBrewer)
+# library(RColorBrewer)
 par(mfrow=c(1,1),mar=c(3,3,3,3))
 display.brewer.all()
 # top spectral = good for coninuous

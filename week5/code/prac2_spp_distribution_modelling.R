@@ -114,8 +114,8 @@ names(bioclim_2050) <- names(bioclim_hist)
 # Look at the data structure
 print(bioclim_hist)
 
-# these 2 datasets conatin HISTORICAL climate data (1970-2000)
-# and PORJECTED FUTURE climate for 2050 taken from Hadley model using RCP 6.0
+# these 2 datasets contain HISTORICAL climate data (1970-2000)
+# and PROJECTED FUTURE climate for 2050 taken from Hadley model using RCP 6.0
 # NOTE: this is CMIP5 data -considered outdated (but easy to load!)
 # both datasets from http://www.worldclim.org
 
@@ -155,7 +155,7 @@ bioclim_2050_local <- crop(bioclim_2050, model_extent)
 # useful - works directly w the env layers to pick points representing cells
 # avoids getting duplicate points in the same cells
 # need to provide a mask layer that shows which cells are valid choices
-# can exclude cells that conatin obs locations by setting p to use the coords 
+# can exclude cells that contain obs locations by setting p to use the coords 
 # of the obs locations
 
 # Create a simple land mask
@@ -241,7 +241,7 @@ train_locs <- st_coordinates(subset(tapir_GBIF, kfold != 1))
 bioclim_model <- bioclim(bioclim_hist_local, train_locs)
 
 # plot model output to show envelopes 
-# p used to show climatic envelope that contains a certain proprtion of the data
+# p used to show climatic envelope that contains a certain proportion of the data
 # a and b arguments set which layers in the env data are compared
 par(mfrow=c(1,2), mar=c(3,3,1,1))
 plot(bioclim_model, a=1, b=2, p=0.9)
@@ -249,7 +249,7 @@ plot(bioclim_model, a=1, b=5, p=0.9)
 # NOTE: in second plot the 2 vars (mean annual temp BIO1 and max temp of 
 # warmest month BIO5) are extremely strongly correlated
 # prob not an issue for this method but in lots of models V BAD to have strongly
-# correlated expl vars - multicollinearity - can sause big stats issues
+# correlated expl vars - multicollinearity - can cause big stats issues
 
 
 ## a.2 Model predictions ----
@@ -281,7 +281,7 @@ bioclim_eval <- evaluate(p=test_locs, a=test_pseudo, model=bioclim_model,
                          x=bioclim_hist_local)
 print(bioclim_eval)
 
-# and create standard plost
+# and create standard plots
 # ROC curve and how kappa changes as threshold used on the model predictions varies
 # threshold function allows us to find an optimal threshold for a particular 
 # measure of performance: here we find the threshold that gives the best kappa.

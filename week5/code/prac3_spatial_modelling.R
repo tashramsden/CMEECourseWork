@@ -1,5 +1,7 @@
 ## Spatial modelling ----
 
+rm(list=ls())
+
 # https://github.com/davidorme/Masters_GIS
 
 # see for more detail: https://rspatial.org/raster/analysis/index.html
@@ -95,15 +97,15 @@ hist(elev, main='Elevation')
 data_stack <- stack(rich, aet, elev, temp)
 print(data_stack)
 
-# second sue as() to convert format
-# cobvert to SpatialPixelDataFrame format from sp package
+# second use as() to convert format
+# convert to SpatialPixelDataFrame format from sp package
 # useful because works v like df but identifies geometry as pixels
 # NOTE: the names of the variables in the data frame have been set from the 
 # original TIFF filenames, not our variable names in R
 data_spdf <- as(data_stack, 'SpatialPixelsDataFrame')
 summary(data_spdf)
 
-# can aslo convert to sf object
+# can also convert to sf object
 # sf vs SpatialPixelDataFrame - differ in how geometry represented:
 # SpatialPixelDataFrame: holds the data as values in PIXELS - so "knows" that 
 # the data represent areas
@@ -113,7 +115,7 @@ print(data_sf)
 
 # Affine transformation -- sidebar!!!
 # transform this point data to polygon 
-# each cell is dentre of a cell w sides of ~96km: can use those points to 
+# each cell is centre of a cell w sides of ~96km: can use those points to 
 # define AFFINE TRANSFORMATIONS
 # means we can create a template polygon that is the right size for the grid 
 # cells, centred on zero and then use the points to move them all into the 
@@ -124,7 +126,7 @@ cellsize <- res(rich)[[1]]
 # Make the template polygon
 template <- st_polygon(list(matrix(c(-1,-1,1,1,-1,-1,1,1,-1,-1), ncol=2) * cellsize / 2))
 # Add each of the data points to the template
-polygon_data <- lapply(data_sf$geometry, function(pt) template + pt)  # pass pt to function which will do template + pt where pt is each item indatasf$geometry
+polygon_data <- lapply(data_sf$geometry, function(pt) template + pt)  # pass pt to function which will do template + pt where pt is each item in datasf$geometry
 data_poly <- st_sf(avian_richness = data_sf$avian_richness, 
                    geometry=polygon_data)
 plot(data_poly['avian_richness'])
@@ -158,7 +160,7 @@ plot(avian_richness ~ elev, data=data_sf)
 # once corr calculated, need to assess how strong it is GIVEN amount of data: 
 # easy to have large r value in small dataset by chance
 
-# corr coefs assume indpendence but not true for spatial data
+# corr coefs assume independence but not true for spatial data
 # spatial autocorrelation
 
 # easy way to remove non-independence - calculate significance tests as if you 
@@ -277,7 +279,7 @@ head(knn$nn, n=3)
 # this doesn't work because there are some locations w no neighbours, can:
 # remove points w no neighbours (given these are islands offshore this is reasonable)
 # use neighbourhood system in which they're not isolated, eg knearneigh -BUT
-# ask self whether a modelt hat arbitrarily links offshore islands is realsitic!
+# ask self whether a model that arbitrarily links offshore islands is realistic!
 
 
 ## c.1 More data cleaning ----
@@ -296,7 +298,7 @@ data_sf <- subset(data_sf, card_rook > 0)
 # Remove Mauritius
 data_sf <- st_difference(data_sf, mauritius)
 
-# now recalculate neighbourhood objects to use this reduced set of loactions
+# now recalculate neighbourhood objects to use this reduced set of locations
 rook <- dnearneigh(data_sf, d1=0, d2=cellsize + 1)
 queen <- dnearneigh(data_sf, d1=0, d2=sqrt(2) * cellsize + 1)
 data_sf$card_rook <- card(rook)
@@ -374,7 +376,7 @@ print(moran_elev)  # a bit less autocorr, still high
 
 # localmoran function returns matrix of values
 # columns contain observed I, expected value, variance, z stats and p value
-# rows contain location specific measures of each variable - can loads htem into data_sf
+# rows contain location specific measures of each variable - can load them into data_sf
 local_moran_avian_richness <- localmoran(data_sf$avian_richness, rook)
 data_sf$local_moran_avian_richness <- local_moran_avian_richness[, 'Ii'] # Observed Moran's I
 plot(data_sf['local_moran_avian_richness'], cex=0.6, pch=20)
@@ -535,13 +537,13 @@ gls_simple <- gls(avian_richness ~ mean_aet + mean_temp + elev, data=data_sf)
 summary(gls_simple)
 
 # output v similar to lm (coefs identical to the lm above)
-# one diff: glm inc matrix showing corrs ebtween expl variables
+# one diff: glm inc matrix showing corrs between expl variables
 # elevation and temp highly corr - multicollinearity might be a problem (see prac2)
 
 # to add spatial autocorr need to create a spatial corr structure
 # eg below using Gaussian model
 # ?corGaus
-# esentailly describes how the expected corr decreases from an initial value w
+# essentially describes how the expected corr decreases from an initial value w
 # increasing distance until a threshold is reached - after that the data is 
 # expected to be uncorrelated
 # the constructor needs to know the spatial coords of the data (form=) 
