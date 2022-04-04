@@ -1,0 +1,122 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=2cm]{geometry}  % for page margin
+
+\usepackage{helvet}  % for font
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{setspace}  % for 1.5 line spacing
+\onehalfspacing
+
+\usepackage{lineno}  % for line nums
+\usepackage[table]{xcolor}  % for coloured table cells
+\usepackage{textgreek}  % for greek letters 
+
+\usepackage[round]{natbib}  % for better biblio
+
+\usepackage{authblk}  % for author affiliation
+\title{Signals of Selection in UK Bumblebees}
+\author[1]{Natasha Ramsden\textsuperscript{1}\\Supervised by Dr Peter Graystock}
+\affil[1]{Imperial College London}
+
+\date{}
+
+
+\begin{document}
+
+    \begin{titlepage}
+    \maketitle
+    \thispagestyle{empty}
+    \end{titlepage}
+    
+    \begin{linenumbers}
+    
+    \section{Keywords}
+    
+    Genomics, bioinformatics, bumblebees, big data, HPC, selection.
+    
+    \section{Introduction}
+    
+    Bumblebees are critical in crop and wildflower pollination globally: these charismatic species are therefore vitally important economically and ecologically; for food security and ecosystem stability \citep{goulson_decline_2008, cameron_global_2020, sun_genus-wide_2021}. However, many species of bumblebee (\emph{Bombus sp.}) face population declines caused by multifactorial stressors. Habitat loss, fragmentation and degradation; climate change; pathogens and pesticides have worked in combination to drive the decline of some species \citep{goulson_decline_2008, cameron_global_2020}. Understanding underlying genetic factors linked to these trends will be important in making inferences about population health and future trajectories, as well as implementing successful conservation action.
+    
+    This study will focus on three bumblebee species which are resident in the United Kingdom: \emph{Bombus terrestris}, \emph{Bombus hortorum} and \emph{Bombus ruderatus}. Whilst \emph{B. terrestris} and \emph{B. hortorum} are widespread across the UK, \emph{B. ruderatus} has faced historic population decline and has a limited and fragmented geographical range \citep{ellis_delineating_2005}. Differences in the population dynamics of these three species could be explained by scrutiny of their genomes to understand differences in the selective events they face. 
+    
+    Using restriction-site associated DNA sequencing (RADSeq) data previously collected from these species at multiple sites in the UK, I aim to detect loci under positive selection. Selection in these species of bumblebee has not previously been investigated, so this novel study may be essential in understanding the diverging population trends and in targeting conservation plans. Specifically I aim to detect loci under selection and to identify differences in these findings between the species. Where possible, I will functionally annotate the selected sites by identifying genes associated with the significant loci. Finally I will attempt to identify the functional categories that these genes belong to in order to understand the underlying drivers and consequences of these selective forces.
+    
+    % impact: not been done before - essential to understand pop trends - possible conservation applications
+    % timely: recently - several spp bombus been genotyped - now have reference genomes - means that more powerful inferrences made - detection of selection more possible (B. hortorum - ref genome available 2021)
+    
+    \section{Proposed Methods}
+    
+    In order to achieve the main goals outlined above I will undertake the following methods:
+    
+    1. I will implement the \emph{STACKS} pipeline \citep{catchen_stacks_2013} for genome assembly and sample filtering of the raw RADSeq data \citep{rochette_deriving_2017}.
+    
+    2. Following this, I intend to execute multiple methods for identifying loci under positive selection in the \emph{Bombus sp.} including the commonly-used software \emph{BAYESCAN} \citep{foll_genome-scan_2008, ahrens_search_2018} \citep[e.g.][]{blanco-bercial_new_2016, kang_population_2017, leiva_population_2019, de_jong_detecting_2021}. 
+    Loci determined to be under positive selection will be compared to those identified using different methods, in order to isolate those that are consistently identified as outliers. This will improve robustness of inferences by reducing the impact of false positives. Through this analysis I will test the hypothesis that RADSeq data can be used to detect selection in non-model species.
+
+    %  (possibly \emph{ARLEQUIN, LOSITAN} or codeml from \emph{PAML})
+    % This Bayesian approach estimates the probability that each locus is under selection using reversible-jump Markov-chain Monte-Carlo estimation based on F\textsubscript{ST} \citep{weigand_detecting_2018}. 
+
+    3. A comparison of these significant loci between the species will be made to determine whether the species' genomes are similarly or differently affected by selection. I hypothesise that the species in decline (\emph{B. ruderatus}) will display different signatures of selection to the other species.
+    
+    4. Since reference genomes are available for \emph{B. terrestris} and \emph{B. hortorum}, I will place the significant loci within the physical context of their genomes to identify genes in linkage with these loci, which may therefore be affected by selection \citep{manel_genomic_2016}. I would expect to find signals of selection in areas of the genome which are functionally related to the stressors that these species face.
+
+    % 206 bumblebees - expected end up w 186 after filtering
+    
+    \section{Anticipated Outputs and Outcomes}
+    
+    From the comparison of selection-detection methods I would hope to identify several loci consistently established to be under selection in the \emph{Bombus sp.'} genomes. By comparing which loci were detected I hope to identify any common patterns between the species, which could be indicative of selection pressures shared by the genus; as well as any differences, which may offer insight into the differing population trends of the individual species. Where possible, I would like to identify any relevant functional roles associated with genes in linkage with the detected loci to put this study into some environmental context.
+
+    \section{Timeline}
+
+    \begin{table}[ht!]
+        \caption{Gantt chart of expected timeline. Numbered tasks indicate the broad methodological sections outlined above.}
+        \begin{center}
+        \begin{tabular}{l||c|c|c|c|c|c}
+             & April & May & June & July & Aug & Sept\\
+            \hline
+            \hline
+            Method  \\
+            \hline
+            \hline
+            Task 1: Filtering and assembly & \cellcolor{gray} & & & & & \\
+            \hline
+            Task 2: Detecting selection & & \cellcolor{gray} & \cellcolor{gray} & & & \\
+            \hline
+            Task 3: Species comparison & & & \cellcolor{gray} & & & \\
+            \hline
+            Task 4: Functional categorisation & & & & \cellcolor{gray} & \cellcolor{gray} & \\
+            \hline
+            \hline
+            Write-up \\
+            \hline
+            \hline
+            Introduction & \cellcolor{gray} & & & & & \\
+            \hline
+            Methods (simultaneous to tasks) & \cellcolor{gray} & \cellcolor{gray} & \cellcolor{gray} & \cellcolor{gray} & & \\
+            \hline
+            Results & & & \cellcolor{gray} & \cellcolor{gray} & \cellcolor{gray} & \\
+            \hline
+            Discussion & & & & \cellcolor{gray} & \cellcolor{gray} & \cellcolor{gray} \\
+            \hline
+            \hline
+            Viva prep & & & & & & \cellcolor{gray} \\
+
+        \end{tabular}
+        \end{center}
+        \label{table: Akaike and Schwarz weights}
+    \end{table}
+    
+    \section{Budget}
+    
+    8Tb External hard-drive to backup data and run some analyses locally (£200) and 21” monitor to improve data exploration (£230).
+
+    \bibliographystyle{agsm}
+    \bibliography{proposal_biblio}
+
+    \end{linenumbers}    
+
+
+\end{document}
